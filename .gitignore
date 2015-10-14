@@ -1,0 +1,31 @@
+# Java class files
+*.class
+
+# Maven target
+**/target
+
+# Package files
+*.jar
+
+# Ignore IntelliJ project files #
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# NetBeans files
+build.xml
+build/
+nbbuild/
+nbproject/
+setup/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Eclipse files
+.project
+.classpath
+.settings/
+bin/
