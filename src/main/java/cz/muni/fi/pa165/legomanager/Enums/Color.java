@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.legomanager.Enunms;
+package cz.muni.fi.pa165.legomanager.Enums;
 
 /**
  *
  * @author Tobias
  */
-public class Color {
-    
+public enum Color {
+    BLACK,WHITE,YELLOW,BLUE,RED,BROWN,GRAY,GREEN,ORANGE,PINK,MAGENTA,CYAN;
 }
