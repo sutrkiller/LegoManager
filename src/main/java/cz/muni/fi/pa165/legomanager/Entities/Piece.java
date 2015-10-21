@@ -1,23 +1,43 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.legomanager.Entities;
 
 import cz.muni.fi.pa165.legomanager.Enums.Color;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 /**
  *
  * @author Tobias
  */
+
+@Entity
 public class Piece {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    
+    @NotNull
+    @Column(nullable=false,unique=true)
     private String name;
+    
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private Color currentColor;
+    
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = Color.class)
+    @CollectionTable(name = "PIECE_COLOR")
     private Set<Color> colors = new HashSet<Color>();
 
     public Long getId() {
