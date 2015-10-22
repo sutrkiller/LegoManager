@@ -1,6 +1,6 @@
-package cz.muni.fi.pa165.legomanager.Entities;
+package cz.muni.fi.pa165.legomanager.entities;
 
-import cz.muni.fi.pa165.legomanager.Enums.Color;
+import cz.muni.fi.pa165.legomanager.enums.Color;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;

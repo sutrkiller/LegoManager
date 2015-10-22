@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.legomanager.Entities;
+package cz.muni.fi.pa165.legomanager.entities;
 
 import java.math.BigDecimal;
 import java.util.List;
