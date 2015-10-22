@@ -3,22 +3,48 @@ package cz.muni.fi.pa165.legomanager.entities;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 /**
- * Entity class Model contains name, age limit for children, 
- * price, category to which the model belongs and 
- * list of pieces that belong to the model.
+ * Entity class Model contains name, age limit for children, price, category to
+ * which the model belongs and list of pieces that belong to the model.
  *
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 16.10.2015
  */
+@Entity
+@Table(name = "MODELS")
 public class Model {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @NotNull
     private Byte ageLimit;
+
+    @DecimalMin("0.0")
+    @NotNull
+    @Column(nullable = false)
     private BigDecimal price;
+
+    @NotNull
     private Category category;
+
+    @OneToMany
+    @NotNull
     private List<Piece> pieces;
 
     public Long getId() {
@@ -85,7 +111,7 @@ public class Model {
         if (obj == null) {
             return false;
         }
-        if (! (obj instanceof Model)) {
+        if (!(obj instanceof Model)) {
             return false;
         }
         final Model other = (Model) obj;
