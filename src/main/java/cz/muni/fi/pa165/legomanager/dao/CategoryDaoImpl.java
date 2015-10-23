@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.legomanager.dao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
@@ -19,27 +20,31 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public Category findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.find(Category.class, id);
     }
 
     @Override
     public void create(Category c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.persist(c);
     }
 
     @Override
     public void delete(Category c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.remove(c);
     }
 
     @Override
     public List<Category> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.createQuery("SELECT c FROM Category c",Category.class).getResultList();
     }
 
     @Override
     public Category findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return em.createQuery("SELECT c FROM Category c WHERE name = :name",Category.class).setParameter(":name", name).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 }

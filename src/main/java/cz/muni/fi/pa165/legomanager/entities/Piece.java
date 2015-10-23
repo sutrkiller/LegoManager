@@ -37,7 +37,7 @@ public class Piece {
     @NotNull
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Color.class)
-    @CollectionTable(name = "PIECE_COLOR")
+    @CollectionTable(name = "PIECE_COLORS")
     private Set<Color> colors = new HashSet<Color>();
 
     public Long getId() {
