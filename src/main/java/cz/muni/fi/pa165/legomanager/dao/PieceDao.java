@@ -40,7 +40,7 @@ public interface PieceDao {
      *
      * @param id id of the piece
      * @return piece with corresponding id
-     * @throws IllegalArgumentException when id is null
+     * @throws IllegalArgumentException when id is null or smaller than 0
      */
     public Piece findById(Long id);
 
