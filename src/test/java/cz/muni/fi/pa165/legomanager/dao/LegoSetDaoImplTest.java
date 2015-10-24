@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
-import cz.muni.fi.pa165.legomanager.entities.Set;
+import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 24.10.2015
  */
-public class SetDaoImplTest {
+public class LegoSetDaoImplTest {
 
     private List<Piece> piecesForModel1;
     private List<Piece> piecesForModel2;
@@ -24,9 +24,9 @@ public class SetDaoImplTest {
     private Model model2;
     private Model model3;
     private Model model4;
-    private Set set1;
-    private Set set2;
-    private Set set3;
+    private LegoSet set1;
+    private LegoSet set2;
+    private LegoSet set3;
 
     @BeforeClass
     public void setUp() {
