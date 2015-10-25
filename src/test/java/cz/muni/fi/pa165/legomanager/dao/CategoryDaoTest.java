@@ -1,0 +1,59 @@
+package cz.muni.fi.pa165.legomanager.dao;
+
+import cz.muni.fi.pa165.legomanager.entities.Category;
+import java.util.List;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import static org.junit.Assert.*;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.beans.factory.annotation.Autowired;
+import cz.muni.fi.pa165.legomanager.PersistenceApplicationContext;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Test class for Category dao manager.
+ *
+ * @author Ondrej Velisek <ondrejvelisek@gmail.com>
+ */
+@ContextConfiguration(classes={PersistenceApplicationContext.class})
+public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
+
+    @Autowired
+    public CategoryDao categoryDao;
+
+    @BeforeMethod
+    public void setUp() {
+    }
+
+    @Test
+    public void testCreate() {
+        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testFindById() {
+        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testFindByName() {
+        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testFindAll() {
+        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testDelete() {
+        fail("The test case is a prototype.");
+    }
+
+}
