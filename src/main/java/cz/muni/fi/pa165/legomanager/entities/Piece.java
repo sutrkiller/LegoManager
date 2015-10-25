@@ -15,9 +15,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+
 /**
- *
- * @author Tobias
+ * Entity class Piece contains name, currentColor and colors that are possible
+ * for a Piece instance of the same name.
+ * 
+ * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
+ * @date 25.10.2015
  */
 
 @Entity

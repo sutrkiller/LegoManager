@@ -8,8 +8,10 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 /**
- *
- * @author Tobias
+ * CategoryDaoImpl implements {@link CategoryDao}.
+ * 
+ * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
+ * @date 25.10.2015
  */
 
 @Repository
