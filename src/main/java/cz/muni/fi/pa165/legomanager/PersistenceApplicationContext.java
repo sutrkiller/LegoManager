@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.legomanager;
 
 import cz.muni.fi.pa165.legomanager.dao.CategoryDao;
+import cz.muni.fi.pa165.legomanager.dao.ModelDao;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import javax.sql.DataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -28,14 +29,9 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 @Configuration
-@ComponentScan(basePackageClasses={Model.class})
+@ComponentScan(basePackageClasses={Model.class, ModelDao.class})
 public class PersistenceApplicationContext {
-	
-	@Bean 
-	public JpaTransactionManager transactionManager(){
-		return  new JpaTransactionManager(entityManagerFactory().getObject());
-	}
-	
+		
 	/**
 	 * Starts up a container that emulates behavior prescribed in JPA spec for container-managed EntityManager
 	 * @return
@@ -44,18 +40,9 @@ public class PersistenceApplicationContext {
 	public LocalContainerEntityManagerFactoryBean  entityManagerFactory(){
 		LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean ();
 		jpaFactoryBean.setDataSource(db());
-		jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
+		//jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
 		jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		return jpaFactoryBean;
-	}
-	
-	@Bean 
-	public LocalValidatorFactoryBean localValidatorFactoryBean(){
-		return new LocalValidatorFactoryBean();
-	}
-	@Bean
-	public LoadTimeWeaver instrumentationLoadTimeWeaver() {
-		return new InstrumentationLoadTimeWeaver();
 	}
 	
 	@Bean

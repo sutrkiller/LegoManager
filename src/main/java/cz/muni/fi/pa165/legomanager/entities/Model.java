@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
@@ -21,7 +22,6 @@ import javax.validation.constraints.NotNull;
  * @date 16.10.2015
  */
 @Entity
-@Table(name = "MODELS")
 public class Model {
 
     @Id
@@ -41,6 +41,7 @@ public class Model {
     private BigDecimal price;
 
     @NotNull
+    @ManyToOne
     private Category category;
 
     @OneToMany
