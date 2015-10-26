@@ -43,7 +43,7 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public Category findByName(String name) {
         try {
-            return em.createQuery("SELECT c FROM Category c WHERE name = :name",Category.class).setParameter(":name", name).getSingleResult();
+            return em.createQuery("SELECT c FROM Category c WHERE name = :name",Category.class).setParameter("name", name).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
