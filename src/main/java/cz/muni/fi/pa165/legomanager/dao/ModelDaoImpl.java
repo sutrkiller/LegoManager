@@ -7,11 +7,13 @@ package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
+@Repository
 public class ModelDaoImpl implements ModelDao {
 
     @Override
