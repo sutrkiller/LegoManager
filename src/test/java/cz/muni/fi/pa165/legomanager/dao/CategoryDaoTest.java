@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
-@ContextConfiguration(classes={PersistenceApplicationContext.class})
+@ContextConfiguration(classes={cz.muni.fi.pa165.legomanager.PersistenceApplicationContext.class})
 public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
@@ -33,27 +33,27 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testCreate() {
-        fail("The test case is a prototype.");
+        categoryDao.create(new Category());
     }
 
     @Test
     public void testFindById() {
-        fail("The test case is a prototype.");
+        categoryDao.findById(12L);
     }
 
     @Test
     public void testFindByName() {
-        fail("The test case is a prototype.");
+        categoryDao.findByName("Cars");
     }
 
     @Test
     public void testFindAll() {
-        fail("The test case is a prototype.");
+        categoryDao.findAll();
     }
 
     @Test
     public void testDelete() {
-        fail("The test case is a prototype.");
+        categoryDao.delete(new Category());
     }
 
 }
