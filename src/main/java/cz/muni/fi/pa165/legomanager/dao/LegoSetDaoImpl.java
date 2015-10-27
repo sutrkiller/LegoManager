@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
+ * LegoSetDaoImpl implements {@link LegoSetDao}.
+ *
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 24.10.2015
  */
@@ -18,6 +20,10 @@ public class LegoSetDaoImpl implements LegoSetDao {
     @PersistenceContext
     private EntityManager em;
 
+    @Override
+    public void create(LegoSet ls) {
+        em.persist(ls);
+    }
 
     @Override
     public LegoSet findById(Long id) {
@@ -25,8 +31,13 @@ public class LegoSetDaoImpl implements LegoSetDao {
     }
 
     @Override
-    public void create(LegoSet ls) {
-        em.persist(ls);
+    public List<LegoSet> findAll() {
+        return em.createQuery("SELECT ls FROM LegoSet ls", LegoSet.class).getResultList();
+    }
+
+    @Override
+    public void update(LegoSet ls) {
+        em.merge(ls);
     }
 
     @Override
@@ -34,8 +45,4 @@ public class LegoSetDaoImpl implements LegoSetDao {
         em.remove(ls);
     }
 
-    @Override
-    public List<LegoSet> findAll() {
-        return em.createQuery("SELECT ls FROM LegoSet ls", LegoSet.class).getResultList();
-    }
 }
