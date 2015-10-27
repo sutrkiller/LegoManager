@@ -11,11 +11,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
-import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -35,15 +36,16 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
     @PersistenceUnit
     private EntityManagerFactory emf;
     
-    @PersistenceContext
-	private EntityManager em;
+    //@PersistenceContext
+    private EntityManager e;
     
     private Model m1;
     private Category c1;
 
-    @BeforeClass
-    public void setUp() {
-        EntityManager e = emf.createEntityManager();
+    @BeforeMethod
+    public void before() {
+        
+        e = emf.createEntityManager();
         e.getTransaction().begin();
         c1 = new Category();
         c1.setName("Category-1");
@@ -70,7 +72,13 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         
         
         
-        e.getTransaction().commit();
+        //e.getTransaction().commit();
+        //e.close();
+    }
+   
+    @AfterMethod
+    public void after() {
+        e.getTransaction().rollback();
         e.close();
     }
 
@@ -83,7 +91,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m3.setCategory(c1);
         m3.setPieces(new ArrayList<Piece>());
         
-        modelDao.create(m3);
+       modelDao.create(m3);
         
         Assert.assertNotNull(m3.getId());
         
@@ -111,7 +119,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testDelete() {
       modelDao.delete(m1);
-      Assert.assertNull(em.find(Model.class, m1.getId()));
+      Assert.assertNull(e.find(Model.class, m1.getId()));
         
     }
 }
