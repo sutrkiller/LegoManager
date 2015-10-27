@@ -51,4 +51,9 @@ public class PersistenceApplicationContext {
 		EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).build();
 		return db;
 	}
+
+	@Bean
+	public JpaTransactionManager transactionManager(){
+		return new JpaTransactionManager(entityManagerFactory().getObject());
+	}
 }
