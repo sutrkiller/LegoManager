@@ -1,12 +1,24 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
+import cz.muni.fi.pa165.legomanager.PersistenceApplicationContext;
+import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
-import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Testing class for SetDaoImpl.
@@ -14,78 +26,135 @@ import org.junit.BeforeClass;
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 24.10.2015
  */
-public class LegoSetDaoImplTest {
+@ContextConfiguration(classes = {PersistenceApplicationContext.class})
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
+public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
 
-    private List<Piece> piecesForModel1;
-    private List<Piece> piecesForModel2;
-    private List<Piece> piecesForModel3;
-    private List<Piece> piecesForModel4;
-    private Model model1;
-    private Model model2;
-    private Model model3;
-    private Model model4;
-    private LegoSet set1;
-    private LegoSet set2;
-    private LegoSet set3;
+    @Autowired
+    public LegoSetDao legoSetDao;
 
-    @BeforeClass
+    @Autowired
+    public CategoryDao categoryDao;
+
+    private LegoSet setHarryPotter;
+    private LegoSet setBuildings;
+
+    private Category categoryHP;
+    private Category categoryBuildings;
+
+    @BeforeMethod
     public void setUp() {
-        // TO-DO: pieces, models and sets
+        categoryHP = new Category();
+        categoryHP.setDescription("Category containing items from Harry Potter.");
+        categoryHP.setName("Harry Potter");
+        categoryDao.create(categoryHP);
 
+        categoryBuildings = new Category();
+        categoryBuildings.setDescription("Category containing buildings.");
+        categoryBuildings.setName("Buildings");
+        categoryDao.create(categoryBuildings);
+
+        setHarryPotter = new LegoSet();
+        setHarryPotter.setName("Harry Potter set");
+        setHarryPotter.setPrice(new BigDecimal("1000.00"));
+        setHarryPotter.setCategory(categoryHP);
+        setHarryPotter.setModels(new ArrayList<Model>());
+        legoSetDao.create(setHarryPotter);
+
+        setBuildings = new LegoSet();
+        setBuildings.setName("Buildings set");
+        setBuildings.setPrice(new BigDecimal("700.00"));
+        setBuildings.setCategory(categoryBuildings);
+        setBuildings.setModels(new ArrayList<Model>());
+        legoSetDao.create(setBuildings);
     }
 
-    @Test
-    public void testCreateSet() {
-        fail("Test is not implemented yet.");
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateNullSet() {
+        legoSetDao.create(null);
     }
 
-    @Test
-    public void testCreateSetWithWrongAttributes() {
-        fail("Test is not implemented yet.");
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testCreateSetWithNullName() {
+        LegoSet setBuildings2 = new LegoSet();
+        setBuildings2.setName(null);
+        setBuildings2.setModels(new ArrayList<Model>());
+        setBuildings2.setCategory(categoryBuildings);
+        setBuildings2.setPrice(new BigDecimal("800.00"));
+
+        legoSetDao.create(setBuildings2);
     }
 
     @Test
     public void testUpdateSet() {
-        fail("Test is not implemented yet.");
+        setBuildings.setName("Cars set");
+
+        legoSetDao.update(setBuildings);
     }
 
-    @Test
-    public void testUpdateSetWithWrongAttributes() {
-        fail("Test is not implemented yet.");
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testUpdateSetWithNullName() {
+        setBuildings.setName(null);
+
+        legoSetDao.update(setBuildings);
     }
 
     @Test
     public void testDeleteSet() {
-        fail("Test is not implemented yet.");
-    }
+        legoSetDao.delete(setBuildings);
+        List<LegoSet> existingSets = legoSetDao.findAll();
+        Assert.assertEquals(existingSets.size(), 1);
 
-    @Test
-    public void testDeleteSetWithWrongAttributes() {
-        fail("Test is not implemented yet.");
+        LegoSet foundSet = legoSetDao.findById(setBuildings.getId());
+        Assert.assertNull(foundSet);
     }
 
     @Test
     public void testFindSetById() {
-        fail("Test is not implemented yet.");
+        LegoSet foundSet = legoSetDao.findById(setHarryPotter.getId());
+        Assert.assertEquals(foundSet, setHarryPotter);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindSetByWrongId() {
+        legoSetDao.findById(-10L);
     }
 
     @Test
-    public void testFindSetByIdWithWrongAttributes() {
-        fail("Test is not implemented yet.");
+    public void testFindSetByIdWithNonExistingId() {
+        LegoSet foundSet = legoSetDao.findById(100L);
+        Assert.assertNull(foundSet);
     }
 
     @Test
     public void testFindSetByName() {
+        // LegoSet foundSet = legoSetDao.findByName(setHarryPotter.getName());
+        // Assert.assertEquals(foundSet, setHarryPotter);
         fail("Test is not implemented yet.");
     }
 
     @Test
-    public void testFindSetByNameWithWrongAttributes() {
+    public void testFindSetByNameWithNonExistingName() {
+        // LegoSet foundSet = legoSetDao.findByName("Random nonexisting name);
+        // Assert.assertNull(foundSet);
         fail("Test is not implemented yet.");
     }
 
     @Test
     public void testFindAllSets() {
-        fail("Test is not implemented yet.");
+        List<LegoSet> foundSet = legoSetDao.findAll();
+        Assert.assertEquals(foundSet.size(), 2);
+    }
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void testNameIsUnique() {
+        LegoSet setBuildings2 = new LegoSet();
+        setBuildings2.setName("Buildings set");
+        setBuildings2.setModels(new ArrayList<Model>());
+        setBuildings2.setCategory(categoryBuildings);
+        setBuildings2.setPrice(new BigDecimal("800.00"));
+
+        legoSetDao.create(setBuildings2);
     }
 }
