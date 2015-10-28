@@ -25,7 +25,7 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public void create(Piece piece) {
-        if(piece == null) {
+        if (piece == null) {
             throw new IllegalArgumentException("Piece entity cannot be NULL.");
         }
 
@@ -34,8 +34,11 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public void update(Piece piece) {
-        if(piece == null) {
+        if (piece == null) {
             throw new IllegalArgumentException("Piece entity cannot be NULL.");
+        }
+        if (piece.getName() == null) {
+            throw new NullPointerException("Piece's name cannot be NULL.");
         }
 
         em.merge(piece);
@@ -43,7 +46,7 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public void delete(Piece piece) {
-        if(piece == null) {
+        if (piece == null) {
             throw new IllegalArgumentException("Piece entity cannot be NULL.");
         }
 
@@ -52,10 +55,11 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public Piece findById(Long id) {
-        if(id == null) {
+        if (id == null) {
             throw new IllegalArgumentException("Cannot look for Piece entity, when id is NULL.");
         }
-        if(id < 0) {
+
+        if (id < 0) {
             throw new IllegalArgumentException("Cannot look for Piece entity, when id is smaller than 0.");
         }
 
@@ -64,10 +68,10 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public Piece findByName(String name) {
-        if(name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Cannot look for Piece entity, when name is NULL.");
         }
-        
+
         try {
             return em.createQuery("SELECT p FROM Piece p WHERE p.name = :pieceName", Piece.class).setParameter("pieceName", name).getSingleResult();
         } catch (NoResultException ex) {
@@ -77,7 +81,7 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public List<Piece> findAll() {
-        return em.createQuery("SELECT p FROM Piece p",Piece.class).getResultList();
+        return em.createQuery("SELECT p FROM Piece p", Piece.class).getResultList();
     }
 
 }
