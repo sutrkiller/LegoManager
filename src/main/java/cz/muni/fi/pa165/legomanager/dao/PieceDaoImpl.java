@@ -69,7 +69,7 @@ public class PieceDaoImpl implements PieceDao {
         }
         
         try {
-            return em.createQuery("SELECT p FROM Piece p WHERE p.name = :pieceName", Piece.class).setParameter(":pieceName", name).getSingleResult();
+            return em.createQuery("SELECT p FROM Piece p WHERE p.name = :pieceName", Piece.class).setParameter("pieceName", name).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         }
