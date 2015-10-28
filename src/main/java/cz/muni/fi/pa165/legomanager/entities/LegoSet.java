@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.legomanager.entities;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +35,7 @@ public class LegoSet {
 
     @NotNull
     @Column(nullable = false)
-    private int price;
+    private BigDecimal price;
 
     @NotNull
     @ManyToOne
@@ -64,11 +65,11 @@ public class LegoSet {
         this.models = models;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -86,7 +87,7 @@ public class LegoSet {
         hash = 19 * hash + Objects.hashCode(this.id);
         hash = 19 * hash + Objects.hashCode(this.name);
         hash = 19 * hash + Objects.hashCode(this.models);
-        hash = 19 * hash + this.price;
+        hash = 19 * hash + Objects.hashCode(this.price);
         hash = 19 * hash + Objects.hashCode(this.category);
         return hash;
     }
@@ -109,7 +110,7 @@ public class LegoSet {
         if (!Objects.equals(this.models, other.models)) {
             return false;
         }
-        if (this.price != other.price) {
+        if (!Objects.equals(this.price, other.price)) {
             return false;
         }
         if (!Objects.equals(this.category, other.category)) {
