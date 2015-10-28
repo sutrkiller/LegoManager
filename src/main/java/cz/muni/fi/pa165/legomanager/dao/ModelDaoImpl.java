@@ -7,43 +7,48 @@ package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 /**
- *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 @Repository
 public class ModelDaoImpl implements ModelDao {
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Override
     public void create(Model model) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.persist(model);
     }
 
     @Override
     public Model findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.find(Model.class, id);
     }
 
     @Override
     public Model findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.createQuery("SELECT m FROM Model m WHERE m.name = :name ",
+                Model.class).setParameter("name", name).getSingleResult();
     }
 
     @Override
     public List<Model> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.createQuery("SELECT m FROM Model m", Model.class).getResultList();
     }
 
     @Override
     public Model update(Model model) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.merge(model);
     }
 
     @Override
     public void delete(Model model) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.remove(model);
     }
-    
+
 }
