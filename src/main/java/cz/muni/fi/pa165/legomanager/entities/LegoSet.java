@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -29,11 +30,12 @@ public class LegoSet {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany
     @NotNull
+    @OneToMany
     private List<Model> models = new ArrayList<>();
 
     @NotNull
+    @DecimalMin("0.0")
     @Column(nullable = false)
     private BigDecimal price;
 
