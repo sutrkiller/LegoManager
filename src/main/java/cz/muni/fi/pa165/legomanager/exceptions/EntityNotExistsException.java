@@ -6,7 +6,7 @@ package cz.muni.fi.pa165.legomanager.exceptions;
  * @author Tobias <tobias.kamenicky@gmail.com>
  * @date 2015/10/29
  */
-public class EntityNotExistsException extends PersistenceException {
+public class EntityNotExistsException extends LegoPersistenceException {
 
     public EntityNotExistsException(String msg) {
         super(msg);

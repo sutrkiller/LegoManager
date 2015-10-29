@@ -6,7 +6,7 @@ package cz.muni.fi.pa165.legomanager.exceptions;
  * @author Tobias <tobias.kamenicky@gmail.com>
  * @date 2015/10/29
  */
-public class EntityAlreadyExistsException extends PersistenceException {
+public class EntityAlreadyExistsException extends LegoPersistenceException {
 
     public EntityAlreadyExistsException(String msg) {
         super(msg);
