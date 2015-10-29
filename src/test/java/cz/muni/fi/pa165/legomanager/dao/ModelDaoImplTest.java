@@ -3,7 +3,10 @@ package cz.muni.fi.pa165.legomanager.dao;
 import cz.muni.fi.pa165.legomanager.PersistenceApplicationContext;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
-import cz.muni.fi.pa165.legomanager.entities.Piece;
+import cz.muni.fi.pa165.legomanager.entities.PieceType;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +66,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m1.setAgeLimit(Byte.valueOf("18"));
         m1.setPrice(BigDecimal.ZERO);
         m1.setCategory(c1);
-        m1.setPieces(new ArrayList<Piece>());
+        m1.setPieces(new ArrayList<PieceType>());
         modelDao.create(m1);
         
         m2 = new Model();
@@ -71,7 +74,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m2.setAgeLimit(Byte.valueOf("25"));
         m2.setPrice(BigDecimal.ONE);
         m2.setCategory(c1);
-        m2.setPieces(new ArrayList<Piece>());
+        m2.setPieces(new ArrayList<PieceType>());
         modelDao.create(m2);
         
         m3 = new Model();
@@ -79,27 +82,45 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m3.setAgeLimit(Byte.valueOf("60"));
         m3.setPrice(new BigDecimal("500.00"));
         m3.setCategory(c1);
-        m3.setPieces(new ArrayList<Piece>());
+        m3.setPieces(new ArrayList<PieceType>());
         modelDao.create(m3);
         
-        
-        
-        //e.getTransaction().commit();
-        //e.close();
     }
    
     
 
-        @Test(expectedExceptions=ConstraintViolationException.class)
+        @Test(expectedExceptions=LegoPersistenceException.class)
     public void testCreateWithNullName() {
         Model m = new Model();
    
         m.setAgeLimit(Byte.valueOf("25"));
         m.setPrice(BigDecimal.ONE);
         m.setCategory(c1);
-        m.setPieces(new ArrayList<Piece>());
+        m.setPieces(new ArrayList<PieceType>());
         
        modelDao.create(m);
+    }
+    
+    @Test(expectedExceptions = LegoPersistenceException.class)
+    public void testNonUniqueName() {
+        Model m = new Model();
+        m.setName("Model-1");
+        m.setAgeLimit(Byte.valueOf("25"));
+        m.setPrice(BigDecimal.ONE);
+        m.setCategory(c1);
+        m.setPieces(new ArrayList<PieceType>());
+        
+       modelDao.create(m);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateNullModel() {
+        
+    }
+    
+    @Test(expectedExceptions = EntityAlreadyExistsException.class)
+    public void testModelAlreadyExists(){
+        
     }
     
 
@@ -111,10 +132,20 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(res, m1);
     }
     
-    @Test
+    @Test(expectedExceptions = EntityNotExistsException.class)
     public void testFindByNonExistingId() {
         Model res = modelDao.findById(Long.MAX_VALUE);
         Assert.assertNull(res);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNegativeId() {
+        
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNullId() {
+        
     }
     
     @Test
@@ -123,10 +154,9 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(res, m1);
     }
     
-        @Test
+        @Test(expectedExceptions = EntityNotExistsException.class)
     public void testFindByNonExistingName() {
         Model res = modelDao.findByName("Non existing");
-        Assert.assertNull(res);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -154,48 +184,48 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
     public void testDelete() {
       modelDao.delete(m2);
       
-        Assert.assertEquals(modelDao.findAll().size(), 2);
+      Assert.assertEquals(modelDao.findAll().size(), 2);
       Assert.assertNull(modelDao.findById(m2.getId()));
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = EntityNotExistsException.class)
     public void testDeleteNonExisting() {
         Model m = new Model();
         m.setName("Model_nonExisting");
         m.setAgeLimit(Byte.valueOf("25"));
         m.setPrice(new BigDecimal("8888.00"));
         m.setCategory(c1);
-        m.setPieces(new ArrayList<Piece>());
+        m.setPieces(new ArrayList<PieceType>());
         
         modelDao.delete(m);
     }
     
-    @Test(expectedExceptions = PersistenceException.class)
-    public void testNameIsUnique(){
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testDeleteNull() {
+        
+    }
+    
+    
+     
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testCreateNegativePrice() {
         Model m = new Model();
         m.setName("Model-1");
         m.setAgeLimit(Byte.valueOf("25"));
-        m.setPrice(BigDecimal.ONE);
+        m.setPrice(new BigDecimal("25.0").negate());
         m.setCategory(c1);
-        m.setPieces(new ArrayList<Piece>());
+        m.setPieces(new ArrayList<PieceType>());
         
        modelDao.create(m);
     }
     
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void testNegativePrice() {
-        Model m = new Model();
-        m.setName("Model-1");
-        m.setAgeLimit(Byte.valueOf("25"));
-        m.setPrice(new BigDecimal("-25.0"));
-        m.setCategory(c1);
-        m.setPieces(new ArrayList<Piece>());
+    @Test(expectedExceptions = LegoPersistenceException.class)
+    public void testCreateNegativeAge() {
         
-       modelDao.create(m);
     }
     
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void testNullPieces() {
+    @Test(expectedExceptions = LegoPersistenceException.class)
+    public void testCreateNullPieces() {
         Model m = new Model();
         m.setName("Model-1");
         m.setAgeLimit(Byte.valueOf("25"));
@@ -206,6 +236,6 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
        modelDao.create(m);
     }
     
-    
+    //flush everywhere
     
 }

@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 24.10.2015
  */
-@ContextConfiguration(classes = {PersistenceApplicationContext.class})
+@ContextConfiguration(classes = {cz.muni.fi.pa165.legomanager.PersistenceApplicationContext.class})
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {

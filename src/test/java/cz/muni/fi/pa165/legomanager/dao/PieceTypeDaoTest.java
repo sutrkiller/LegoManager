@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
-import cz.muni.fi.pa165.legomanager.entities.Piece;
+import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import cz.muni.fi.pa165.legomanager.enums.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Testing class for PieceDao.
+ * Testing class for PieceTypeDao.
  *
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 27.10.2015
@@ -27,14 +27,14 @@ import java.util.Set;
 @ContextConfiguration(classes = cz.muni.fi.pa165.legomanager.PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class PieceDaoTest extends AbstractTestNGSpringContextTests {
+public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    public PieceDao pieceDao;
+    public PieceTypeDao pieceDao;
 
-    private Piece p1;
-    private Piece p2;
-    private Piece p3;
+    private PieceType p1;
+    private PieceType p2;
+    private PieceType p3;
 
 
     @BeforeMethod
@@ -42,30 +42,27 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
 
         Set<Color> colors = new HashSet<>();
 
-        p1 = new Piece();
+        p1 = new PieceType();
         p1.setName("Piece 1");
         colors.add(Color.BLUE);
         colors.add(Color.RED);
         colors.add(Color.GREEN);
         p1.setColors(colors);
-        p1.setCurrentColor(Color.BLUE);
 
         pieceDao.create(p1);
 
-        p2 = new Piece();
+        p2 = new PieceType();
         p2.setName("Piece 2");
         colors.clear();
         colors.add(Color.BLACK);
         colors.add(Color.WHITE);
         p2.setColors(colors);
-        p2.setCurrentColor(Color.BLACK);
 
-        p3 = new Piece();
+        p3 = new PieceType();
         colors.add(Color.BLACK);
         colors.add(Color.WHITE);
         colors.add(Color.RED);
         p3.setColors(colors);
-        p3.setCurrentColor(Color.RED);
         p3.setName("Piece 3");
 
         pieceDao.create(p1);
@@ -75,36 +72,35 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions=ConstraintViolationException.class)
     public void testCreateWithNullName() {
-        Piece p = new Piece();
+        PieceType p = new PieceType();
         Set<Color> colors = new HashSet<>();
         colors.add(Color.BLACK);
         p.setColors(colors);
-        p.setCurrentColor(Color.BLACK);
 
         pieceDao.create(p);
     }
 
     @Test
     public void testFindById() {
-        Piece found = pieceDao.findById(p1.getId());
+        PieceType found = pieceDao.findById(p1.getId());
         Assert.assertEquals(found, p1);
     }
 
     @Test
     public void testFindByName() {
-        Piece found = pieceDao.findByName(p2.getName());
+        PieceType found = pieceDao.findByName(p2.getName());
         Assert.assertEquals(found, p2);
     }
 
     @Test
     public void testFindByNonExistingName() {
-        Piece found = pieceDao.findByName("Non existing name");
+        PieceType found = pieceDao.findByName("Non existing name");
         Assert.assertNull(found);
     }
 
     @Test
     public void testFindAll() {
-        List<Piece> found = pieceDao.findAll();
+        List<PieceType> found = pieceDao.findAll();
         Assert.assertEquals(found.size(), 3);
     }
 
@@ -114,45 +110,43 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         p1.setName(newName);
         pieceDao.update(p1);
 
-        Piece found = pieceDao.findById(p1.getId());
+        PieceType found = pieceDao.findById(p1.getId());
         Assert.assertEquals(newName, found.getName());
     }
 
     @Test
     public void testDelete() {
         pieceDao.delete(p3);
-        List<Piece> foundList = pieceDao.findAll();
+        List<PieceType> foundList = pieceDao.findAll();
         Assert.assertEquals(foundList.size(), 2);
 
-        Piece found = pieceDao.findById(p3.getId());
+        PieceType found = pieceDao.findById(p3.getId());
         Assert.assertNull(found);
     }
 
     @Test(expectedExceptions=PersistenceException.class)
     public void testNameIsUnique() {
-        Piece p = new Piece();
+        PieceType p = new PieceType();
         p.setName("Piece 1");
         Set<Color> colors = new HashSet<>();
         colors.add(Color.BLACK);
         p.setColors(colors);
-        p.setCurrentColor(Color.BLACK);
 
         pieceDao.create(p);
     }
 
     @Test
     public void testColorsInPiece() {
-        Piece p4 = new Piece();
+        PieceType p4 = new PieceType();
         p4.setName("Piece 4");
         Set<Color> colors = new HashSet<>();
         colors.add(Color.BLACK);
         colors.add(Color.WHITE);
         colors.add(Color.RED);
         p4.setColors(colors);
-        p4.setCurrentColor(Color.RED);
 
         pieceDao.create(p4);
-        Piece found = pieceDao.findById(p4.getId());
+        PieceType found = pieceDao.findById(p4.getId());
         Assert.assertEquals(found.getColors().size(), 3);
         Assert.assertTrue(found.getColors().contains(Color.BLACK));
     }

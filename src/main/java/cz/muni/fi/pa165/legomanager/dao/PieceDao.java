@@ -1,16 +1,18 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.Piece;
 import java.util.List;
 
 /**
- * PieceDao manages Piece entities. Interface supports basic CRUD operations.
- * 
- * @author Sona Mastrakova <sona.mastrakova@gmail.com>
- * @date 23.10.2015
+ *
+ * @author Tobias
  */
-public interface PieceDao {
-
+public interface PieceDao{
     /**
      * Creates new piece in DB.
      *
@@ -59,5 +61,5 @@ public interface PieceDao {
      * @return list of all existing pieces
      */
     public List<Piece> findAll();
-
+    
 }
