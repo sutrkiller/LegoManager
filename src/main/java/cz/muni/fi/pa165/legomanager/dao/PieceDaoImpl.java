@@ -1,87 +1,89 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.Piece;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 /**
- * Class PieceDaoImpl implements {@link PieceDao} interface.
- *
- * @author Sona Mastrakova <sona.mastrakova@gmail.com>
- * @date 23.10.2015
+ * PieceDaoImpl implements {@link PieceDao}.
+ * 
+ * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
+ * @date 29.10.2015
  */
+
 @Repository
 public class PieceDaoImpl implements PieceDao {
 
     @PersistenceContext
     private EntityManager em;
 
-    private final Logger logger = LoggerFactory.getLogger(PieceDaoImpl.class);
-
     @Override
-    public void create(Piece piece) {
-        if (piece == null) {
-            throw new IllegalArgumentException("Piece entity cannot be NULL.");
+    public void create(Piece piece) throws EntityAlreadyExistsException, LegoPersistenceException {
+        if (piece == null) throw new IllegalArgumentException("Piece argument is null.");
+        if (em.contains(piece)) throw new EntityAlreadyExistsException("piece already in DB.");
+        try {
+            em.persist(piece);
+        } catch (Exception e) {
+            throw new LegoPersistenceException("Create piece persistence error",e);
         }
-
-        em.persist(piece);
     }
 
     @Override
-    public void update(Piece piece) {
-        if (piece == null) {
-            throw new IllegalArgumentException("Piece entity cannot be NULL.");
+    public void update(Piece piece) throws EntityNotExistsException, LegoPersistenceException {
+        if (piece == null) throw new IllegalArgumentException("Argument piece is null.");
+        if (!em.contains(piece)) throw new EntityNotExistsException("Entity not in database.");
+        try {
+            em.merge(piece);
+        } catch (Exception e) {
+            throw new LegoPersistenceException("Update piece persistence error",e);
         }
-        if (piece.getName() == null) {
-            throw new NullPointerException("Piece's name cannot be NULL.");
-        }
-
-        em.merge(piece);
     }
 
     @Override
-    public void delete(Piece piece) {
-        if (piece == null) {
-            throw new IllegalArgumentException("Piece entity cannot be NULL.");
-        }
-
+    public void delete(Piece piece) throws EntityNotExistsException {
+        if (piece == null) throw new IllegalArgumentException("Argument piece is null.");
+        if (!em.contains(piece)) throw new EntityNotExistsException("Entity not in DB.");
         em.remove(piece);
     }
 
     @Override
-    public Piece findById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Cannot look for Piece entity, when id is NULL.");
+    public Piece findById(Long id) throws EntityNotExistsException {
+        if (id == null) throw new IllegalArgumentException("Id is null.");
+        if (id< 0) throw new IllegalArgumentException("Id < 0");
+        try {
+            Piece p = em.find(Piece.class, id);
+            return p;
+        } catch (NoResultException e) {
+            throw new EntityNotExistsException("Entity with id not found",e);
         }
-
-        if (id < 0) {
-            throw new IllegalArgumentException("Cannot look for Piece entity, when id is smaller than 0.");
-        }
-
-        return em.find(Piece.class, id);
     }
 
     @Override
-    public Piece findByName(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Cannot look for Piece entity, when name is NULL.");
-        }
-
+    public Piece findByName(String name) throws EntityNotExistsException {
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Name is null or empty");
         try {
-            return em.createQuery("SELECT p FROM Piece p WHERE p.name = :pieceName", Piece.class).setParameter("pieceName", name).getSingleResult();
-        } catch (NoResultException ex) {
-            return null;
+            return em.createQuery("SELECT p FROM Piece p WHERE name = :name",Piece.class).setParameter("name", name).getSingleResult();
+        } catch (NoResultException e) {
+            throw new EntityNotExistsException("No result found",e);
         }
     }
 
     @Override
     public List<Piece> findAll() {
-        return em.createQuery("SELECT p FROM Piece p", Piece.class).getResultList();
+        return em.createQuery("SELECT p FROM Piece p",Piece.class).getResultList();
     }
-
+    
+    
+    
 }
