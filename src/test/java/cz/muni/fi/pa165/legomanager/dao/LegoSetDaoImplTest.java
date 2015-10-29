@@ -7,6 +7,8 @@ import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import static org.junit.Assert.*;
@@ -21,7 +23,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Testing class for SetDaoImpl.
+ * Testing class for LegoSetDaoImpl.
  *
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 24.10.2015
@@ -30,6 +32,9 @@ import org.testng.annotations.Test;
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     public LegoSetDao legoSetDao;
@@ -97,6 +102,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     public void testUpdateSetWithNullName() {
         setBuildings.setName(null);
 
+        em.flush();
         legoSetDao.update(setBuildings);
     }
 
