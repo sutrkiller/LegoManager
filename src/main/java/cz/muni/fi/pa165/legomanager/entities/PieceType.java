@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
- * Entity class PieceType contains name, currentColor and colors that are possible
+ * Entity class PieceType contains name and colors that are possible
  for a PieceType instance of the same name.
  * 
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
