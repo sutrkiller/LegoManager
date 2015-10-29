@@ -45,7 +45,7 @@ public class Model {
 
     @OneToMany
     @NotNull
-    private List<Piece> pieces;
+    private List<PieceType> pieces;
 
     public Long getId() {
         return id;
@@ -83,11 +83,11 @@ public class Model {
         this.category = category;
     }
 
-    public List<Piece> getPieces() {
+    public List<PieceType> getPieces() {
         return pieces;
     }
 
-    public void setPieces(List<Piece> pieces) {
+    public void setPieces(List<PieceType> pieces) {
         this.pieces = pieces;
     }
 

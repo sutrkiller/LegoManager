@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
-import cz.muni.fi.pa165.legomanager.entities.Piece;
+import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -24,7 +24,7 @@ public class PieceDaoImpl implements PieceDao {
     private final Logger logger = LoggerFactory.getLogger(PieceDaoImpl.class);
 
     @Override
-    public void create(Piece piece) {
+    public void create(PieceType piece) {
         if (piece == null) {
             throw new IllegalArgumentException("Piece entity cannot be NULL.");
         }
@@ -33,7 +33,7 @@ public class PieceDaoImpl implements PieceDao {
     }
 
     @Override
-    public void update(Piece piece) {
+    public void update(PieceType piece) {
         if (piece == null) {
             throw new IllegalArgumentException("Piece entity cannot be NULL.");
         }
@@ -45,7 +45,7 @@ public class PieceDaoImpl implements PieceDao {
     }
 
     @Override
-    public void delete(Piece piece) {
+    public void delete(PieceType piece) {
         if (piece == null) {
             throw new IllegalArgumentException("Piece entity cannot be NULL.");
         }
@@ -54,7 +54,7 @@ public class PieceDaoImpl implements PieceDao {
     }
 
     @Override
-    public Piece findById(Long id) {
+    public PieceType findById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Cannot look for Piece entity, when id is NULL.");
         }
@@ -63,25 +63,25 @@ public class PieceDaoImpl implements PieceDao {
             throw new IllegalArgumentException("Cannot look for Piece entity, when id is smaller than 0.");
         }
 
-        return em.find(Piece.class, id);
+        return em.find(PieceType.class, id);
     }
 
     @Override
-    public Piece findByName(String name) {
+    public PieceType findByName(String name) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Cannot look for Piece entity, when name is NULL.");
         }
 
         try {
-            return em.createQuery("SELECT p FROM Piece p WHERE p.name = :pieceName", Piece.class).setParameter("pieceName", name).getSingleResult();
+            return em.createQuery("SELECT p FROM Piece p WHERE p.name = :pieceName", PieceType.class).setParameter("pieceName", name).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         }
     }
 
     @Override
-    public List<Piece> findAll() {
-        return em.createQuery("SELECT p FROM Piece p", Piece.class).getResultList();
+    public List<PieceType> findAll() {
+        return em.createQuery("SELECT p FROM Piece p", PieceType.class).getResultList();
     }
 
 }
