@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.legomanager.dao;
 import cz.muni.fi.pa165.legomanager.PersistenceApplicationContext;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
+import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
@@ -66,7 +67,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m1.setAgeLimit(Byte.valueOf("18"));
         m1.setPrice(BigDecimal.ZERO);
         m1.setCategory(c1);
-        m1.setPieces(new ArrayList<PieceType>());
+        m1.setPieces(new ArrayList<Piece>());
         modelDao.create(m1);
 
         m2 = new Model();
@@ -74,7 +75,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m2.setAgeLimit(Byte.valueOf("25"));
         m2.setPrice(BigDecimal.ONE);
         m2.setCategory(c1);
-        m2.setPieces(new ArrayList<PieceType>());
+        m2.setPieces(new ArrayList<Piece>());
         modelDao.create(m2);
 
         m3 = new Model();
@@ -82,7 +83,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m3.setAgeLimit(Byte.valueOf("60"));
         m3.setPrice(new BigDecimal("500.00"));
         m3.setCategory(c1);
-        m3.setPieces(new ArrayList<PieceType>());
+        m3.setPieces(new ArrayList<Piece>());
         modelDao.create(m3);
 
     }
@@ -94,7 +95,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setAgeLimit(Byte.valueOf("25"));
         m.setPrice(BigDecimal.ONE);
         m.setCategory(c1);
-        m.setPieces(new ArrayList<PieceType>());
+        m.setPieces(new ArrayList<Piece>());
 
         modelDao.create(m);
         em.flush();
@@ -108,7 +109,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setAgeLimit(Byte.valueOf("25"));
         m.setPrice(BigDecimal.ONE);
         m.setCategory(c1);
-        m.setPieces(new ArrayList<PieceType>());
+        m.setPieces(new ArrayList<Piece>());
 
         modelDao.create(m);
         em.flush();
@@ -121,7 +122,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setAgeLimit(Byte.valueOf("25"));
         m.setPrice(new BigDecimal("25.0").negate());
         m.setCategory(c1);
-        m.setPieces(new ArrayList<PieceType>());
+        m.setPieces(new ArrayList<Piece>());
 
         modelDao.create(m);
         em.flush();
@@ -134,7 +135,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setAgeLimit(Byte.valueOf("-25"));
         m.setPrice(new BigDecimal("25.0"));
         m.setCategory(c1);
-        m.setPieces(new ArrayList<PieceType>());
+        m.setPieces(new ArrayList<Piece>());
 
         modelDao.create(m);
         em.flush();
@@ -277,7 +278,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setAgeLimit(Byte.valueOf("25"));
         m.setPrice(new BigDecimal("8888.00"));
         m.setCategory(c1);
-        m.setPieces(new ArrayList<PieceType>());
+        m.setPieces(new ArrayList<Piece>());
         
         modelDao.update(m);
         em.flush();
@@ -297,7 +298,7 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setAgeLimit(Byte.valueOf("25"));
         m.setPrice(new BigDecimal("8888.00"));
         m.setCategory(c1);
-        m.setPieces(new ArrayList<PieceType>());
+        m.setPieces(new ArrayList<Piece>());
 
         modelDao.delete(m);
         em.flush();
