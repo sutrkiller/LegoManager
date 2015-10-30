@@ -65,16 +65,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
 
     }
 
-    @AfterMethod
-    public void after() throws LegoPersistenceException {
-        /*
-        Becaue @TestExecutionListeners do auto-rollback after test 
-        and JPA doesn't have to flush changes to DB before it. 
-        It can throw some aditional exception which will appear in real usage.
-        */
-        em.flush();
-    }
-
     @Test
     public void testCreate() throws LegoPersistenceException {
         Category jungle = new Category();
@@ -144,7 +134,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         assertNotSame(planes.getId(), randomId);
         assertNotSame(buildings.getId(), randomId);
         Category actual = categoryDao.findById(randomId);
-        assertNull(actual);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -172,7 +161,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         assertNotSame(planes.getName(), carsName);
         assertNotSame(buildings.getName(), carsName);
         Category actual = categoryDao.findByName(carsName);
-        assertNull(actual);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -271,7 +259,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         assertEquals(expected, actual);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = EntityNotExistsException.class)
     public void testDeleteNotExist() throws LegoPersistenceException {
         Category jungle = new Category();
         jungle.setName(JUNGLE_NAME);
@@ -279,7 +267,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         categoryDao.delete(jungle);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = EntityNotExistsException.class)
     public void testDeleteAlreadyRemoved() throws LegoPersistenceException {
         categoryDao.delete(cars);
         em.flush();
