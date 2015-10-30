@@ -95,7 +95,7 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
 
     @Override
     public PieceType findByName(String name) throws EntityNotExistsException {
-        if (name == null || name.isEmpty()) {
+        if (name == null) {
             throw new IllegalArgumentException("Cannot look for PieceType entity, when name is NULL.");
         }
 
