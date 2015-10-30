@@ -52,8 +52,8 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
             throw new LegoPersistenceException("PieceType's name cannot be NULL.");
         }
         try {
-            em.flush();
             em.merge(pieceType);
+            em.flush();
         } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Create PieceType persistence error", e);
         }
@@ -82,7 +82,12 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
         }
 
         try {
-            return em.find(PieceType.class, id);
+            PieceType pieceType = em.find(PieceType.class, id);
+            if (pieceType == null) {
+                throw new EntityNotExistsException("PieceType not found with iD \'" + id + "\'.");
+            } else {
+                return pieceType;
+            }
         } catch (NoResultException ex) {
             throw new EntityNotExistsException("PieceType not found with id \'" + id + "\'.", ex);
         }
