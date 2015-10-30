@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -37,7 +38,7 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
         }
         try {
             em.persist(pieceType);
-        } catch (PersistenceException e) {
+        } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Create PieceType persistence error", e);
         }
     }
@@ -53,7 +54,7 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
         try {
             em.flush();
             em.merge(pieceType);
-        } catch (PersistenceException e) {
+        } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Create PieceType persistence error", e);
         }
     }
@@ -94,7 +95,12 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
         }
 
         try {
-            return em.createQuery("SELECT p FROM PieceType p WHERE p.name = :pieceTypeName", PieceType.class).setParameter("pieceTypeName", name).getSingleResult();
+            PieceType pieceType = em.createQuery("SELECT p FROM PieceType p WHERE p.name = :pieceTypeName", PieceType.class).setParameter("pieceTypeName", name).getSingleResult();
+            if (pieceType == null) {
+                throw new EntityNotExistsException("PieceType not found with name \'" + name + "\'.");
+            } else {
+                return pieceType;
+            }
         } catch (NoResultException ex) {
             throw new EntityNotExistsException("PieceType not found with name \'" + name + "\'.", ex);
         }
