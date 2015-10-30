@@ -46,7 +46,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     private final String JUNGLE_DSC = "Wild animals, secrets, dangerous. It's the Jungle.";
 
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws LegoPersistenceException {
 
         cars = new Category();
         cars.setName("Cars");
@@ -68,7 +68,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testCreate() {
+    public void testCreate() throws LegoPersistenceException {
         Category jungle = new Category();
         jungle.setName(JUNGLE_NAME);
         jungle.setDescription(JUNGLE_DSC);
@@ -88,17 +88,17 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateNullCategory() {
+    public void testCreateNullCategory() throws LegoPersistenceException {
         categoryDao.create(null);
     }
 
     @Test(expectedExceptions = EntityAlreadyExistsException.class)
-    public void testCreateAlreadyExists() {
+    public void testCreateAlreadyExists() throws LegoPersistenceException {
         categoryDao.create(cars);
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateNonUniqueName() {
+    public void testCreateNonUniqueName() throws LegoPersistenceException {
         Category cars2 = new Category();
         cars2.setName("Cars");
         cars2.setDescription("Fast, four wheels, race!");
@@ -106,7 +106,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateNullName() {
+    public void testCreateNullName() throws LegoPersistenceException {
         Category jungle = new Category();
         jungle.setName(null);
         jungle.setDescription(JUNGLE_DSC);
@@ -114,7 +114,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateNullDescription() {
+    public void testCreateNullDescription() throws LegoPersistenceException {
         Category jungle = new Category();
         jungle.setName(JUNGLE_NAME);
         jungle.setDescription(null);
@@ -122,7 +122,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindById() {
+    public void testFindById() throws EntityNotExistsException {
         Long carsId = cars.getId();
         assertNotNull(carsId);
         Category actual = categoryDao.findById(carsId);
@@ -130,7 +130,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = EntityNotExistsException.class)
-    public void testFindByIdNotExist() {
+    public void testFindByIdNotExist() throws EntityNotExistsException {
         Long randomId = 999L;
         assertNotSame(cars.getId(), randomId);
         assertNotSame(planes.getId(), randomId);
@@ -140,17 +140,17 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindByIdNullId() {
+    public void testFindByIdNullId() throws EntityNotExistsException {
         categoryDao.findById(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindByIdNegativeId() {
+    public void testFindByIdNegativeId() throws EntityNotExistsException {
         categoryDao.findById(-1L);
     }
 
     @Test
-    public void testFindByName() {
+    public void testFindByName() throws EntityNotExistsException {
         String carsName = cars.getName();
         assertNotNull(carsName);
         Category actual = categoryDao.findByName(carsName);
@@ -158,7 +158,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = EntityNotExistsException.class)
-    public void testFindByNameNotExist() {
+    public void testFindByNameNotExist() throws EntityNotExistsException {
         String carsName = "NoCategory";
         assertNotSame(cars.getName(), carsName);
         assertNotSame(planes.getName(), carsName);
@@ -168,7 +168,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindByNameNull() {
+    public void testFindByNameNull() throws EntityNotExistsException {
         categoryDao.findByName(null);
     }
 
@@ -185,7 +185,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindAllEmpty() {
+    public void testFindAllEmpty() throws EntityNotExistsException {
         categoryDao.delete(cars);
         categoryDao.delete(planes);
         categoryDao.delete(buildings);
@@ -229,7 +229,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
     
     @Test
-    public void testDelete() {
+    public void testDelete() throws EntityNotExistsException {
         categoryDao.delete(cars);
 
         em.flush();
@@ -244,7 +244,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testDeleteNotExist() {
+    public void testDeleteNotExist() throws EntityNotExistsException {
         Category jungle = new Category();
         jungle.setName(JUNGLE_NAME);
         jungle.setDescription(JUNGLE_DSC);
@@ -253,7 +253,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testDeleteAlreadyRemoved() {
+    public void testDeleteAlreadyRemoved() throws EntityNotExistsException {
         categoryDao.delete(cars);
         em.flush();
         categoryDao.delete(cars);
@@ -261,7 +261,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testDeleteNull() {
+    public void testDeleteNull() throws EntityNotExistsException {
         categoryDao.delete(null);
     }
 
