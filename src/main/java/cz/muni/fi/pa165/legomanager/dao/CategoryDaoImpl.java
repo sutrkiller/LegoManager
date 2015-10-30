@@ -76,7 +76,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public Category findByName(String name) throws EntityNotExistsException {
-        if (name == null || name.isEmpty()) {
+        if (name == null) {
             throw new IllegalArgumentException("Name is null or empty");
         }
         try {

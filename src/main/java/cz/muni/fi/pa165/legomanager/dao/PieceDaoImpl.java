@@ -92,7 +92,7 @@ public class PieceDaoImpl implements PieceDao {
 
     @Override
     public Piece findByName(String name) throws EntityNotExistsException {
-        if (name == null || name.isEmpty()) {
+        if (name == null) {
             throw new IllegalArgumentException("Name is null or empty");
         }
         try {
