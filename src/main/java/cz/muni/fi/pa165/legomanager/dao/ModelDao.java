@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.entities.Model;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import java.util.List;
 
 /**
@@ -11,16 +13,16 @@ import java.util.List;
  */
 public interface ModelDao {
 
-    public void create(Model model);
+    public void create(Model model) throws LegoPersistenceException;
     
-    public Model findById(Long id);
+    public Model findById(Long id) throws EntityNotExistsException;
     
-    public Model findByName(String name);
+    public Model findByName(String name) throws EntityNotExistsException;
 
     public List<Model> findAll();
     
-    public Model update(Model model);
+    public Model update(Model model) throws LegoPersistenceException;
 
-    public void delete(Model model);
+    public void delete(Model model) throws EntityNotExistsException;
 
 }
