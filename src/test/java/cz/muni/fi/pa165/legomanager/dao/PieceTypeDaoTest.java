@@ -15,8 +15,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -87,16 +85,20 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(found, p1);
     }
 
+    @Test(expectedExceptions=EntityNotExistsException.class)
+    public void testFindByIdNotExists() throws EntityNotExistsException {
+        pieceDao.findById(p1.getId() + p2.getId() + p3.getId());
+    }
+
     @Test
     public void testFindByName() throws EntityNotExistsException {
         PieceType found = pieceDao.findByName(p2.getName());
         Assert.assertEquals(found, p2);
     }
 
-    @Test
+    @Test(expectedExceptions=LegoPersistenceException.class)
     public void testFindByNonExistingName() throws EntityNotExistsException {
-        PieceType found = pieceDao.findByName("Non existing name");
-        Assert.assertNull(found);
+        pieceDao.findByName("Non existing name");
     }
 
     @Test
@@ -115,14 +117,29 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(newName, found.getName());
     }
 
-    @Test
+    @Test(expectedExceptions=LegoPersistenceException.class)
+    public void testUpdateWithNullName() throws LegoPersistenceException {
+        p1.setName(null);
+        pieceDao.update(p1);
+        pieceDao.findById(p1.getId());
+    }
+
+    @Test(expectedExceptions=LegoPersistenceException.class)
+    public void testUpdateNotExists() throws LegoPersistenceException {
+        PieceType p = new PieceType();
+        Set<Color> colors = new HashSet<>();
+        colors.add(Color.BLACK);
+        p.setColors(colors);
+        pieceDao.update(p);
+    }
+
+    @Test(expectedExceptions=EntityNotExistsException.class)
     public void testDelete() throws EntityNotExistsException {
         pieceDao.delete(p3);
         List<PieceType> foundList = pieceDao.findAll();
         Assert.assertEquals(foundList.size(), 2);
 
-        PieceType found = pieceDao.findById(p3.getId());
-        Assert.assertNull(found);
+        pieceDao.findById(p3.getId());
     }
 
     @Test(expectedExceptions=LegoPersistenceException.class)
