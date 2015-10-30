@@ -85,7 +85,8 @@ public class ModelDaoImpl implements ModelDao {
         }
         try {
             em.merge(model);
-        } catch (PersistenceException|ValidationException e) {
+            em.flush();
+        } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Persistence failed", e);
         }
         return em.merge(model);
