@@ -34,6 +34,9 @@ public class PieceDaoImpl implements PieceDao {
         if (piece == null) {
             throw new IllegalArgumentException("Piece argument is null.");
         }
+        if (piece.getCurrentColor() != null && piece.getType() != null && piece.getType().getColors() != null && !piece.getType().getColors().contains(piece.getCurrentColor())) {
+            throw new LegoPersistenceException("Create piece persistence error.");
+        }
         if (em.contains(piece)) {
             throw new EntityAlreadyExistsException("piece already in DB.");
         }
@@ -48,6 +51,9 @@ public class PieceDaoImpl implements PieceDao {
     public void update(Piece piece) throws EntityNotExistsException, LegoPersistenceException {
         if (piece == null) {
             throw new IllegalArgumentException("Argument piece is null.");
+        }
+        if (piece.getCurrentColor() != null && piece.getType() != null && piece.getType().getColors() != null && !piece.getType().getColors().contains(piece.getCurrentColor())) {
+            throw new LegoPersistenceException("Create piece persistence error.");
         }
         if (!em.contains(piece)) {
             throw new EntityNotExistsException("Entity not in database.");
