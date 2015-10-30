@@ -6,8 +6,10 @@
 package cz.muni.fi.pa165.legomanager.enums;
 
 /**
- *
- * @author Tobias
+ *Colors for LegoManager classes
+ * 
+ * @author Tobias <tobias.kamenicky@gmail.com>
+ * @date 2015/10/30
  */
 public enum Color {
     BLACK,WHITE,YELLOW,BLUE,RED,BROWN,GRAY,GREEN,ORANGE,PINK,MAGENTA,CYAN;
