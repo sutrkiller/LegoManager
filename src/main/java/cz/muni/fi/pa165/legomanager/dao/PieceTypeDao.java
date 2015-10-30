@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import java.util.List;
 
 /**
@@ -12,28 +15,33 @@ import java.util.List;
 public interface PieceTypeDao {
 
     /**
-     * Creates new piece in DB.
+     * Creates new pieceType in DB.
      *
-     * @param piece piece to be added to DB
-     * @throws IllegalArgumentException when piece is null
+     * @param pieceType pieceType to be added to DB
+     * @throws IllegalArgumentException when pieceType is null
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException when PieceType already exists in DB.
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException when entity constraints are violated (e.g. name is null)
      */
-    public void create(PieceType piece);
+    public void create(PieceType pieceType) throws EntityAlreadyExistsException, LegoPersistenceException;
 
     /**
-     * Updates already existing piece in DB.
+     * Updates already existing pieceType in DB.
      *
-     * @param piece piece to be updated in DB
-     * @throws IllegalArgumentException when piece is null
+     * @param pieceType pieceType to be updated in DB
+     * @throws IllegalArgumentException when pieceType is null
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when PieceType not exists in DB.
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException when entity constraints are violated (e.g. name is null)
      */
-    public void update(PieceType piece);
+    public void update(PieceType pieceType) throws EntityNotExistsException, LegoPersistenceException;
 
     /**
-     * Deletes piece from DB.
+     * Deletes pieceType from DB.
      *
-     * @param piece piece to be deleted from DB
-     * @throws IllegalArgumentException when piece is null
+     * @param pieceType pieceType to be deleted from DB
+     * @throws IllegalArgumentException when pieceType is null
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when PieceType not exists in DB.
      */
-    public void delete(PieceType piece);
+    public void delete(PieceType pieceType) throws EntityNotExistsException;
 
     /**
      * Returns piece with corresponding id.
@@ -41,8 +49,9 @@ public interface PieceTypeDao {
      * @param id id of the piece
      * @return piece with corresponding id
      * @throws IllegalArgumentException when id is null or smaller than 0
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when PieceType not exists in DB.
      */
-    public PieceType findById(Long id);
+    public PieceType findById(Long id) throws EntityNotExistsException;
 
     /**
      * Returns piece with corresponding name.
@@ -50,8 +59,9 @@ public interface PieceTypeDao {
      * @param name name of the piece
      * @return piece with corresponding name
      * @throws IllegalArgumentException when name is null
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when PieceType not exists in DB.
      */
-    public PieceType findByName(String name);
+    public PieceType findByName(String name) throws EntityNotExistsException;
 
     /**
      * Returns list of all existing pieces in DB.
