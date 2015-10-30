@@ -225,7 +225,7 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         Set<Piece> expected = new HashSet<>();
         expected.add(blueCube);
         expected.add(redCube1);
-        expected.add(redCube1);
+        expected.add(redCube2);
         expected.add(blueBlock);
 
         assertEquals(expected, actual);
@@ -235,7 +235,7 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
     public void testFindAllEmpty() throws EntityNotExistsException {
         pieceDao.delete(blueCube);
         pieceDao.delete(redCube1);
-        pieceDao.delete(redCube1);
+        pieceDao.delete(redCube2);
         pieceDao.delete(blueBlock);
 
         Set<Piece> actual = new HashSet<>(pieceDao.findAll());
@@ -305,7 +305,7 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
 
         Set<Piece> expected = new HashSet<>();
         expected.add(redCube1);
-        expected.add(redCube1);
+        expected.add(redCube2);
         expected.add(blueBlock);
 
         assertEquals(expected, actual);
@@ -318,7 +318,7 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         blueCube2.setCurrentColor(BLUE);
         blueCube2.setName(NEW_PIECE_NAME);
 
-        pieceDao.delete(blueCube);
+        pieceDao.delete(blueCube2);
     }
 
     @Test(expectedExceptions = EntityNotExistsException.class)
