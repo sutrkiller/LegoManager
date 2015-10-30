@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.testng.annotations.AfterMethod;
 
 /**
  * Test class for Category dao manager.
@@ -62,6 +63,16 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         categoryDao.create(buildings);
         em.flush();
 
+    }
+
+    @AfterMethod
+    public void after() throws LegoPersistenceException {
+        /*
+        Becaue @TestExecutionListeners do auto-rollback after test 
+        and JPA doesn't have to flush changes to DB before it. 
+        It can throw some aditional exception which will appear in real usage.
+        */
+        em.flush();
     }
 
     @Test
@@ -200,9 +211,9 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         cars.setName("Cars in sale");
 //        categoryDao.update(cars);
         em.flush();
-        
+
         Category actual = categoryDao.findById(cars.getId());
-        
+
         assertEquals(cars, actual);
     }
 
@@ -266,7 +277,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         jungle.setName(JUNGLE_NAME);
         jungle.setDescription(JUNGLE_DSC);
         categoryDao.delete(jungle);
-        em.flush();
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -274,7 +284,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         categoryDao.delete(cars);
         em.flush();
         categoryDao.delete(cars);
-        em.flush();
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
