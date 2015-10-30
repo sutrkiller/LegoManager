@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.legomanager.entities;
 
 import cz.muni.fi.pa165.legomanager.enums.Color;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -54,7 +55,7 @@ public class PieceType {
 
 
     public Set<Color> getColors() {
-        return colors;
+        return Collections.unmodifiableSet(colors);
     }
 
     public void setColors(Set<Color> colors) {
