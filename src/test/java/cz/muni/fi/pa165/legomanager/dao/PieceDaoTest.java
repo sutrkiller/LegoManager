@@ -103,15 +103,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         em.flush();
     }
 
-    @AfterMethod
-    public void after() throws Exception {
-        /* 
-         Because we have to flush changes to DB before auto-rollback after test.
-         Because it can throw some exception.
-         */
-        em.flush();
-    }
-
     @Test
     public void testCreate() throws Exception {
         Piece blueCube2 = new Piece();
@@ -119,7 +110,7 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         blueCube2.setCurrentColor(BLUE);
         blueCube2.setName(NEW_PIECE_NAME);
 
-        pieceDao.create(blueCube);
+        pieceDao.create(blueCube2);
 
         Long blueCubeId = blueCube2.getId();
         assertNotNull(blueCubeId);
