@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -32,9 +33,10 @@ public class Model {
     private String name;
 
     @NotNull
+    @Min(0)
     private Byte ageLimit;
 
-    @DecimalMin("0.0")
+    @Min(0)
     @NotNull
     @Column(nullable = false)
     private BigDecimal price;
