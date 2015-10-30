@@ -53,7 +53,7 @@ public class LegoSetDaoImpl implements LegoSetDao {
 
     @Override
     public LegoSet findByName(String name) throws LegoPersistenceException {
-        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Wrong name param.");
+        if (name == null) throw new IllegalArgumentException("Wrong name param.");
         try {
             LegoSet ls = em.createQuery("SELECT ls FROM LegoSet ls WHERE name = :name", LegoSet.class).setParameter("name", name).getSingleResult();
             if(ls == null) throw new EntityNotExistsException("Entity does not exist.");
