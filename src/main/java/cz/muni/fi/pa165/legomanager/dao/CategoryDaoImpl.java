@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.validation.ValidationException;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -29,6 +31,9 @@ public class CategoryDaoImpl implements CategoryDao {
         if (id< 0) throw new IllegalArgumentException("Id < 0");
         try {
             Category c = em.find(Category.class, id);
+            if (c == null) {
+                throw new EntityNotExistsException("Id not found");
+            }
             return c;
         } catch (NoResultException e) {
             throw new EntityNotExistsException("Id not found",e);
@@ -41,7 +46,7 @@ public class CategoryDaoImpl implements CategoryDao {
         if (em.contains(c)) throw new EntityAlreadyExistsException("Category already in database");
         try {
             em.persist(c);
-        } catch (Exception e) {
+        } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Persistence eror", e);
         }
     }
@@ -74,7 +79,8 @@ public class CategoryDaoImpl implements CategoryDao {
         if (!em.contains(c)) throw new EntityNotExistsException("Category already in database");
         try {
         em.merge(c);
-        } catch (Exception e) {
+        em.flush();
+        } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Persistence eror", e);
         }
     }
