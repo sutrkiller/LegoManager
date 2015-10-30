@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.legomanager.entities;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -11,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -57,7 +57,7 @@ public class LegoSet {
     }
 
     public List<Model> getModels() {
-        return models;
+        return Collections.unmodifiableList(models);
     }
 
     public void setModels(List<Model> models) {

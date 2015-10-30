@@ -100,7 +100,7 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         pieceDao.create(redCube2);
         pieceDao.create(blueBlock);
 
-        em.flush();
+        
     }
 
     @Test
@@ -324,7 +324,7 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = EntityNotExistsException.class)
     public void testDeleteAlreadyRemoved() throws EntityNotExistsException {
         pieceDao.delete(blueCube);
-        em.flush();
+        
         pieceDao.delete(blueCube);
     }
 
