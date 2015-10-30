@@ -209,13 +209,7 @@ public class ModelDaoTest extends AbstractTestNGSpringContextTests {
         m1.setName(null);
         modelDao.update(m1);
     }
-    
-    @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateNullPieces() throws Exception {;
-        m1.setPieces(null);
-        modelDao.update(m1);
-    }
-    
+        
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUpdateNullModel() throws Exception {
         modelDao.update(null);
