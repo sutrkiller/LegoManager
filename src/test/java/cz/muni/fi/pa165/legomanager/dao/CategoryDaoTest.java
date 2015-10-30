@@ -18,7 +18,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.testng.annotations.AfterMethod;
 
 /**
  * Test class for Category dao manager.
@@ -61,8 +60,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         categoryDao.create(cars);
         categoryDao.create(planes);
         categoryDao.create(buildings);
-        em.flush();
-
     }
 
     @Test
@@ -72,8 +69,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         jungle.setDescription(JUNGLE_DSC);
         categoryDao.create(jungle);
 
-        em.flush();
-
         Long jungleId = jungle.getId();
         assertNotNull(jungleId);
 
@@ -82,7 +77,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
 
         actual = categoryDao.findByName(JUNGLE_NAME);
         assertEquals(jungle, actual);
-
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -198,7 +192,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         cars.setDescription("Extra summer sales, for this category!");
         cars.setName("Cars in sale");
         categoryDao.update(cars);
-        em.flush();
 
         Category actual = categoryDao.findById(cars.getId());
 
@@ -208,7 +201,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUpdateNullCategory() throws LegoPersistenceException {
         categoryDao.update(null);
-        em.flush();
     }
 
     @Test(expectedExceptions = EntityNotExistsException.class)
@@ -217,7 +209,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         jungle.setName(JUNGLE_NAME);
         jungle.setDescription(JUNGLE_DSC);
         categoryDao.update(jungle);
-        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
@@ -225,7 +216,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         cars.setDescription("Extra summer sales, for this category!");
         cars.setName("Planes");
         categoryDao.update(cars);
-        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
@@ -233,7 +223,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         cars.setDescription("Extra summer sales, for this category!");
         cars.setName(null);
         categoryDao.update(cars);
-        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
@@ -241,14 +230,11 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         cars.setDescription(null);
         cars.setName("Cars in sale");
         categoryDao.update(cars);
-        em.flush();
     }
 
     @Test
     public void testDelete() throws LegoPersistenceException {
         categoryDao.delete(cars);
-
-        em.flush();
 
         Set<Category> actual = new HashSet<>(categoryDao.findAll());
 
@@ -270,7 +256,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = EntityNotExistsException.class)
     public void testDeleteAlreadyRemoved() throws LegoPersistenceException {
         categoryDao.delete(cars);
-        em.flush();
+        
         categoryDao.delete(cars);
     }
 
