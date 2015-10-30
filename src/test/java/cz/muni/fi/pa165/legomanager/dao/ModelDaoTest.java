@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
 @ContextConfiguration(classes = {PersistenceApplicationContext.class})
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
+public class ModelDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     public ModelDao modelDao;
