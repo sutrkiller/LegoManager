@@ -2,6 +2,9 @@ package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import cz.muni.fi.pa165.legomanager.enums.Color;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -38,7 +41,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
 
 
     @BeforeMethod
-    public void createPieces(){
+    public void createPieces() throws LegoPersistenceException {
 
         Set<Color> colors = new HashSet<>();
 
@@ -48,8 +51,6 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         colors.add(Color.RED);
         colors.add(Color.GREEN);
         p1.setColors(colors);
-
-        pieceDao.create(p1);
 
         p2 = new PieceType();
         p2.setName("Piece 2");
@@ -70,8 +71,8 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         pieceDao.create(p3);
     }
 
-    @Test(expectedExceptions=ConstraintViolationException.class)
-    public void testCreateWithNullName() {
+    @Test(expectedExceptions=LegoPersistenceException.class)
+    public void testCreateWithNullName() throws LegoPersistenceException {
         PieceType p = new PieceType();
         Set<Color> colors = new HashSet<>();
         colors.add(Color.BLACK);
@@ -81,19 +82,19 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindById() {
+    public void testFindById() throws EntityNotExistsException {
         PieceType found = pieceDao.findById(p1.getId());
         Assert.assertEquals(found, p1);
     }
 
     @Test
-    public void testFindByName() {
+    public void testFindByName() throws EntityNotExistsException {
         PieceType found = pieceDao.findByName(p2.getName());
         Assert.assertEquals(found, p2);
     }
 
     @Test
-    public void testFindByNonExistingName() {
+    public void testFindByNonExistingName() throws EntityNotExistsException {
         PieceType found = pieceDao.findByName("Non existing name");
         Assert.assertNull(found);
     }
@@ -105,7 +106,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws LegoPersistenceException {
         String newName = "New name";
         p1.setName(newName);
         pieceDao.update(p1);
@@ -115,7 +116,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testDelete() {
+    public void testDelete() throws EntityNotExistsException {
         pieceDao.delete(p3);
         List<PieceType> foundList = pieceDao.findAll();
         Assert.assertEquals(foundList.size(), 2);
@@ -124,8 +125,8 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertNull(found);
     }
 
-    @Test(expectedExceptions=PersistenceException.class)
-    public void testNameIsUnique() {
+    @Test(expectedExceptions=LegoPersistenceException.class)
+    public void testNameIsUnique() throws LegoPersistenceException {
         PieceType p = new PieceType();
         p.setName("Piece 1");
         Set<Color> colors = new HashSet<>();
@@ -136,7 +137,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testColorsInPiece() {
+    public void testColorsInPiece() throws LegoPersistenceException {
         PieceType p4 = new PieceType();
         p4.setName("Piece 4");
         Set<Color> colors = new HashSet<>();
