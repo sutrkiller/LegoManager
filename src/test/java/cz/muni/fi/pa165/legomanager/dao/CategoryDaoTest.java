@@ -209,7 +209,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     public void testUpdate() throws LegoPersistenceException {
         cars.setDescription("Extra summer sales, for this category!");
         cars.setName("Cars in sale");
-//        categoryDao.update(cars);
+        categoryDao.update(cars);
         em.flush();
 
         Category actual = categoryDao.findById(cars.getId());
@@ -219,7 +219,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUpdateNullCategory() throws LegoPersistenceException {
-//        categoryDao.update(null);
+        categoryDao.update(null);
         em.flush();
     }
 
@@ -228,7 +228,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         Category jungle = new Category();
         jungle.setName(JUNGLE_NAME);
         jungle.setDescription(JUNGLE_DSC);
-//        categoryDao.update(jungle);
+        categoryDao.update(jungle);
         em.flush();
     }
 
@@ -236,7 +236,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     public void testUpdateNonUniqueName() throws LegoPersistenceException {
         cars.setDescription("Extra summer sales, for this category!");
         cars.setName("Planes");
-//        categoryDao.update(cars);
+        categoryDao.update(cars);
         em.flush();
     }
 
@@ -244,7 +244,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     public void testUpdateNullName() throws LegoPersistenceException {
         cars.setDescription("Extra summer sales, for this category!");
         cars.setName(null);
-//        categoryDao.update(cars);
+        categoryDao.update(cars);
         em.flush();
     }
 
@@ -252,7 +252,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     public void testUpdateNullDescription() throws LegoPersistenceException {
         cars.setDescription(null);
         cars.setName("Cars in sale");
-//        categoryDao.update(cars);
+        categoryDao.update(cars);
         em.flush();
     }
 
