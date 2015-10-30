@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -36,7 +37,7 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
         }
         try {
             em.persist(pieceType);
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new LegoPersistenceException("Create PieceType persistence error", e);
         }
     }
@@ -49,12 +50,10 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
         if (pieceType.getName() == null) {
             throw new LegoPersistenceException("PieceType's name cannot be NULL.");
         }
-        if (this.checkIfExistsInDB(pieceType)) {
-            throw new EntityAlreadyExistsException("PieceType already exists in DB.");
-        }
         try {
+            em.flush();
             em.merge(pieceType);
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new LegoPersistenceException("Create PieceType persistence error", e);
         }
     }
