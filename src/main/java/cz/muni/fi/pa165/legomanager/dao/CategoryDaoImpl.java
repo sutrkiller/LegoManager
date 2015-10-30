@@ -14,11 +14,10 @@ import org.springframework.stereotype.Repository;
 
 /**
  * CategoryDaoImpl implements {@link CategoryDao}.
- * 
+ *
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 25.10.2015
  */
-
 @Repository
 public class CategoryDaoImpl implements CategoryDao {
 
@@ -27,8 +26,12 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public Category findById(Long id) throws EntityNotExistsException {
-        if (id == null) throw new IllegalArgumentException("Id is null.");
-        if (id< 0) throw new IllegalArgumentException("Id < 0");
+        if (id == null) {
+            throw new IllegalArgumentException("Id is null.");
+        }
+        if (id < 0) {
+            throw new IllegalArgumentException("Id < 0");
+        }
         try {
             Category c = em.find(Category.class, id);
             if (c == null) {
@@ -36,14 +39,18 @@ public class CategoryDaoImpl implements CategoryDao {
             }
             return c;
         } catch (NoResultException e) {
-            throw new EntityNotExistsException("Id not found",e);
+            throw new EntityNotExistsException("Id not found", e);
         }
     }
 
     @Override
     public void create(Category c) throws EntityAlreadyExistsException, LegoPersistenceException {
-        if (c==null) throw new IllegalArgumentException("Category is null.");
-        if (em.contains(c)) throw new EntityAlreadyExistsException("Category already in database");
+        if (c == null) {
+            throw new IllegalArgumentException("Category is null.");
+        }
+        if (em.contains(c)) {
+            throw new EntityAlreadyExistsException("Category already in database");
+        }
         try {
             em.persist(c);
         } catch (ValidationException | PersistenceException e) {
@@ -53,38 +60,46 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public void delete(Category c) throws EntityNotExistsException {
-        if (c==null) throw new IllegalArgumentException("Category is null.");
-        if (!em.contains(c)) throw new EntityNotExistsException("Category not in database");
+        if (c == null) {
+            throw new IllegalArgumentException("Category is null.");
+        }
+        if (!em.contains(c)) {
+            throw new EntityNotExistsException("Category not in database");
+        }
         em.remove(c);
     }
 
     @Override
     public List<Category> findAll() {
-        return em.createQuery("SELECT c FROM Category c",Category.class).getResultList();
+        return em.createQuery("SELECT c FROM Category c", Category.class).getResultList();
     }
 
     @Override
     public Category findByName(String name) throws EntityNotExistsException {
-        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Name is null or empty");
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name is null or empty");
+        }
         try {
-            return em.createQuery("SELECT c FROM Category c WHERE name = :name",Category.class).setParameter("name", name).getSingleResult();
+            return em.createQuery("SELECT c FROM Category c WHERE name = :name", Category.class).setParameter("name", name).getSingleResult();
         } catch (NoResultException e) {
-            throw new EntityNotExistsException("No result found",e);
+            throw new EntityNotExistsException("No result found", e);
         }
     }
 
     @Override
     public void update(Category c) throws EntityNotExistsException, LegoPersistenceException {
-        if (c==null) throw new IllegalArgumentException("Category is null.");
-        if (!em.contains(c)) throw new EntityNotExistsException("Category already in database");
+        if (c == null) {
+            throw new IllegalArgumentException("Category is null.");
+        }
+        if (!em.contains(c)) {
+            throw new EntityNotExistsException("Category already in database");
+        }
         try {
-        em.merge(c);
-        em.flush();
+            em.merge(c);
+            em.flush();
         } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Persistence eror", e);
         }
     }
-    
-    
 
 }
