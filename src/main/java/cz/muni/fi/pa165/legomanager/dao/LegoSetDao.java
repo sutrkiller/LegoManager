@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 
 import java.util.List;
 
@@ -13,41 +15,57 @@ import java.util.List;
 public interface LegoSetDao {
 
     /**
-     * Creates new lego set in DB.
+     * Creates new LegoSet in DB.
      *
-     * @param ls lego set to be added to DB
+     * @param ls LegoSet to be added to DB
+     * @throws IllegalArgumentException when LegoSet is null
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException when LegoSet already exists in DB.
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException when entity constraints are violated (e.g. name is null)
      */
-    public void create(LegoSet ls);
+    public void create(LegoSet ls) throws LegoPersistenceException;
 
     /**
-     * Returns lego set with corresponding id.
+     * Returns LegoSet with corresponding id.
      *
-     * @param id id of the lego set
-     * @return lego set with corresponding id
+     * @param id id of the LegoSet
+     * @return LegoSet with corresponding id
+     * @throws IllegalArgumentException when id is null or lower than 0.
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when no entity found.
      */
-    public LegoSet findById(Long id);
-
+    public LegoSet findById(Long id) throws EntityNotExistsException;
 
     /**
-     * Returns list of all existing lego sets in DB.
+     * Returns piece with corresponding name.
      *
-     * @return list of all existing lego sets
+     * @param name name of the LegoSet
+     * @return LegoSet with corresponding name
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when entity not found.
+     * @throws IllegalArgumentException when name is null
+     */
+    public LegoSet findByName(String name) throws EntityNotExistsException;
+
+    /**
+     * Returns list of all existing LegoSets in DB.
+     *
+     * @return list of all existing LegoSets
      */
     public List<LegoSet> findAll();
 
     /**
-     * Updates already existing lego set in DB.
+     * Updates already existing LegoSet in DB.
      *
-     * @param ls lego set to be updated in DB
+     * @param ls LegoSet to be updated in DB
      */
-    public void update(LegoSet ls);
+    public void update(LegoSet ls) throws LegoPersistenceException;
 
     /**
-     * Deletes lego set from DB.
+     * Deletes LegoSet from DB.
      *
-     * @param ls lego set to be deleted from DB
+     * @param ls LegoSet to be deleted from DB
+     * @throws IllegalArgumentException when LegoSet is null.
+     * @throws EntityNotExistsException when LegoSet does not exist in db.
      */
-    public void delete(LegoSet ls);
+    public void delete(LegoSet ls) throws EntityNotExistsException;
 
 
 }
