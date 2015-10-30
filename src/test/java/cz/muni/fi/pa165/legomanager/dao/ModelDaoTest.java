@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.legomanager.PersistenceApplicationContext;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
-import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
@@ -12,12 +11,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
-import javax.validation.ConstraintViolationException;
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -25,8 +19,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -217,13 +209,7 @@ public class ModelDaoTest extends AbstractTestNGSpringContextTests {
         m1.setName(null);
         modelDao.update(m1);
     }
-    
-    @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateNullPieces() throws Exception {;
-        m1.setPieces(null);
-        modelDao.update(m1);
-    }
-    
+        
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUpdateNullModel() throws Exception {
         modelDao.update(null);

@@ -28,8 +28,12 @@ public class LegoSetDaoImpl implements LegoSetDao {
 
     @Override
     public void create(LegoSet ls) throws LegoPersistenceException {
-        if (ls == null) throw new IllegalArgumentException("LegoSet is null.");
-        if (em.contains(ls)) throw new EntityAlreadyExistsException("LegoSet already exists in db.");
+        if (ls == null) {
+            throw new IllegalArgumentException("LegoSet is null.");
+        }
+        if (em.contains(ls)) {
+            throw new EntityAlreadyExistsException("LegoSet already exists in db.");
+        }
         try {
             em.persist(ls);
         } catch (PersistenceException | ValidationException e) {
@@ -39,10 +43,14 @@ public class LegoSetDaoImpl implements LegoSetDao {
 
     @Override
     public LegoSet findById(Long id) throws LegoPersistenceException {
-        if (id == null || id < 0) throw new IllegalArgumentException("Wrong id param.");
+        if (id == null || id < 0) {
+            throw new IllegalArgumentException("Wrong id param.");
+        }
         try {
-            LegoSet ls =  em.find(LegoSet.class, id);
-            if(ls == null) throw new EntityNotExistsException("Entity does not exist.");
+            LegoSet ls = em.find(LegoSet.class, id);
+            if (ls == null) {
+                throw new EntityNotExistsException("Entity does not exist.");
+            }
             return ls;
         } catch (NoResultException e) {
             throw new EntityNotExistsException("Entity does not exist.", e);
@@ -53,10 +61,14 @@ public class LegoSetDaoImpl implements LegoSetDao {
 
     @Override
     public LegoSet findByName(String name) throws LegoPersistenceException {
-        if (name == null) throw new IllegalArgumentException("Wrong name param.");
+        if (name == null) {
+            throw new IllegalArgumentException("Wrong name param.");
+        }
         try {
             LegoSet ls = em.createQuery("SELECT ls FROM LegoSet ls WHERE name = :name", LegoSet.class).setParameter("name", name).getSingleResult();
-            if(ls == null) throw new EntityNotExistsException("Entity does not exist.");
+            if (ls == null) {
+                throw new EntityNotExistsException("Entity does not exist.");
+            }
             return ls;
         } catch (NoResultException e) {
             throw new EntityNotExistsException("Entity does not exist", e);
@@ -72,8 +84,12 @@ public class LegoSetDaoImpl implements LegoSetDao {
 
     @Override
     public void update(LegoSet ls) throws LegoPersistenceException {
-        if (ls == null) throw new IllegalArgumentException("LegoSet is null.");
-        if (!em.contains(ls)) throw new EntityNotExistsException("Entity does not exist.");
+        if (ls == null) {
+            throw new IllegalArgumentException("LegoSet is null.");
+        }
+        if (!em.contains(ls)) {
+            throw new EntityNotExistsException("Entity does not exist.");
+        }
         try {
             em.merge(ls);
             em.flush();
@@ -84,8 +100,12 @@ public class LegoSetDaoImpl implements LegoSetDao {
 
     @Override
     public void delete(LegoSet ls) throws EntityNotExistsException {
-        if (ls == null) throw new IllegalArgumentException("LegoSet is null.");
-        if (!em.contains(ls)) throw new EntityNotExistsException("Entity does not exist.");
+        if (ls == null) {
+            throw new IllegalArgumentException("LegoSet is null.");
+        }
+        if (!em.contains(ls)) {
+            throw new EntityNotExistsException("Entity does not exist.");
+        }
         em.remove(ls);
     }
 

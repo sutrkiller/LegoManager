@@ -69,7 +69,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         pieceDao.create(p3);
     }
 
-    @Test(expectedExceptions=LegoPersistenceException.class)
+    @Test(expectedExceptions = LegoPersistenceException.class)
     public void testCreateWithNullName() throws LegoPersistenceException {
         PieceType p = new PieceType();
         Set<Color> colors = new HashSet<>();
@@ -85,7 +85,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(found, p1);
     }
 
-    @Test(expectedExceptions=EntityNotExistsException.class)
+    @Test(expectedExceptions = EntityNotExistsException.class)
     public void testFindByIdNotExists() throws EntityNotExistsException {
         pieceDao.findById(p1.getId() + p2.getId() + p3.getId());
     }
@@ -96,7 +96,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(found, p2);
     }
 
-    @Test(expectedExceptions=LegoPersistenceException.class)
+    @Test(expectedExceptions = LegoPersistenceException.class)
     public void testFindByNonExistingName() throws EntityNotExistsException {
         pieceDao.findByName("Non existing name");
     }
@@ -117,14 +117,14 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(newName, found.getName());
     }
 
-    @Test(expectedExceptions=LegoPersistenceException.class)
+    @Test(expectedExceptions = LegoPersistenceException.class)
     public void testUpdateWithNullName() throws LegoPersistenceException {
         p1.setName(null);
         pieceDao.update(p1);
         pieceDao.findById(p1.getId());
     }
 
-    @Test(expectedExceptions=LegoPersistenceException.class)
+    @Test(expectedExceptions = LegoPersistenceException.class)
     public void testUpdateNotExists() throws LegoPersistenceException {
         PieceType p = new PieceType();
         Set<Color> colors = new HashSet<>();
@@ -133,7 +133,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         pieceDao.update(p);
     }
 
-    @Test(expectedExceptions=EntityNotExistsException.class)
+    @Test(expectedExceptions = EntityNotExistsException.class)
     public void testDelete() throws EntityNotExistsException {
         pieceDao.delete(p3);
         List<PieceType> foundList = pieceDao.findAll();
@@ -142,7 +142,7 @@ public class PieceTypeDaoTest extends AbstractTestNGSpringContextTests {
         pieceDao.findById(p3.getId());
     }
 
-    @Test(expectedExceptions=LegoPersistenceException.class)
+    @Test(expectedExceptions = LegoPersistenceException.class)
     public void testNameIsUnique() throws LegoPersistenceException {
         PieceType p = new PieceType();
         p.setName("Piece 1");

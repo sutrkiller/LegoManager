@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
-import cz.muni.fi.pa165.legomanager.PersistenceApplicationContext;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
@@ -32,7 +31,7 @@ import org.testng.annotations.Test;
 @ContextConfiguration(classes = {cz.muni.fi.pa165.legomanager.PersistenceApplicationContext.class})
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
+public class LegoSetDaoTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceContext
     private EntityManager em;
