@@ -98,12 +98,10 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setPieces(new ArrayList<Piece>());
 
         modelDao.create(m);
-        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
     public void testCreateNonUniqueName() throws Exception {
-        em.flush();
         Model m = new Model();
         m.setName("Model-1");
         m.setAgeLimit(Byte.valueOf("25"));
@@ -112,7 +110,6 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setPieces(new ArrayList<Piece>());
 
         modelDao.create(m);
-        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
@@ -125,7 +122,6 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setPieces(new ArrayList<Piece>());
 
         modelDao.create(m);
-        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
@@ -138,7 +134,6 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setPieces(new ArrayList<Piece>());
 
         modelDao.create(m);
-        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
@@ -151,22 +146,18 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setPieces(null);
 
         modelDao.create(m);
-        em.flush();
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateNullModel() throws Exception {
         modelDao.create(null);
-        em.flush();
     }
     
     
     
     @Test(expectedExceptions = EntityAlreadyExistsException.class)
     public void testCreateModelAlreadyExists() throws Exception {
-        em.flush();
         modelDao.create(m1);
-        em.flush();
     }
 
     @Test
@@ -214,65 +205,50 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testUpdate() throws Exception {
-        em.flush();
         String newName = "New Model";
         m1.setName(newName);
         modelDao.update(m1);
-        em.flush();
         Model res = modelDao.findById(m1.getId());
         Assert.assertEquals(res.getName(), newName);
     }
     
     @Test(expectedExceptions = LegoPersistenceException.class)
     public void testUpdateNullname() throws Exception {
-        em.flush();
         m1.setName(null);
         modelDao.update(m1);
-        em.flush();
     }
     
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateNullPieces() throws Exception {
-        em.flush();
+    public void testUpdateNullPieces() throws Exception {;
         m1.setPieces(null);
         modelDao.update(m1);
-        em.flush();
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUpdateNullModel() throws Exception {
-        em.flush();
         modelDao.update(null);
-        em.flush();
     }
     
     @Test(expectedExceptions = LegoPersistenceException.class)
     public void testUpdateNonUniqueName() throws Exception {
-        em.flush();
         m2.setName(m1.getName());
         modelDao.update(m2);
-        em.flush();
     }
     
     @Test(expectedExceptions = LegoPersistenceException.class)
     public void testUpdateNegativePrice() throws Exception {
-        em.flush();
         m1.setPrice(new BigDecimal("1000").negate());
         modelDao.update(m1);
-        em.flush();
     }
     
     @Test(expectedExceptions = LegoPersistenceException.class)
     public void testUpdateNegativeAge() throws Exception {
-        em.flush();
         m1.setAgeLimit(Byte.MIN_VALUE);
         modelDao.update(m1);
-        em.flush();
     }
     
     @Test(expectedExceptions = EntityNotExistsException.class)
     public void testUpdateNonExisting() throws Exception {
-        em.flush();
         Model m = new Model();
         m.setName("Model_nonExisting");
         m.setAgeLimit(Byte.valueOf("25"));
@@ -281,13 +257,11 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setPieces(new ArrayList<Piece>());
         
         modelDao.update(m);
-        em.flush();
     }
 
     @Test
     public void testDelete() throws Exception {
         modelDao.delete(m2);
-        em.flush();
         Assert.assertEquals(modelDao.findAll().size(), 2);
     }
 
@@ -301,13 +275,11 @@ public class ModelDaoImplTest extends AbstractTestNGSpringContextTests {
         m.setPieces(new ArrayList<Piece>());
 
         modelDao.delete(m);
-        em.flush();
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDeleteNull() throws Exception {
         modelDao.delete(null);
-        em.flush();
     }
 
     
