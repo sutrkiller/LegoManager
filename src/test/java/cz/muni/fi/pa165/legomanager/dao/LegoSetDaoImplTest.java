@@ -50,7 +50,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     private Category categoryBuildings;
 
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws LegoPersistenceException {
         categoryHP = new Category();
         categoryHP.setDescription("Category containing items from Harry Potter.");
         categoryHP.setName("Harry Potter");
@@ -78,7 +78,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testCreate() {
+    public void testCreate() throws LegoPersistenceException {
         Category categoryCars = new Category();
         categoryCars.setName("Cars");
         categoryCars.setDescription("Category containing cars.");
@@ -105,19 +105,19 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
 
     // Testing create() method
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateNullSet() {
+    public void testCreateNullSet() throws LegoPersistenceException {
         legoSetDao.create(null);
         em.flush();
     }
 
     @Test(expectedExceptions = EntityAlreadyExistsException.class)
-    public void testCreateAlreadyExists() {
+    public void testCreateAlreadyExists() throws LegoPersistenceException {
         legoSetDao.create(setBuildings);
         em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateNonUniqueName() {
+    public void testCreateNonUniqueName() throws LegoPersistenceException {
         LegoSet setBuildings2 = new LegoSet();
         setBuildings2.setName("Buildings set");
         setBuildings2.setModels(new ArrayList<Model>());
@@ -129,7 +129,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateSetWithNullName() {
+    public void testCreateSetWithNullName() throws LegoPersistenceException {
         LegoSet setBuildings2 = new LegoSet();
         setBuildings2.setName(null);
         setBuildings2.setModels(new ArrayList<Model>());
@@ -141,7 +141,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateSetWithNullModels() {
+    public void testCreateSetWithNullModels() throws LegoPersistenceException {
         LegoSet setBuildings2 = new LegoSet();
         setBuildings2.setName("Second buildings set");
         setBuildings2.setModels(null);
@@ -153,7 +153,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateSetWithNullCategory() {
+    public void testCreateSetWithNullCategory() throws LegoPersistenceException {
         LegoSet setBuildings2 = new LegoSet();
         setBuildings2.setName("Second buildings set");
         setBuildings2.setModels(new ArrayList<Model>());
@@ -165,7 +165,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateSetWithNullPrice() {
+    public void testCreateSetWithNullPrice() throws LegoPersistenceException {
         LegoSet setBuildings2 = new LegoSet();
         setBuildings2.setName("Second buildings set");
         setBuildings2.setModels(new ArrayList<Model>());
@@ -177,7 +177,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateSetWithNegativePrice() {
+    public void testCreateSetWithNegativePrice() throws LegoPersistenceException {
         LegoSet setBuildings2 = new LegoSet();
         setBuildings2.setName("Second buildings set");
         setBuildings2.setModels(new ArrayList<Model>());
@@ -190,44 +190,45 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
 
     // Testing update() method
     @Test
-    public void testUpdateSet() {
+    public void testUpdateSet() throws LegoPersistenceException {
         setBuildings.setName("Cars set");
 
-        em.flush();
         legoSetDao.update(setBuildings);
+        em.flush();
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateNullSet() {
+    public void testUpdateNullSet() throws LegoPersistenceException {
         setBuildings = null;
 
-        em.flush();
         legoSetDao.update(setBuildings);
+        em.flush();
     }
 
-    @Test(expectedExceptions = EntityAlreadyExistsException.class)
-    public void testUpdateSetAlreadyExists() {
+    @Test
+    public void testUpdateSetAlreadyExists() throws LegoPersistenceException {
         legoSetDao.update(setBuildings);
+        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateNonUniqueName() {
+    public void testUpdateNonUniqueName() throws LegoPersistenceException {
         setBuildings.setName("Harry Potter set");
 
-        em.flush();
         legoSetDao.update(setBuildings);
+        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateSetWithNullName() {
+    public void testUpdateSetWithNullName() throws LegoPersistenceException {
         setBuildings.setName(null);
 
-        em.flush();
         legoSetDao.update(setBuildings);
+        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateSetWithNullModels() {
+    public void testUpdateSetWithNullModels() throws LegoPersistenceException {
         setBuildings.setModels(null);
 
         em.flush();
@@ -235,44 +236,45 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateSetWithNullCategory() {
+    public void testUpdateSetWithNullCategory() throws LegoPersistenceException {
         setBuildings.setCategory(null);
 
-        em.flush();
         legoSetDao.update(setBuildings);
+        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateSetWithNullPrice() {
+    public void testUpdateSetWithNullPrice() throws LegoPersistenceException {
         setBuildings.setPrice(null);
 
-        em.flush();
         legoSetDao.update(setBuildings);
+        em.flush();
     }
 
     @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateSetWithNegativePrice() {
+    public void testUpdateSetWithNegativePrice() throws LegoPersistenceException {
         setBuildings.setPrice(new BigDecimal("70.00").negate());
 
-        em.flush();
         legoSetDao.update(setBuildings);
+        em.flush();
     }
 
     // Testing delete() method
     @Test
-    public void testDeleteSet() {
+    public void testDeleteSet() throws LegoPersistenceException {
         legoSetDao.delete(setBuildings);
         em.flush();
 
         List<LegoSet> existingSets = legoSetDao.findAll();
-        Assert.assertEquals(existingSets.size(), 1);
+        List<LegoSet> expectedSets = new ArrayList<>();
+        expectedSets.add(setHarryPotter);
 
-        LegoSet foundSet = legoSetDao.findById(setBuildings.getId());
-        Assert.assertNull(foundSet);
+        Assert.assertEquals(existingSets.size(), 1);
+        assertEquals(expectedSets, existingSets);
     }
 
     @Test(expectedExceptions = EntityNotExistsException.class)
-    public void testDeleteNotExist() {
+    public void testDeleteNotExist() throws EntityNotExistsException {
         LegoSet setBuildings2 = new LegoSet();
         setBuildings2.setName("Second buildings set");
         setBuildings2.setModels(new ArrayList<Model>());
@@ -284,7 +286,7 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = EntityNotExistsException.class)
-    public void testDeleteAlreadyRemoved() {
+    public void testDeleteAlreadyRemoved() throws EntityNotExistsException {
         legoSetDao.delete(setBuildings);
         em.flush();
 
@@ -293,56 +295,50 @@ public class LegoSetDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testDeleteNullSet() {
+    public void testDeleteNullSet() throws EntityNotExistsException {
         legoSetDao.delete(null);
         em.flush();
     }
 
     // Testing findById() method
     @Test
-    public void testFindSetById() {
+    public void testFindSetById() throws LegoPersistenceException {
         LegoSet foundSet = legoSetDao.findById(setHarryPotter.getId());
         Assert.assertEquals(foundSet, setHarryPotter);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindSetByWrongId() {
+    public void testFindSetByWrongId() throws LegoPersistenceException {
         legoSetDao.findById(-10L);
     }
 
     @Test(expectedExceptions = EntityNotExistsException.class)
-    public void testFindSetByIdWithNonExistingId() {
+    public void testFindSetByIdWithNonExistingId() throws LegoPersistenceException {
         legoSetDao.findById(100L);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindSetByIdNull() {
+    public void testFindSetByIdNull() throws LegoPersistenceException {
         legoSetDao.findById(null);
     }
 
     // Testing findByName() method
     @Test
-    public void testFindSetByName() {
-        // LegoSet foundSet = legoSetDao.findByName(setHarryPotter.getName());
-        // Assert.assertEquals(foundSet, setHarryPotter);
-
-        fail("Test is not implemented yet.");
+    public void testFindSetByName() throws LegoPersistenceException {
+        LegoSet foundSet = legoSetDao.findByName(setHarryPotter.getName());
+        Assert.assertEquals(foundSet, setHarryPotter);
     }
 
     @Test(expectedExceptions = EntityNotExistsException.class)
-    public void testFindSetByNameWithNonExistingName() {
-        // LegoSet foundSet = legoSetDao.findByName("Random nonexisting name");
-        // Assert.assertNull(foundSet);
-
-        fail("Test is not implemented yet.");
+    public void testFindSetByNameWithNonExistingName() throws LegoPersistenceException {
+        LegoSet foundSet = legoSetDao.findByName("Random nonexisting name");
+        Assert.assertNull(foundSet);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindByNameNull() {
-        // LegoSet foundSet = legoSetDao.findByName(null);
-        // Assert.assertNull(foundSet);
-
-        fail("Test is not implemented yet.");
+    public void testFindByNameNull() throws LegoPersistenceException {
+        LegoSet foundSet = legoSetDao.findByName(null);
+        Assert.assertNull(foundSet);
     }
 
     // Testing findAll() method
