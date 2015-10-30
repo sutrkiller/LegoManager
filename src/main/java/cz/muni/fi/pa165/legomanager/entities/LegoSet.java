@@ -86,7 +86,6 @@ public class LegoSet {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.id);
         hash = 19 * hash + Objects.hashCode(this.name);
         hash = 19 * hash + Objects.hashCode(this.models);
         hash = 19 * hash + Objects.hashCode(this.price);
@@ -103,9 +102,6 @@ public class LegoSet {
             return false;
         }
         final LegoSet other = (LegoSet) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
