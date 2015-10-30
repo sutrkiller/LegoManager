@@ -32,7 +32,7 @@ public interface LegoSetDao {
      * @throws IllegalArgumentException when id is null or lower than 0.
      * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when no entity found.
      */
-    public LegoSet findById(Long id) throws EntityNotExistsException;
+    public LegoSet findById(Long id) throws LegoPersistenceException;
 
     /**
      * Returns piece with corresponding name.
@@ -42,7 +42,7 @@ public interface LegoSetDao {
      * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when entity not found.
      * @throws IllegalArgumentException when name is null
      */
-    public LegoSet findByName(String name) throws EntityNotExistsException;
+    public LegoSet findByName(String name) throws LegoPersistenceException;
 
     /**
      * Returns list of all existing LegoSets in DB.

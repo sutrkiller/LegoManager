@@ -36,22 +36,26 @@ public class LegoSetDaoImpl implements LegoSetDao {
     }
 
     @Override
-    public LegoSet findById(Long id) throws EntityNotExistsException {
+    public LegoSet findById(Long id) throws LegoPersistenceException {
         if (id == null || id < 0) throw new IllegalArgumentException("Wrong id param.");
         try {
             return em.find(LegoSet.class, id);
         } catch (NoResultException e) {
             throw new EntityNotExistsException("Entity does not exist.", e);
+        } catch (Exception e) {
+            throw new LegoPersistenceException("Error finding LegoSet.", e);
         }
     }
 
     @Override
-    public LegoSet findByName(String name) throws EntityNotExistsException {
+    public LegoSet findByName(String name) throws LegoPersistenceException {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException("Wrong name param.");
         try {
             return em.createQuery("SELECT ls FROM LegoSet ls WHERE name = :name", LegoSet.class).setParameter("name", name).getSingleResult();
         } catch (NoResultException e) {
             throw new EntityNotExistsException("Entity does not exist", e);
+        } catch (Exception e) {
+            throw new LegoPersistenceException("Error finding LegoSet.", e);
         }
     }
 
