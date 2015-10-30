@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
 import cz.muni.fi.pa165.legomanager.entities.Category;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,17 +24,32 @@ public class CategoryDaoImpl implements CategoryDao {
     private EntityManager em;
 
     @Override
-    public Category findById(Long id) {
-        return em.find(Category.class, id);
+    public Category findById(Long id) throws EntityNotExistsException {
+        if (id == null) throw new IllegalArgumentException("Id is null.");
+        if (id< 0) throw new IllegalArgumentException("Id < 0");
+        try {
+            Category c = em.find(Category.class, id);
+            return c;
+        } catch (NoResultException e) {
+            throw new EntityNotExistsException("Id not found",e);
+        }
     }
 
     @Override
-    public void create(Category c) {
-        em.persist(c);
+    public void create(Category c) throws EntityAlreadyExistsException, LegoPersistenceException {
+        if (c==null) throw new IllegalArgumentException("Category is null.");
+        if (em.contains(c)) throw new EntityAlreadyExistsException("Category already in database");
+        try {
+            em.persist(c);
+        } catch (Exception e) {
+            throw new LegoPersistenceException("Persistence eror", e);
+        }
     }
 
     @Override
-    public void delete(Category c) {
+    public void delete(Category c) throws EntityNotExistsException {
+        if (c==null) throw new IllegalArgumentException("Category is null.");
+        if (!em.contains(c)) throw new EntityNotExistsException("Category not in database");
         em.remove(c);
     }
 
@@ -41,12 +59,26 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
     @Override
-    public Category findByName(String name) {
+    public Category findByName(String name) throws EntityNotExistsException {
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Name is null or empty");
         try {
             return em.createQuery("SELECT c FROM Category c WHERE name = :name",Category.class).setParameter("name", name).getSingleResult();
         } catch (NoResultException e) {
-            return null;
+            throw new EntityNotExistsException("No result found",e);
         }
     }
+
+    @Override
+    public void update(Category c) throws EntityNotExistsException, LegoPersistenceException {
+        if (c==null) throw new IllegalArgumentException("Category is null.");
+        if (!em.contains(c)) throw new EntityNotExistsException("Category already in database");
+        try {
+        em.merge(c);
+        } catch (Exception e) {
+            throw new LegoPersistenceException("Persistence eror", e);
+        }
+    }
+    
+    
 
 }
