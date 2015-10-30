@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.validation.ValidationException;
 import java.util.List;
 
 /**
@@ -30,7 +32,7 @@ public class LegoSetDaoImpl implements LegoSetDao {
         if (em.contains(ls)) throw new EntityAlreadyExistsException("LegoSet already exists in db.");
         try {
             em.persist(ls);
-        } catch (Exception e) {
+        } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Error creating LegoSet.", e);
         }
     }
@@ -39,10 +41,12 @@ public class LegoSetDaoImpl implements LegoSetDao {
     public LegoSet findById(Long id) throws LegoPersistenceException {
         if (id == null || id < 0) throw new IllegalArgumentException("Wrong id param.");
         try {
-            return em.find(LegoSet.class, id);
+            LegoSet ls =  em.find(LegoSet.class, id);
+            if(ls == null) throw new EntityNotExistsException("Entity does not exist.");
+            return ls;
         } catch (NoResultException e) {
             throw new EntityNotExistsException("Entity does not exist.", e);
-        } catch (Exception e) {
+        } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Error finding LegoSet.", e);
         }
     }
@@ -51,10 +55,12 @@ public class LegoSetDaoImpl implements LegoSetDao {
     public LegoSet findByName(String name) throws LegoPersistenceException {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException("Wrong name param.");
         try {
-            return em.createQuery("SELECT ls FROM LegoSet ls WHERE name = :name", LegoSet.class).setParameter("name", name).getSingleResult();
+            LegoSet ls = em.createQuery("SELECT ls FROM LegoSet ls WHERE name = :name", LegoSet.class).setParameter("name", name).getSingleResult();
+            if(ls == null) throw new EntityNotExistsException("Entity does not exist.");
+            return ls;
         } catch (NoResultException e) {
             throw new EntityNotExistsException("Entity does not exist", e);
-        } catch (Exception e) {
+        } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Error finding LegoSet.", e);
         }
     }
@@ -70,7 +76,8 @@ public class LegoSetDaoImpl implements LegoSetDao {
         if (!em.contains(ls)) throw new EntityNotExistsException("Entity does not exist.");
         try {
             em.merge(ls);
-        } catch (Exception e) {
+            em.flush();
+        } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Error updating LegoSet.", e);
         }
     }
