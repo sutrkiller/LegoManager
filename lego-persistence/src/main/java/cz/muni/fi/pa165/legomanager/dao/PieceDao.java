@@ -53,16 +53,6 @@ public interface PieceDao{
     public Piece findById(Long id) throws EntityNotExistsException;
 
     /**
-     * Returns piece with corresponding name.
-     * 
-     * @param name name of the piece
-     * @return piece with corresponding name
-     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when entity not found.
-     * @throws IllegalArgumentException when name is null
-     */
-    public Piece findByName(String name) throws EntityNotExistsException;
-
-    /**
      * Returns list of all existing pieces in DB.
      *
      * @return list of all existing pieces
