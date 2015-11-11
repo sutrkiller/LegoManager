@@ -11,8 +11,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <name>LegoManager</name>
+    <name>Lego Manager</name>
     <modules>
         <module>lego-persistence</module>
+        <module>lego-api</module>
+        <module>lego-service</module>
     </modules>
 </project>
