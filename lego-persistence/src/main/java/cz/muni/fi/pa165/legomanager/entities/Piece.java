@@ -26,10 +26,6 @@ public class Piece {
     private Long id;
 
     @NotNull
-    @Column(nullable = false, unique = true)
-    private String name;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Color currentColor;
 
@@ -39,14 +35,6 @@ public class Piece {
 
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Color getCurrentColor() {
@@ -67,11 +55,7 @@ public class Piece {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 43 * hash + Objects.hashCode(this.name);
-        hash = 43 * hash + Objects.hashCode(this.currentColor);
-        hash = 43 * hash + Objects.hashCode(this.type);
-        return hash;
+        return Objects.hashCode(getId());
     }
 
     @Override
@@ -79,17 +63,17 @@ public class Piece {
         if (obj == null) {
             return false;
         }
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Piece)) {
             return false;
         }
         final Piece other = (Piece) obj;
-        if (!Objects.equals(this.getName(), other.getName())) {
+        if (this.getId() == null) {
             return false;
         }
-        if (!Objects.equals(this.getCurrentColor(), other.getCurrentColor())) {
-            return false;
-        }
-        if (!Objects.equals(this.getType(), other.getType())) {
+        if (!Objects.equals(this.getId(), other.getId())) {
             return false;
         }
         return true;

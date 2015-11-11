@@ -92,18 +92,6 @@ public class PieceDaoImpl implements PieceDao {
     }
 
     @Override
-    public Piece findByName(String name) throws EntityNotExistsException {
-        if (name == null) {
-            throw new IllegalArgumentException("Name is null or empty");
-        }
-        try {
-            return em.createQuery("SELECT p FROM Piece p WHERE name = :name", Piece.class).setParameter("name", name).getSingleResult();
-        } catch (NoResultException e) {
-            throw new EntityNotExistsException("No result found", e);
-        }
-    }
-
-    @Override
     public List<Piece> findAll() {
         return em.createQuery("SELECT p FROM Piece p", Piece.class).getResultList();
     }

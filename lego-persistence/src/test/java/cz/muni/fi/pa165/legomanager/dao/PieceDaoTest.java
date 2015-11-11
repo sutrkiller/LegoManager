@@ -50,8 +50,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
     private Piece redCube2;
     private Piece blueBlock;
 
-    private final String NEW_PIECE_NAME = "#05";
-
     @BeforeMethod
     public void setUp() throws LegoPersistenceException {
 
@@ -69,22 +67,18 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         blueCube = new Piece();
         blueCube.setType(cube);
         blueCube.setCurrentColor(BLUE);
-        blueCube.setName("#01");
 
         redCube1 = new Piece();
         redCube1.setType(cube);
         redCube1.setCurrentColor(RED);
-        redCube1.setName("#02");
 
         redCube2 = new Piece();
         redCube2.setType(cube);
         redCube2.setCurrentColor(RED);
-        redCube2.setName("#03");
 
         blueBlock = new Piece();
         blueBlock.setType(block);
         blueBlock.setCurrentColor(BLUE);
-        blueBlock.setName("#04");
 
         pieceDao.create(blueCube);
         pieceDao.create(redCube1);
@@ -99,7 +93,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         Piece blueCube2 = new Piece();
         blueCube2.setType(cube);
         blueCube2.setCurrentColor(BLUE);
-        blueCube2.setName(NEW_PIECE_NAME);
 
         pieceDao.create(blueCube2);
 
@@ -107,9 +100,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         assertNotNull(blueCubeId);
 
         Piece actual = pieceDao.findById(blueCubeId);
-        assertEquals(blueCube2, actual);
-
-        actual = pieceDao.findByName(NEW_PIECE_NAME);
         assertEquals(blueCube2, actual);
     }
 
@@ -123,7 +113,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         Piece blueCube2 = new Piece();
         blueCube2.setType(null);
         blueCube2.setCurrentColor(BLUE);
-        blueCube2.setName(NEW_PIECE_NAME);
 
         pieceDao.create(blueCube2);
     }
@@ -133,7 +122,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         Piece blueCube2 = new Piece();
         blueCube2.setType(cube);
         blueCube2.setCurrentColor(PINK);
-        blueCube2.setName(NEW_PIECE_NAME);
 
         pieceDao.create(blueCube2);
     }
@@ -143,17 +131,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         Piece blueCube2 = new Piece();
         blueCube2.setType(cube);
         blueCube2.setCurrentColor(null);
-        blueCube2.setName(NEW_PIECE_NAME);
-
-        pieceDao.create(blueCube2);
-    }
-
-    @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testCreateNullName() throws Exception {
-        Piece blueCube2 = new Piece();
-        blueCube2.setType(cube);
-        blueCube2.setCurrentColor(BLUE);
-        blueCube2.setName(null);
 
         pieceDao.create(blueCube2);
     }
@@ -187,29 +164,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindByName() throws LegoPersistenceException {
-        String blueCubeName = blueCube.getName();
-        assertNotNull(blueCubeName);
-        Piece actual = pieceDao.findByName(blueCubeName);
-        assertEquals(blueCube, actual);
-    }
-
-    @Test(expectedExceptions = EntityNotExistsException.class)
-    public void testFindByNameNotExist() throws EntityNotExistsException {
-        String randomName = "#99";
-        assertNotSame(blueCube.getName(), randomName);
-        assertNotSame(redCube1.getName(), randomName);
-        assertNotSame(redCube2.getName(), randomName);
-        assertNotSame(blueBlock.getName(), randomName);
-        pieceDao.findByName(randomName);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindByNameNull() throws LegoPersistenceException {
-        pieceDao.findByName(null);
-    }
-
-    @Test
     public void testFindAll() throws LegoPersistenceException {
         Set<Piece> actual = new HashSet<>(pieceDao.findAll());
 
@@ -240,7 +194,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
     public void testUpdate() throws Exception {
         blueCube.setType(block);
         blueCube.setCurrentColor(GREEN);
-        blueCube.setName("#06");
 
         pieceDao.update(blueCube);
     }
@@ -271,19 +224,11 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         pieceDao.update(blueCube);
     }
 
-    @Test(expectedExceptions = LegoPersistenceException.class)
-    public void testUpdateNullName() throws Exception {
-        blueCube.setName(null);
-
-        pieceDao.update(blueCube);
-    }
-
     @Test(expectedExceptions = EntityNotExistsException.class)
     public void testUpdateNotExist() throws Exception {
         Piece blueCube2 = new Piece();
         blueCube2.setType(cube);
         blueCube2.setCurrentColor(BLUE);
-        blueCube2.setName(NEW_PIECE_NAME);
 
         pieceDao.update(blueCube2);
     }
@@ -307,7 +252,6 @@ public class PieceDaoTest extends AbstractTestNGSpringContextTests {
         Piece blueCube2 = new Piece();
         blueCube2.setType(cube);
         blueCube2.setCurrentColor(BLUE);
-        blueCube2.setName(NEW_PIECE_NAME);
 
         pieceDao.delete(blueCube2);
     }
