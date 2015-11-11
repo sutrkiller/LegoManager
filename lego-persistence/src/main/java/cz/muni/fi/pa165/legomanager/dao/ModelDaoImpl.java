@@ -77,8 +77,11 @@ public class ModelDaoImpl implements ModelDao {
         if (!em.contains(model)) {
             throw new EntityNotExistsException("Model is not managed by entityManager");
         }
+        if (model.getId() == null) {
+            throw new EntityNotExistsException("Model is not created yet");
+        }
+        em.merge(model);
         try {
-            em.merge(model);
             em.flush();
         } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Persistence failed", e);

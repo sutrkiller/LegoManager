@@ -90,8 +90,8 @@ public class LegoSetDaoImpl implements LegoSetDao {
         if (!em.contains(ls)) {
             throw new EntityNotExistsException("Entity does not exist.");
         }
+        em.merge(ls);
         try {
-            em.merge(ls);
             em.flush();
         } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Error updating LegoSet.", e);

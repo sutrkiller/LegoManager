@@ -94,8 +94,8 @@ public class CategoryDaoImpl implements CategoryDao {
         if (!em.contains(c)) {
             throw new EntityNotExistsException("Category already in database");
         }
+        em.merge(c);
         try {
-            em.merge(c);
             em.flush();
         } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Persistence eror", e);

@@ -53,8 +53,8 @@ public class PieceDaoImpl implements PieceDao {
         if (!em.contains(piece)) {
             throw new EntityNotExistsException("Entity not in database.");
         }
+        em.merge(piece);
         try {
-            em.merge(piece);
             em.flush();
         } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Update piece persistence error", e);

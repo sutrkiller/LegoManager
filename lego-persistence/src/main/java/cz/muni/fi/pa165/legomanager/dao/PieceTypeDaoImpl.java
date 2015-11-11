@@ -51,8 +51,8 @@ public class PieceTypeDaoImpl implements PieceTypeDao {
         if (pieceType.getName() == null) {
             throw new LegoPersistenceException("PieceType's name cannot be NULL.");
         }
+        em.merge(pieceType);
         try {
-            em.merge(pieceType);
             em.flush();
         } catch (ValidationException | PersistenceException e) {
             throw new LegoPersistenceException("Create PieceType persistence error", e);
