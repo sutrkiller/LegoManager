@@ -82,12 +82,7 @@ public class LegoSet {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.name);
-        hash = 19 * hash + Objects.hashCode(this.models);
-        hash = 19 * hash + Objects.hashCode(this.price);
-        hash = 19 * hash + Objects.hashCode(this.category);
-        return hash;
+        return Objects.hashCode(getId());
     }
 
     @Override
@@ -95,20 +90,17 @@ public class LegoSet {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof LegoSet)) {
             return false;
+        }
+        if (this == obj) {
+            return true;
         }
         final LegoSet other = (LegoSet) obj;
-        if (!Objects.equals(this.name, other.name)) {
+        if (this.getId() == null) {
             return false;
         }
-        if (!Objects.equals(this.models, other.models)) {
-            return false;
-        }
-        if (!Objects.equals(this.price, other.price)) {
-            return false;
-        }
-        if (!Objects.equals(this.category, other.category)) {
+        if (!Objects.equals(this.getId(), other.getId())) {
             return false;
         }
         return true;
@@ -116,7 +108,8 @@ public class LegoSet {
 
     @Override
     public String toString() {
-        return "LegoSet{" + "id=" + id + ", name=" + name + ", models=" + models + ", price=" + price + ", category=" + category + '}';
+        return "LegoSet{" + "id=" + getId() + ", name=" + getName() + ", models=" + getModels() +
+                ", price=" + getPrice() + ", category=" + getCategory() + '}';
     }
 
 }
