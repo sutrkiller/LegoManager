@@ -95,11 +95,7 @@ public class Model {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.name);
-        hash = 71 * hash + Objects.hashCode(this.ageLimit);
-        hash = 71 * hash + Objects.hashCode(this.price);
-        hash = 71 * hash + Objects.hashCode(this.pieces);
-        hash = 71 * hash + Objects.hashCode(this.category);
+        hash = 71 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -112,19 +108,10 @@ public class Model {
             return false;
         }
         final Model other = (Model) obj;
-        if (!Objects.equals(this.name, other.getName())) {
+        if ((this.id == null) || (other.getId() == null)) {
             return false;
         }
-        if (!Objects.equals(this.ageLimit, other.getAgeLimit())) {
-            return false;
-        }
-        if (!Objects.equals(this.price, other.getPrice())) {
-            return false;
-        }
-        if (!Objects.equals(this.pieces, other.getPieces())) {
-            return false;
-        }
-        if (!Objects.equals(this.category, other.getCategory())) {
+        if (!Objects.equals(this.id, other.getId())) {
             return false;
         }
         return true;
