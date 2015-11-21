@@ -5,7 +5,10 @@ import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.dto.PieceCreateDTO;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
+import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.legomanager.entities.Model;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -14,13 +17,15 @@ import java.util.List;
 /**
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
+@Service
+@Transactional
 public class ModelFacadeImpl implements ModelFacade {
 
 //    @Inject
 //    private ModelService modelService;
 
-//    @Inject
-//    private CategoryService categoryService;
+    @Inject
+    private CategoryService categoryService;
 
     @Inject
     private BeanMappingService beanMappingService;

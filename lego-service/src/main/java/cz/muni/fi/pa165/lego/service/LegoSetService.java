@@ -26,16 +26,16 @@ public interface LegoSetService {
 
     List<LegoSet> findByCategory(Category category);
 
-    void updateName(String name);
+    void updateName(LegoSet legoSet, String newName);
 
-    void updatePrice(BigDecimal price);
+    void updatePrice(LegoSet legoSet, BigDecimal newPrice);
 
-    void updateCategory(Category category);
+    void updateCategory(LegoSet legoSet, Category newCategory);
 
-    void addModel(Model model);
+    void addModel(LegoSet legoSet, Model model);
 
-    void removeModel(Model model);
+    void removeModel(LegoSet legoSet, Model model);
 
-    void deleteLegoSet(LegoSet ls);
+    void deleteLegoSet(LegoSet legoSet);
 
 }

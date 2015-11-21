@@ -64,6 +64,14 @@ public class LegoSet {
         this.models = models;
     }
 
+    public void addModel(Model model) {
+        models.add(model);
+    }
+
+    public void removeModel(Model model) {
+        models.remove(model);
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
