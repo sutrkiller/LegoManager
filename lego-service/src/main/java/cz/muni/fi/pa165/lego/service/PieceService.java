@@ -43,14 +43,6 @@ public interface PieceService {
     public Piece findById(Long id);
 
     /**
-     * Get Piece entity with the given name.
-     *
-     * @param name name of the piece
-     * @return existing Piece with given name
-     */
-    public Piece findByName(String name);
-
-    /**
      * Get all existing Piece entities.
      *
      * @return list of existing Piece entities
