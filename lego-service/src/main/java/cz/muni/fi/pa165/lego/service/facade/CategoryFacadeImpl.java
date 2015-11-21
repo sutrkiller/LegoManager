@@ -10,7 +10,7 @@ import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CategoryFacadeImpl implements CategoryFacade {
 
-    @Autowired
+    @Inject
     private CategoryService categoryService;
 
-    @Autowired
+    @Inject
     private BeanMappingService mappingService;
 
     @Override
