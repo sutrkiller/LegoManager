@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.legomanager.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.lang.Override;
 
 /**
  * Entity class Category represents a category of Lego model.
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -52,18 +53,20 @@ public class Category {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+        if (o == null) return false;
         if (!(o instanceof Category)) return false;
 
         Category category = (Category) o;
 
+        if (getId() != null ? !getId().equals(category.getId()) : category.getId() != null) return false;
         if (getName() != null ? !getName().equals(category.getName()) : category.getName() != null) return false;
         return !(getDescription() != null ? !getDescription().equals(category.getDescription()) : category.getDescription() != null);
-
     }
 
     @Override
     public int hashCode() {
-        int result = getName() != null ? getName().hashCode() : 0;
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
         return result;
     }
