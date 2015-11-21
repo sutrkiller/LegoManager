@@ -83,16 +83,15 @@ public class LegoSetDaoImpl implements LegoSetDao {
     }
 
     @Override
-    public void update(LegoSet ls) throws LegoPersistenceException {
+    public LegoSet update(LegoSet ls) throws LegoPersistenceException {
         if (ls == null) {
             throw new IllegalArgumentException("LegoSet is null.");
         }
         if (!em.contains(ls)) {
             throw new EntityNotExistsException("Entity does not exist.");
         }
-        em.merge(ls);
         try {
-            em.flush();
+            return em.merge(ls);
         } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Error updating LegoSet.", e);
         }
