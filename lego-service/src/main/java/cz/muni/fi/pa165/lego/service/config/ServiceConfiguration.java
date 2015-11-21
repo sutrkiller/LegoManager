@@ -11,6 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+/**
+ * @author Ondrej Velisek <ondrejvelisek@gmail.com>
+ */
 @Configuration
 @Import(PersistenceApplicationContext.class)
 @ComponentScan(basePackageClasses={PieceServiceImpl.class, ModelFacadeImpl.class})
