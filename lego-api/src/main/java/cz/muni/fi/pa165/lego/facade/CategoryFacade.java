@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.lego.facade;
 
 import cz.muni.fi.pa165.lego.dto.CategoryCreateDTO;
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import java.util.List;
 
 /**
@@ -16,39 +18,47 @@ public interface CategoryFacade {
      * Create the given category.
      *
      * @param categoryCreateDTO category to be created
+     * @throws LegoPersistenceException entity has wrong attributes
      */
-    Long createCategory(CategoryCreateDTO categoryCreateDTO);
+    void createCategory(CategoryCreateDTO categoryCreateDTO) throws LegoPersistenceException;
 
     /**
      * Update the given category.
      *
      * @param categoryDTO category to be updated
+     * @throws LegoPersistenceException entity has wrong attributes
      */
-    Long updateCategory(CategoryDTO categoryDTO);
+    void updateCategory(CategoryDTO categoryDTO) throws LegoPersistenceException;
 
     /**
      * Delete the given category.
      *
-     * @param categoryDTO category to be deleted
+     * @param id id of the category
+     * @throws EntityNotExistsException entity does not exist
      */
-    Long deleteCategory(CategoryDTO categoryDTO);
+    void deleteCategory(Long id) throws EntityNotExistsException ;
 
     /**
      * Get category with the given ID.
      *
      * @param id id of the category
+     * @throws EntityNotExistsException entity not found
+     * @return existing category with given id
      */
-    CategoryDTO getCategoryById(Long id);
+    CategoryDTO getCategoryById(Long id) throws EntityNotExistsException;
 
     /**
      * Get category with the given name.
      *
      * @param name name of the category
+     * @throws EntityNotExistsException entity not found
+     * @return existing category with given name
      */
-    CategoryDTO getCategoryByName(String name);
+    CategoryDTO getCategoryByName(String name) throws EntityNotExistsException ;
 
     /**
      * Get all existing categories.
+     * @return list of existing categories
      */
     List<CategoryDTO> getAllCategories();
 }
