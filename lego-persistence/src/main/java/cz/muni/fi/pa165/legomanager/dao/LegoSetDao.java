@@ -56,7 +56,7 @@ public interface LegoSetDao {
      *
      * @param ls LegoSet to be updated in DB
      */
-    public LegoSet update(LegoSet ls) throws LegoPersistenceException;
+    public void update(LegoSet ls) throws LegoPersistenceException;
 
     /**
      * Deletes LegoSet from DB.
