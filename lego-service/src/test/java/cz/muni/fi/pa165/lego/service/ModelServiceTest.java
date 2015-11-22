@@ -1,32 +1,33 @@
 package cz.muni.fi.pa165.lego.service;
 
-import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
+import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import cz.muni.fi.pa165.legomanager.dao.ModelDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
+import cz.muni.fi.pa165.legomanager.entities.PieceType;
+import cz.muni.fi.pa165.legomanager.enums.Color;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import org.junit.Test;
+import java.util.TreeSet;
+import javax.inject.Inject;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import static org.mockito.Matchers.any;
-import org.testng.annotations.BeforeClass;
 import org.mockito.Mock;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
-import static org.junit.Assert.assertNotNull;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * Test class for ModelService class.
@@ -34,325 +35,225 @@ import static org.junit.Assert.assertNotNull;
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 22.11.2015
  */
-@Transactional
-@ContextConfiguration(classes = ServiceConfiguration.class)
-@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ModelServiceTest {
 
     @Mock
     private ModelDao modelDao;
 
-    @Autowired
+    @Inject
     @InjectMocks
-    private ModelService modelService;
+    private ModelServiceImpl modelService;
 
+    @Mock
+    private PieceServiceImpl pieceService;
+
+    @Mock
     private Category modelCategory;
+    @Mock
+    private Category newCategory;
 
-    @BeforeClass
-    public void setUp() {
+    @Mock
+    private Model modelBMW;
+    @Mock
+    private Model modelKIA;
+    @Mock
+    private Model modelFord;
+    @Mock
+    private Model returnedModel;
+
+    @Mock
+    private Piece oldPieceForBMW;
+    @Mock
+    private Piece newPieceForBMW;
+    @Mock
+    private PieceType pieceTypeForBMW;
+
+    @BeforeMethod
+    public void setUp() throws EntityNotExistsException {
         MockitoAnnotations.initMocks(this);
+        
+        // mocking Piece service
+        //when(pieceService)
 
-        modelCategory = new Category();
-        modelCategory.setName("cars");
-        modelCategory.setDescription("Category containings cars only.");
+        // mocknig DAO object
+        when(modelDao.findById(1L)).thenReturn(modelBMW);
+        when(modelDao.findById(2L)).thenReturn(modelKIA);
+        when(modelDao.findById(3L)).thenReturn(modelFord);
+        when(modelDao.findByName("BMW")).thenReturn(modelBMW);
+        when(modelDao.findByName("KIA")).thenReturn(modelKIA);
+        when(modelDao.findByName("Ford")).thenReturn(modelFord);
+
+        //mocking Category entity
+        when(modelCategory.getId()).thenReturn(1L);
+
+        //mocking Model entities
+        when(modelBMW.getPrice()).thenReturn(new BigDecimal("200.00"));
+        when(modelKIA.getPrice()).thenReturn(new BigDecimal("100.00"));
+        when(modelFord.getPrice()).thenReturn(new BigDecimal("150.00"));
+        when(modelBMW.getId()).thenReturn(1L);
+        when(modelKIA.getId()).thenReturn(2L);
+        when(modelFord.getId()).thenReturn(3L);
+        when(returnedModel.getId()).thenReturn(1L);
+        List pieces = new ArrayList();
+        pieces.add(oldPieceForBMW);
+        when(modelBMW.getPieces()).thenReturn(pieces);
+
+        //mocking Piece entities
+        when(oldPieceForBMW.getId()).thenReturn(1L);
+        when(oldPieceForBMW.getCurrentColor()).thenReturn(Color.BLACK);
+        when(oldPieceForBMW.getType()).thenReturn(pieceTypeForBMW);
+        when(pieceTypeForBMW.getId()).thenReturn(1L);
+        when(pieceTypeForBMW.getName()).thenReturn("stvorec");
+        when(pieceTypeForBMW.getColors()).thenReturn(new TreeSet<>(Arrays.asList(Color.BLACK, Color.WHITE)));
     }
 
     @Test
     public void testCreateModel() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
+        modelService.create(modelBMW);
 
-        verify(modelDao).create(testModel);
+        verify(modelDao).create(modelBMW);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateNullModel() {
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateNullModel() throws LegoPersistenceException {
+        doThrow(IllegalArgumentException.class).when(modelDao).create(null);
+
         modelService.create(null);
-
-        verify(modelService, never()).create(any(Model.class));
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testCreateNullName() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName(null);
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        verify(modelDao, never()).create(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testCreateNullPieces() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(null);
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        verify(modelDao, never()).create(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testCreateNullCategory() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(null);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        verify(modelDao, never()).create(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testCreateNullPrice() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(null);
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        verify(modelDao, never()).create(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testCreateNullAgeLimit() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(null);
-        modelService.create(testModel);
-
-        verify(modelDao, never()).create(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testCreateNegativePrice() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00").negate());
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        verify(modelDao, never()).create(testModel);
     }
 
     @Test
     public void testUpdateModel() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
+        modelService.update(modelBMW);
 
-        testModel.setName("KIA");
-        testModel.setPrice(new BigDecimal("100.00"));
-        modelService.update(testModel);
-        verify(modelDao).update(testModel);
+        verify(modelDao).update(modelBMW);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUpdateNullModel() throws LegoPersistenceException {
+        doThrow(IllegalArgumentException.class).when(modelDao).update(null);
+
         modelService.update(null);
-
-        verify(modelDao, never()).update(any(Model.class));
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testUpdateNameNull() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        testModel.setName(null);
-        modelService.update(testModel);
-        verify(modelDao, never()).update(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testUpdatePiecesNull() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        testModel.setPieces(null);
-        modelService.update(testModel);
-        verify(modelDao, never()).update(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testUpdateCategoryNull() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        testModel.setCategory(null);
-        modelService.update(testModel);
-        verify(modelDao, never()).update(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testUpdatePriceNull() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        testModel.setPrice(null);
-        modelService.update(testModel);
-        verify(modelDao, never()).update(testModel);
-    }
-
-    @Test(expected = LegoPersistenceException.class)
-    public void testUpdateAgeLimitNull() throws LegoPersistenceException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        testModel.setAgeLimit(null);
-        modelService.update(testModel);
-        verify(modelDao, never()).update(testModel);
     }
 
     @Test
-    public void testDeleteModel() {
-        fail();
+    public void testDeleteModel() throws EntityNotExistsException {
+        modelService.delete(modelBMW);
+        verify(modelDao).delete(modelBMW);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDeleteNullModel() throws EntityNotExistsException {
-        modelService.delete(null);
+        doThrow(IllegalArgumentException.class).when(modelDao).delete(null);
 
-        verify(modelDao, never()).delete(any(Model.class));
+        modelService.delete(null);
     }
 
     @Test
     public void testFindById() throws EntityNotExistsException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        doReturn(testModel).when(modelDao).findById(1L);
-
-        Model returnedModel = modelService.findById(Long.valueOf(1));
+        returnedModel = modelService.findById(Long.valueOf(1));
         verify(modelDao).findById(Long.valueOf(1));
 
         assertNotNull(returnedModel);
-        assertEquals(testModel, returnedModel);
+        assertEquals(modelBMW, returnedModel);
     }
 
     @Test
     public void testFindByName() throws EntityNotExistsException {
-        Model testModel = new Model();
-        testModel.setName("BMW");
-        testModel.setPieces(new ArrayList<Piece>());
-        testModel.setCategory(modelCategory);
-        testModel.setPrice(new BigDecimal("200.00"));
-        testModel.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModel);
-
-        doReturn(testModel).when(modelDao).findByName("BMW");
-
-        Model returnedModel = modelService.findByName("BMW");
+        returnedModel = modelService.findByName("BMW");
         verify(modelDao).findByName("BMW");
 
         assertNotNull(returnedModel);
-        assertEquals(testModel, returnedModel);
+        assertEquals(modelBMW, returnedModel);
     }
 
     @Test
     public void testFindAll() {
-        Model testModelBMW = new Model();
-        testModelBMW.setName("BMW");
-        testModelBMW.setPieces(new ArrayList<Piece>());
-        testModelBMW.setCategory(modelCategory);
-        testModelBMW.setPrice(new BigDecimal("200.00"));
-        testModelBMW.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModelBMW);
-        
-        Model testModelKIA = new Model();
-        testModelKIA.setName("KIA");
-        testModelKIA.setPieces(new ArrayList<Piece>());
-        testModelKIA.setCategory(modelCategory);
-        testModelKIA.setPrice(new BigDecimal("100.00"));
-        testModelKIA.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModelKIA);
-        
-        Model testModelFord = new Model();
-        testModelFord.setName("Ford");
-        testModelFord.setPieces(new ArrayList<Piece>());
-        testModelFord.setCategory(modelCategory);
-        testModelFord.setPrice(new BigDecimal("150.00"));
-        testModelFord.setAgeLimit(Byte.valueOf("5"));
-        modelService.create(testModelFord);
-        
         List<Model> cars = new ArrayList<>();
-        cars.add(testModelBMW);
-        cars.add(testModelKIA);
-        cars.add(testModelFord);
-        
-        doReturn(cars).when(modelDao).findAll();
-        
+        cars.add(modelBMW);
+        cars.add(modelKIA);
+        cars.add(modelFord);
+
+        when(modelDao.findAll()).thenReturn(cars);
+
         List<Model> returnedCars = modelService.findAll();
+
         assertNotNull(returnedCars);
-        assertEquals(cars, returnedCars);
+
+        assertEquals(cars.get(0), returnedCars.get(0));
+        assertEquals(cars.get(1), returnedCars.get(1));
+        assertEquals(cars.get(2), returnedCars.get(2));
     }
 
     @Test
-    public void testSetFiftyPercentDiscount() {
-        fail();
+    public void testSetFiftyPercentDiscount() throws LegoPersistenceException {
+        modelService.setFiftyPercentDiscount(modelBMW);
+        verify(modelDao).update(modelBMW);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testSetFiftyPercentDiscountNullModel() throws LegoPersistenceException {
+        modelService.setFiftyPercentDiscount(null);
+        verify(modelDao, never()).update(modelBMW);
     }
 
     @Test
-    public void testAddPiece() {
-        fail();
+    public void testAddPiece() throws LegoPersistenceException {
+        modelService.addPiece(modelBMW, newPieceForBMW);
+        verify(modelDao).update(modelBMW);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddPieceNullPiece() throws LegoPersistenceException {
+        doThrow(IllegalArgumentException.class).when(modelDao).update(modelBMW);
+
+        modelService.addPiece(modelBMW, null);
+        verify(modelDao, never()).update(modelBMW);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddPieceNullModel() throws LegoPersistenceException {
+        modelService.addPiece(null, newPieceForBMW);
+        verify(modelDao, never()).update(modelBMW);
     }
 
     @Test
-    public void testChangeCategory() {
-        fail();
+    public void testRemovePiece() throws LegoPersistenceException {
+        modelService.removePiece(modelBMW, oldPieceForBMW);
+        verify(modelDao).update(modelBMW);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testRemovePieceNullPiece() throws LegoPersistenceException {
+        doThrow(IllegalArgumentException.class).when(modelDao).update(modelBMW);
+
+        modelService.removePiece(modelBMW, null);
+        verify(modelDao, never()).update(modelBMW);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testRemovePieceNullModel() throws LegoPersistenceException {
+        modelService.removePiece(null, oldPieceForBMW);
+        verify(modelDao, never()).update(modelBMW);
+    }
+
+    @Test
+    public void testChangeCategory() throws LegoPersistenceException {
+        modelService.changeCategory(modelBMW, newCategory);
+        verify(modelDao).update(modelBMW);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testChangeCategoryNullModel() throws LegoPersistenceException {
+        modelService.changeCategory(null, newCategory);
+        verify(modelDao, never()).update(modelBMW);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testChangeCategoryNullCategory() throws LegoPersistenceException {
+        doThrow(IllegalArgumentException.class).when(modelDao).update(modelBMW);
+
+        modelService.changeCategory(modelBMW, null);
+        verify(modelDao, never()).update(modelBMW);
     }
 }
