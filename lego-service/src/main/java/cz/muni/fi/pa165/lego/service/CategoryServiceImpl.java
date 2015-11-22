@@ -9,6 +9,8 @@ import cz.muni.fi.pa165.legomanager.dao.CategoryDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import javax.inject.Inject;
 
@@ -16,6 +18,7 @@ import javax.inject.Inject;
  *
  * @author Tobias
  */
+@Service
 public class CategoryServiceImpl implements CategoryService{
 
     @Inject
