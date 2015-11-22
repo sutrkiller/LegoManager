@@ -8,8 +8,6 @@ import java.util.List;
 
 import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.legomanager.entities.Category;
-import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
-import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,27 +29,27 @@ public class CategoryFacadeImpl implements CategoryFacade {
     private BeanMappingService mappingService;
 
     @Override
-    public void createCategory(CategoryCreateDTO categoryCreateDTO) throws LegoPersistenceException {
+    public void createCategory(CategoryCreateDTO categoryCreateDTO) {
         categoryService.create(mappingService.mapTo(categoryCreateDTO, Category.class));
     }
 
     @Override
-    public void updateCategory(CategoryDTO categoryDTO) throws LegoPersistenceException {
+    public void updateCategory(CategoryDTO categoryDTO) {
         categoryService.update(mappingService.mapTo(categoryDTO, Category.class));
     }
 
     @Override
-    public void deleteCategory(Long id) throws EntityNotExistsException {
+    public void deleteCategory(Long id) {
         categoryService.delete(categoryService.findById(id));
     }
 
     @Override
-    public CategoryDTO getCategoryById(Long id) throws EntityNotExistsException {
+    public CategoryDTO getCategoryById(Long id) {
         return mappingService.mapTo(categoryService.findById(id), CategoryDTO.class);
     }
 
     @Override
-    public CategoryDTO getCategoryByName(String name) throws EntityNotExistsException {
+    public CategoryDTO getCategoryByName(String name) {
         return mappingService.mapTo(categoryService.findByName(name), CategoryDTO.class);
     }
 
