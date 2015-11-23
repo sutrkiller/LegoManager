@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.legomanager.entities;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -85,11 +86,19 @@ public class Model {
     }
 
     public List<Piece> getPieces() {
-        return pieces;
+        return Collections.unmodifiableList(pieces);
     }
 
     public void setPieces(List<Piece> pieces) {
         this.pieces = pieces;
+    }
+
+    public void addPiece(Piece piece) {
+        this.pieces.add(piece);
+    }
+
+    public void removePiece(Piece piece) {
+        this.pieces.remove(piece);
     }
 
     @Override
