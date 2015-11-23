@@ -28,6 +28,8 @@ public interface ModelService {
 
     Model findByName(String name);
 
+    List<Model> findByCategory(Category category);
+
     List<Model> findAll();
 
     void setFiftyPercentDiscount(Model model);
