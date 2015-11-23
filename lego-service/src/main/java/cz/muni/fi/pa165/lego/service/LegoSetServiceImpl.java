@@ -83,21 +83,41 @@ public class LegoSetServiceImpl implements LegoSetService {
     @Override
     public void updatePrice(LegoSet legoSet, BigDecimal newPrice) {
         legoSet.setPrice(newPrice);
+        try {
+            legoSetDao.update(legoSet);
+        } catch (LegoPersistenceException e) {
+            throw new LegoServiceException("Update price of " + legoSet + " failed", e);
+        }
     }
 
     @Override
     public void updateCategory(LegoSet legoSet, Category newCategory) {
         legoSet.setCategory(newCategory);
+        try {
+            legoSetDao.update(legoSet);
+        } catch (LegoPersistenceException e) {
+            throw new LegoServiceException("Update category " + newCategory + " of " + legoSet + " failed", e);
+        }
     }
 
     @Override
     public void addModel(LegoSet legoSet, Model model) {
         legoSet.addModel(model);
+        try {
+            legoSetDao.update(legoSet);
+        } catch (LegoPersistenceException e) {
+            throw new LegoServiceException("Adding model " + model + " to " + legoSet + " failed", e);
+        }
     }
 
     @Override
     public void removeModel(LegoSet legoSet, Model model) {
         legoSet.removeModel(model);
+        try {
+            legoSetDao.update(legoSet);
+        } catch (LegoPersistenceException e) {
+            throw new LegoServiceException("Removing model " + model + " from " + legoSet + " failed", e);
+        }
     }
 
     @Override
