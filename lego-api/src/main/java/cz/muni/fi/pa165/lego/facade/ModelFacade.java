@@ -18,12 +18,12 @@ public interface ModelFacade {
     ModelDTO findModelById(Long id);
     ModelDTO findModelByName(String name);
     List<ModelDTO> findAllModels();
-    List<ModelDTO> findModelsByCategory(String categoryName);
+    List<ModelDTO> findModelsByCategory(Long categoryId);
 
-    void updateName(String newName);
-    void updateAgeLimit(Byte newAgeLimit);
-    void updatePrice(BigDecimal newPrice);
-    void updateCategory(Long categoryId);
+    void updateName(Long modelId, String newName);
+    void updateAgeLimit(Long modelId, Byte newAgeLimit);
+    void updatePrice(Long modelId, BigDecimal newPrice);
+    void updateCategory(Long modelId, Long categoryId);
 
     void addPiece(Long modelId, PieceCreateDTO piece);
     void removePiece(Long modelId, Long pieceId);
