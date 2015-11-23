@@ -11,7 +11,7 @@ public class PieceDTO {
 
     private Long id;
 
-    private Color color;
+    private Color currentColor;
 
     private Long pieceTypeId;
 
@@ -23,12 +23,12 @@ public class PieceDTO {
         this.id = id;
     }
 
-    public Color getColor() {
-        return color;
+    public Color getCurrentColor() {
+        return currentColor;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setCurrentColor(Color currentColor) {
+        this.currentColor = currentColor;
     }
 
     public Long getPieceTypeId() {
@@ -70,7 +70,7 @@ public class PieceDTO {
     public String toString() {
         return "PieceDTO{" +
                 "id=" + id +
-                ", color=" + color +
+                ", currentColor=" + currentColor +
                 ", pieceTypeId=" + pieceTypeId +
                 '}';
     }
