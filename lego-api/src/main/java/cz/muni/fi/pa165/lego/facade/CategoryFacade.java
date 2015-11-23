@@ -56,4 +56,20 @@ public interface CategoryFacade {
      * @return list of existing categories
      */
     List<CategoryDTO> getAllCategories();
+
+    /**
+     * Update name of the Category
+     *
+     * @param id id of the category
+     * @param newName new category name
+     */
+    void changeName(Long id, String newName);
+
+    /**
+     * Update description of the Category
+     *
+     * @param id id of the category
+     * @param newDescription new category description
+     */
+    void changeDescription(Long id, String newDescription);
 }

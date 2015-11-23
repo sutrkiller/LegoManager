@@ -58,4 +58,28 @@ public class CategoryFacadeImpl implements CategoryFacade {
         return mappingService.mapTo(categoryService.findAll(), CategoryDTO.class);
     }
 
+    @Override
+    public void changeName(Long id, String newName) {
+        if (newName == null) {
+            throw new IllegalArgumentException("Category name cannot be null.");
+        }
+
+        Category category = categoryService.findById(id);
+        category.setName(newName);
+
+        categoryService.update(category);
+    }
+
+    @Override
+    public void changeDescription(Long id, String newDescription) {
+        if (newDescription == null) {
+            throw new IllegalArgumentException("Category description cannot be null.");
+        }
+
+        Category category = categoryService.findById(id);
+        category.setDescription(newDescription);
+
+        categoryService.update(category);
+    }
+
 }
