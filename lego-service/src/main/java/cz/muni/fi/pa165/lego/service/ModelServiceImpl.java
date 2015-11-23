@@ -77,6 +77,9 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void setFiftyPercentDiscount(Model model) throws LegoServiceException {
+        if(model == null || model.getPrice() == null) {
+            throw new IllegalArgumentException("Model or its price is null.");
+        }
         model.setPrice(model.getPrice().divide(new BigDecimal("2"), RoundingMode.HALF_UP));
         try {
             modelDao.update(model);
@@ -87,6 +90,9 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void addPiece(Model model, Piece piece) throws LegoServiceException {
+        if(model == null || model.getPieces() == null) {
+            throw new IllegalArgumentException("Model or its pieces is null.");
+        }
         List<Piece> pieces = model.getPieces();
         if (pieces.contains(piece)) {
             throw new LegoServiceException("Model: " + model.toString() + " already contains piece:" + piece.toString());
@@ -101,7 +107,28 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
+    public void removePiece(Model model, Piece piece) throws LegoServiceException {
+        if(model == null || model.getPieces() == null) {
+            throw new IllegalArgumentException("Model or its pieces is null.");
+        }
+        List<Piece> pieces = model.getPieces();
+        if (!pieces.contains(piece)) {
+            throw new LegoServiceException("Model: " + model.toString() + " does not contain piece:" + piece.toString());
+        }
+        pieces.remove(piece);
+        model.setPieces(pieces);
+        try {
+            modelDao.update(model);
+        } catch (LegoPersistenceException e) {
+            throw new LegoServiceException("Could not remove piece from model: " + model.toString());
+        }
+    }
+
+    @Override
     public void changeCategory(Model model, Category category) throws LegoServiceException {
+        if(model == null) {
+            throw new IllegalArgumentException("Model is null.");
+        }
         model.setCategory(category);
         try {
             modelDao.update(model);

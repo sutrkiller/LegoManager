@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.lego.service;
 
+import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
@@ -32,6 +33,8 @@ public interface ModelService {
     void setFiftyPercentDiscount(Model model);
 
     void addPiece(Model model, Piece piece);
+
+    void removePiece(Model model, Piece piece);
 
     void changeCategory(Model model, Category category);
 
