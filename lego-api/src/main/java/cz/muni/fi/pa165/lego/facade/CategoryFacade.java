@@ -17,8 +17,9 @@ public interface CategoryFacade {
      * Create the given category.
      *
      * @param categoryCreateDTO category to be created
+     * @return id of the created category
      */
-    void createCategory(CategoryCreateDTO categoryCreateDTO);
+    Long createCategory(CategoryCreateDTO categoryCreateDTO);
 
     /**
      * Update the given category.
