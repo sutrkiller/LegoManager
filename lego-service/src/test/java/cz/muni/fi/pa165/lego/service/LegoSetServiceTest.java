@@ -10,13 +10,13 @@ import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -48,13 +48,15 @@ public class LegoSetServiceTest {
     @InjectMocks
     private LegoSetServiceImpl legoSetService;
 
-    @BeforeClass
-    public void prepareTestLegoSet() {
+    @BeforeMethod
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         List<LegoSet> allSets = new ArrayList<>();
         allSets.add(testLegoSet);
         allSets.add(testLegoSet2);
+
+        when(testModel.getId()).thenReturn(1L);
 
         List<Model> allModels = new ArrayList<>();
         allModels.add(testModel);
@@ -133,6 +135,11 @@ public class LegoSetServiceTest {
         Assert.assertEquals(expected, found);
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNullCategory() {
+        legoSetService.findByCategory(null);
+    }
+
     @Test
     public void testDeleteLegoSet() {
         legoSetService.deleteLegoSet(testLegoSet);
@@ -158,8 +165,8 @@ public class LegoSetServiceTest {
 
     @Test
     public void testAddModel() {
-        legoSetService.addModel(testLegoSet, testModel);
-        verify(legoSetDao).update(testLegoSet);
+        legoSetService.addModel(testLegoSet2, testModel);
+        verify(legoSetDao).update(testLegoSet2);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
