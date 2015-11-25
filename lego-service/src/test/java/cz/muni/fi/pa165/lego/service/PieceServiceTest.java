@@ -149,6 +149,11 @@ public class PieceServiceTest {
         assertEquals(pieceBlackCube, returnedPiece);
     }
     
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNullId() {
+        pieceService.findById(null);
+    }
+    
     @Test
     public void testFindAll() {
         List<Piece> pieces = new ArrayList<>();

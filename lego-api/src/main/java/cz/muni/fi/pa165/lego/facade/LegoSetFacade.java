@@ -1,14 +1,12 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.LegoSetCreateDTO;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
  * LegoSetFacade defines operations available within the Lego API to simplify the usage of the application.
  * 
- * @author Tobias <tobias.kamenicky@gmail.com>
+ * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015
  */
 public interface LegoSetFacade {
@@ -16,13 +14,13 @@ public interface LegoSetFacade {
     /**
      * Create the give legoSet
      * 
-     * @param legoSetCreateDTO legoSet to be created
+     * @param legoSetDTO legoSet to be created
      * @return
      */
-    public Long createLegoSet(LegoSetCreateDTO legoSetCreateDTO);
+    public Long createLegoSet(LegoSetDTO legoSetDTO);
 
     /**
-     * Delete the given category
+     * Delete the given legoSet.
      * 
      * @param legoSetId id of the legoSet
      */
@@ -64,17 +62,11 @@ public interface LegoSetFacade {
     public void removeModel(Long legoSetId, Long modelId);
     
     /**
-     * Update price of the legoSet
-     * @param legoSetId id of the target legoSet
-     * @param newPrice new price of the legoSet
+     * Update the legoSet. Update does not apply to id.
+     * @param updated LegoSetDTO with updated parameters.
      */
-    public void changePrice(Long legoSetId, BigDecimal newPrice);
+    public void updateLegoSet(LegoSetDTO updated);
     
-    /**
-     * Update category of the legoSet
-     * @param legoSetId id of the target legoSet
-     * @param categoryId id of the new category
-     */
-    public void changeCategory(Long legoSetId, Long categoryId);
+    
     
 }
