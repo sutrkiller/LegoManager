@@ -8,8 +8,6 @@ import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 
 /**
@@ -17,7 +15,7 @@ import javax.inject.Inject;
  * service module of the application that provides the implementation of 
  *  the business logic (main logic of the application).
  * 
- * @author Tobias <tobias.kamenicky@gmail.com>
+ * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015
  */
 @Service
@@ -28,6 +26,9 @@ public class CategoryServiceImpl implements CategoryService{
     
     @Override
     public void create(Category c){
+        if (c == null) {
+            throw new IllegalArgumentException("Category is null.");
+        }
         try{
         categoryDao.create(c);
         } catch(LegoPersistenceException e) {
@@ -37,6 +38,9 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void update(Category c){
+        if (c == null) {
+            throw new IllegalArgumentException("Category is null.");
+        }
         try {
             categoryDao.update(c);
         } catch (LegoPersistenceException ex) {
@@ -46,6 +50,9 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void delete(Category c){
+        if (c == null) {
+            throw new IllegalArgumentException("Category is null.");
+        }
         try {
             categoryDao.delete(c);
         } catch (EntityNotExistsException ex) {
@@ -55,6 +62,9 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Category findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id is null.");
+        }
         try {
             return categoryDao.findById(id);
         } catch (EntityNotExistsException ex) {
@@ -64,6 +74,9 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Category findByName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Name is null.");
+        }
         try {
             return categoryDao.findByName(name);
         } catch (EntityNotExistsException ex) {
