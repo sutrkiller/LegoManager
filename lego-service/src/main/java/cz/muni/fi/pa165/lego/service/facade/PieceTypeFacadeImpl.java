@@ -1,10 +1,10 @@
 package cz.muni.fi.pa165.lego.service.facade;
 
-import cz.muni.fi.pa165.lego.dto.PieceDTO;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
-import cz.muni.fi.pa165.lego.service.PieceService;
-import cz.muni.fi.pa165.legomanager.entities.Piece;
+import cz.muni.fi.pa165.lego.service.PieceTypeService;
+import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
+ *
+ * PieceTypeFacadeImpl implements {@link PieceTypeFacade}.
+ *
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 21.11.2015
  */
@@ -20,36 +23,42 @@ import java.util.List;
 public class PieceTypeFacadeImpl implements PieceTypeFacade {
 
     @Autowired
-    private PieceService pieceService;
+    private PieceTypeService pieceTypeService;
 
     @Autowired
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long createPiece(PieceDTO pieceDTO) {
-        Piece mappedPiece = beanMappingService.mapTo(pieceDTO, Piece.class);
-        pieceService.create(mappedPiece);
-        return mappedPiece.getId();
+    public Long createPieceType(PieceTypeDTO pieceTypeDTO) {
+        PieceType mappedPieceType = beanMappingService.mapTo(pieceTypeDTO, PieceType.class);
+        pieceTypeService.create(mappedPieceType);
+        return mappedPieceType.getId();
     }
 
     @Override
-    public void updatePiece(PieceDTO pieceDTO) {
-        Piece mappedPiece = beanMappingService.mapTo(pieceDTO, Piece.class);
-        pieceService.update(mappedPiece);
+    public void updatePieceType(PieceTypeDTO pieceTypeDTO) {
+        PieceType mappedPieceType = beanMappingService.mapTo(pieceTypeDTO, PieceType.class);
+        pieceTypeService.update(mappedPieceType);
     }
 
     @Override
-    public void deletePiece(Long pieceId) {
-        Piece piece = pieceService.findById(pieceId);
-        pieceService.delete(piece);
+    public void deletePieceType(Long pieceTypeId) {
+        PieceType pieceType = pieceTypeService.findById(pieceTypeId);
+        pieceTypeService.delete(pieceType);
     }
 
     @Override
-    public List<PieceDTO> getAllPieces() {
-        return beanMappingService.mapTo(pieceService.findAll(), PieceDTO.class);
+    public List<PieceTypeDTO> getAllPieceTypes() {
+        return beanMappingService.mapTo(pieceTypeService.findAll(), PieceTypeDTO.class);
     }
 
     @Override
-    public PieceDTO getPieceById(Long id) {
-        return beanMappingService.mapTo(pieceService.findById(id), PieceDTO.class);    }
+    public PieceTypeDTO getPieceTypeById(Long id) {
+        return beanMappingService.mapTo(pieceTypeService.findById(id), PieceTypeDTO.class);
+    }
+
+    @Override
+    public PieceTypeDTO getPieceTypeByName(String name) {
+        return beanMappingService.mapTo(pieceTypeService.findByName(name), PieceTypeDTO.class);
+    }
 }

@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.PieceDTO;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
 
 import java.util.List;
 
@@ -16,39 +16,45 @@ public interface PieceTypeFacade {
     /**
      * Create the given piece.
      *
-     * @param pieceDTO pieceDTO to be created
-     * @return id of created piece
+     * @param pieceTypeDTO pieceType to be created
+     * @return id of created pieceType
      */
-    Long createPiece(PieceDTO pieceDTO);
+    Long createPieceType(PieceTypeDTO pieceTypeDTO);
 
     /**
-     * Update the given piece.
+     * Update the given pieceType.
      *
-     * @param pieceDTO pieceDTO to be created
+     * @param pieceTypeDTO pieceType to be created
      */
-    void updatePiece(PieceDTO pieceDTO);
+    void updatePieceType(PieceTypeDTO pieceTypeDTO);
 
     /**
-     * Delete the given piece.
+     * Delete the given pieceType.
      *
-     * @param pieceId id of the piece
+     * @param pieceTypeId id of the pieceType
      */
-    void deletePiece(Long pieceId);
+    void deletePieceType(Long pieceTypeId);
 
     /**
-     * Get all existing pieces.
+     * Get all existing pieceTypes.
      *
-     * @return all existing pieces
+     * @return all existing pieceTypes
      */
-    List<PieceDTO> getAllPieces();
-
+    List<PieceTypeDTO> getAllPieceTypes();
 
     /**
-     * Get pieces of model.
+     * Get pieceType by id.
      *
-     * @param id id of the model
+     * @param id id of the pieceType
      * @return existing piece with the given id
      */
-    public PieceDTO getPieceById(Long id);
+    public PieceTypeDTO getPieceTypeById(Long id);
 
+    /**
+     * Get pieceType by name.
+     *
+     * @param name name of the pieceType
+     * @return existing piece with the given name
+     */
+    PieceTypeDTO getPieceTypeByName(String name);
 }
