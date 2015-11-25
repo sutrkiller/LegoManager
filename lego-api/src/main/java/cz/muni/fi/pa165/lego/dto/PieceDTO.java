@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.lego.dto;
 
 import cz.muni.fi.pa165.lego.enums.Color;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -11,9 +12,11 @@ public class PieceDTO {
 
     private Long id;
 
+    @NotNull
     private Color currentColor;
 
-    private Long pieceTypeId;
+    @NotNull
+    private PieceTypeDTO type;
 
     public Long getId() {
         return id;
@@ -31,12 +34,12 @@ public class PieceDTO {
         this.currentColor = currentColor;
     }
 
-    public Long getPieceTypeId() {
-        return pieceTypeId;
+    public PieceTypeDTO getPieceType() {
+        return type;
     }
 
-    public void setPieceTypeId(Long pieceTypeId) {
-        this.pieceTypeId = pieceTypeId;
+    public void setPieceType(PieceTypeDTO type) {
+        this.type = type;
     }
 
     @Override
@@ -71,7 +74,7 @@ public class PieceDTO {
         return "PieceDTO{" +
                 "id=" + id +
                 ", currentColor=" + currentColor +
-                ", pieceTypeId=" + pieceTypeId +
+                ", type=" + type +
                 '}';
     }
 }

@@ -1,10 +1,6 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.CategoryDTO;
-import cz.muni.fi.pa165.lego.dto.ModelCreateDTO;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
-import cz.muni.fi.pa165.lego.dto.PieceCreateDTO;
-import cz.muni.fi.pa165.lego.dto.PieceDTO;
+import cz.muni.fi.pa165.lego.dto.*;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.ModelService;
@@ -83,9 +79,11 @@ public class ModelFacadeTest {
     @Mock
     private PieceType pieceType;
     @Mock
+    private PieceTypeDTO pieceTypeDTO;
+    @Mock
     private PieceDTO oldPieceDTO;
     @Mock
-    private PieceCreateDTO newPieceDTO;
+    private PieceDTO newPieceDTO;
 
     @BeforeMethod
     public void setUp() {
@@ -94,8 +92,7 @@ public class ModelFacadeTest {
         // mocking Dozer mapper
         when(mappingService.mapTo(any(), eq(Model.class))).thenReturn(modelBMW);
         when(mappingService.mapTo(any(), eq(ModelDTO.class))).thenReturn(modelDTO);
-        when(mappingService.mapTo(any(), eq(ModelCreateDTO.class))).thenReturn(modelCreateDTO);
-        when(mappingService.mapTo(any(), eq(PieceCreateDTO.class))).thenReturn(newPieceDTO);
+        when(mappingService.mapTo(any(), eq(PieceDTO.class))).thenReturn(newPieceDTO);
         when(mappingService.mapTo(any(), eq(PieceDTO.class))).thenReturn(oldPieceDTO);
         when(mappingService.mapTo(any(), eq(Piece.class))).thenReturn(piece);
         List<ModelDTO> models = new ArrayList<>();
@@ -111,8 +108,8 @@ public class ModelFacadeTest {
         when(pieceService.findById(1L)).thenReturn(piece);
 
         // mocking DTO objects
-        when(modelCreateDTO.getName()).thenReturn("BMW");
-        when(modelCreateDTO.getAgeLimit()).thenReturn(Byte.valueOf("5"));
+        when(modelDTO.getName()).thenReturn("BMW");
+        when(modelDTO.getAgeLimit()).thenReturn(Byte.valueOf("5"));
         when(returnedModelDTO.getId()).thenReturn(1L);
         when(returnedModelDTO.getName()).thenReturn("BMW");
         when(returnedModelDTO.getAgeLimit()).thenReturn(Byte.valueOf("5"));
@@ -121,11 +118,12 @@ public class ModelFacadeTest {
         when(modelDTO.getAgeLimit()).thenReturn(Byte.valueOf("5"));
         when(modelDTO.getCategory()).thenReturn(categoryDTO);
         when(oldPieceDTO.getId()).thenReturn(1L);
-        when(oldPieceDTO.getPieceTypeId()).thenReturn(1L);
+        when(oldPieceDTO.getPieceType()).thenReturn(pieceTypeDTO);
         when(categoryDTO.getId()).thenReturn(1L);
         when(categoryDTO.getName()).thenReturn("Category containing cars only.");
         when(newCategoryDTO.getId()).thenReturn(2L);
         when(newCategoryDTO.getName()).thenReturn("Category containing BMW cars only.");
+        when(pieceTypeDTO.getId()).thenReturn(1L);
 
         // mocking Model entity
         when(modelBMW.getId()).thenReturn(1L);
@@ -142,7 +140,7 @@ public class ModelFacadeTest {
 
     @Test
     public void testCreateModel() {
-        Long id = modelFacade.createModel(modelCreateDTO);
+        Long id = modelFacade.createModel(modelDTO);
 
         returnedModelDTO = modelFacade.findModelById(id);
 
