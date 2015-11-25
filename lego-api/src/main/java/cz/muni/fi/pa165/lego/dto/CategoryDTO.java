@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.lego.dto;
 
 import java.util.Objects;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -10,7 +12,13 @@ import java.util.Objects;
 public class CategoryDTO {
 
     private Long id;
+
+    @NotNull
+    @Size(min = 3, max = 50)
     private String name;
+
+    @NotNull
+    @Size(max = 50)
     private String description;
 
     public Long getId() {

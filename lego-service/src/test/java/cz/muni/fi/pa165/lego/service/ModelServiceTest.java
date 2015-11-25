@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
 /**
@@ -103,7 +104,7 @@ public class ModelServiceTest {
         when(pieceTypeForBMW.getId()).thenReturn(1L);
         when(pieceTypeForBMW.getName()).thenReturn("stvorec");
         when(pieceTypeForBMW.getColors()).thenReturn(new TreeSet<>(Arrays.asList(Color.BLACK, Color.WHITE)));
-        
+
     }
 
     @Test
@@ -205,6 +206,8 @@ public class ModelServiceTest {
         modelService.addPiece(modelBMW, newPieceForBMW);
         verify(pieceService).create(newPieceForBMW);
         verify(modelDao).update(modelBMW);
+
+        assertTrue(modelBMW.getPieces().contains(newPieceForBMW));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -222,6 +225,8 @@ public class ModelServiceTest {
         modelService.removePiece(modelBMW, oldPieceForBMW);
         verify(pieceService).delete(oldPieceForBMW);
         verify(modelDao).update(modelBMW);
+
+        assertTrue(!(modelBMW.getPieces().contains(oldPieceForBMW)));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
