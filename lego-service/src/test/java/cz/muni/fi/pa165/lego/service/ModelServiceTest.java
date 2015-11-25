@@ -41,12 +41,12 @@ public class ModelServiceTest {
     @Mock
     private ModelDao modelDao;
 
+    @Mock
+    private PieceServiceImpl pieceService;
+
     @Inject
     @InjectMocks
     private ModelServiceImpl modelService;
-
-    @Mock
-    private PieceServiceImpl pieceService;
 
     @Mock
     private Category modelCategory;
@@ -59,7 +59,7 @@ public class ModelServiceTest {
     private Model modelKIA;
     @Mock
     private Model modelFord;
-    @Mock
+
     private Model returnedModel;
 
     @Mock
@@ -72,9 +72,6 @@ public class ModelServiceTest {
     @BeforeMethod
     public void setUp() throws EntityNotExistsException {
         MockitoAnnotations.initMocks(this);
-        
-        // mocking Piece service
-        //when(pieceService)
 
         // mocknig DAO object
         when(modelDao.findById(1L)).thenReturn(modelBMW);
@@ -84,28 +81,29 @@ public class ModelServiceTest {
         when(modelDao.findByName("KIA")).thenReturn(modelKIA);
         when(modelDao.findByName("Ford")).thenReturn(modelFord);
 
-        //mocking Category entity
+        // mocking Category entity
         when(modelCategory.getId()).thenReturn(1L);
 
-        //mocking Model entities
+        // mocking Model entities
         when(modelBMW.getPrice()).thenReturn(new BigDecimal("200.00"));
         when(modelKIA.getPrice()).thenReturn(new BigDecimal("100.00"));
         when(modelFord.getPrice()).thenReturn(new BigDecimal("150.00"));
         when(modelBMW.getId()).thenReturn(1L);
         when(modelKIA.getId()).thenReturn(2L);
         when(modelFord.getId()).thenReturn(3L);
-        when(returnedModel.getId()).thenReturn(1L);
         List pieces = new ArrayList();
         pieces.add(oldPieceForBMW);
         when(modelBMW.getPieces()).thenReturn(pieces);
 
-        //mocking Piece entities
+        // mocking Piece entities
+        when(newPieceForBMW.getId()).thenReturn(2L);
         when(oldPieceForBMW.getId()).thenReturn(1L);
         when(oldPieceForBMW.getCurrentColor()).thenReturn(Color.BLACK);
         when(oldPieceForBMW.getType()).thenReturn(pieceTypeForBMW);
         when(pieceTypeForBMW.getId()).thenReturn(1L);
         when(pieceTypeForBMW.getName()).thenReturn("stvorec");
         when(pieceTypeForBMW.getColors()).thenReturn(new TreeSet<>(Arrays.asList(Color.BLACK, Color.WHITE)));
+        
     }
 
     @Test
@@ -117,8 +115,6 @@ public class ModelServiceTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateNullModel() throws LegoPersistenceException {
-        doThrow(IllegalArgumentException.class).when(modelDao).create(null);
-
         modelService.create(null);
     }
 
@@ -131,31 +127,33 @@ public class ModelServiceTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUpdateNullModel() throws LegoPersistenceException {
-        doThrow(IllegalArgumentException.class).when(modelDao).update(null);
-
         modelService.update(null);
     }
 
     @Test
     public void testDeleteModel() throws EntityNotExistsException {
         modelService.delete(modelBMW);
+
         verify(modelDao).delete(modelBMW);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDeleteNullModel() throws EntityNotExistsException {
-        doThrow(IllegalArgumentException.class).when(modelDao).delete(null);
-
         modelService.delete(null);
     }
 
     @Test
     public void testFindById() throws EntityNotExistsException {
-        returnedModel = modelService.findById(Long.valueOf(1));
-        verify(modelDao).findById(Long.valueOf(1));
+        returnedModel = modelService.findById(1L);
+        verify(modelDao).findById(1L);
 
         assertNotNull(returnedModel);
         assertEquals(modelBMW, returnedModel);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindByIdNullId() {
+        modelService.findById(null);
     }
 
     @Test
@@ -165,6 +163,11 @@ public class ModelServiceTest {
 
         assertNotNull(returnedModel);
         assertEquals(modelBMW, returnedModel);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNameNullName() {
+        modelService.findByName(null);
     }
 
     @Test
@@ -188,53 +191,47 @@ public class ModelServiceTest {
     @Test
     public void testSetFiftyPercentDiscount() throws LegoPersistenceException {
         modelService.setFiftyPercentDiscount(modelBMW);
+
         verify(modelDao).update(modelBMW);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testSetFiftyPercentDiscountNullModel() throws LegoPersistenceException {
         modelService.setFiftyPercentDiscount(null);
-        verify(modelDao, never()).update(modelBMW);
     }
 
     @Test
     public void testAddPiece() throws LegoPersistenceException {
         modelService.addPiece(modelBMW, newPieceForBMW);
+        verify(pieceService).create(newPieceForBMW);
         verify(modelDao).update(modelBMW);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddPieceNullPiece() throws LegoPersistenceException {
-        doThrow(IllegalArgumentException.class).when(modelDao).update(modelBMW);
-
         modelService.addPiece(modelBMW, null);
-        verify(modelDao, never()).update(modelBMW);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddPieceNullModel() throws LegoPersistenceException {
         modelService.addPiece(null, newPieceForBMW);
-        verify(modelDao, never()).update(modelBMW);
     }
 
     @Test
     public void testRemovePiece() throws LegoPersistenceException {
         modelService.removePiece(modelBMW, oldPieceForBMW);
+        verify(pieceService).delete(oldPieceForBMW);
         verify(modelDao).update(modelBMW);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testRemovePieceNullPiece() throws LegoPersistenceException {
-        doThrow(IllegalArgumentException.class).when(modelDao).update(modelBMW);
-
         modelService.removePiece(modelBMW, null);
-        verify(modelDao, never()).update(modelBMW);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testRemovePieceNullModel() throws LegoPersistenceException {
         modelService.removePiece(null, oldPieceForBMW);
-        verify(modelDao, never()).update(modelBMW);
     }
 
     @Test
@@ -246,14 +243,10 @@ public class ModelServiceTest {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testChangeCategoryNullModel() throws LegoPersistenceException {
         modelService.changeCategory(null, newCategory);
-        verify(modelDao, never()).update(modelBMW);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testChangeCategoryNullCategory() throws LegoPersistenceException {
-        doThrow(IllegalArgumentException.class).when(modelDao).update(modelBMW);
-
         modelService.changeCategory(modelBMW, null);
-        verify(modelDao, never()).update(modelBMW);
     }
 }
