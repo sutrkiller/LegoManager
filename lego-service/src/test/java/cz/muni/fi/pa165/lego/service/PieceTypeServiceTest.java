@@ -109,6 +109,11 @@ public class PieceTypeServiceTest {
         assertEquals(pieceTypeCube,returnedType);
     }
     
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNullId() {
+        pieceTypeService.findById(null);
+    }
+    
     @Test
     public void testFindByName() throws EntityNotExistsException {
         returnedType = pieceTypeService.findByName("cube");
@@ -118,6 +123,11 @@ public class PieceTypeServiceTest {
         assertEquals(pieceTypeCube, returnedType);
     }
         
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNullName() {
+        pieceTypeService.findByName(null);
+    }
+    
     @Test
     public void testFindAll() {
         List<PieceType> types = new ArrayList<>();
