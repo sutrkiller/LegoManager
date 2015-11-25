@@ -36,7 +36,7 @@ public class LegoSetFacadeImpl implements LegoSetFacade {
         LegoSet mappedLegoSet = beanMappingService.mapTo(legoSetDTO, LegoSet.class);
         mappedLegoSet.setName(legoSetDTO.getName());
         mappedLegoSet.setPrice(legoSetDTO.getPrice());
-        mappedLegoSet.setCategory(legoSetDTO.getCategory());
+        mappedLegoSet.setCategory(categoryService.findById(legoSetDTO.getCategory().getId()));
         legoSetService.createLegoSet(mappedLegoSet);
         return mappedLegoSet.getId();
     }
