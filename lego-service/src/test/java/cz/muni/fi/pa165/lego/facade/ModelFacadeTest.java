@@ -15,7 +15,6 @@ import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -215,6 +214,7 @@ public class ModelFacadeTest {
     public void testAddPiece() {
         modelFacade.addPiece(modelDTO.getId(), newPieceDTO);
 
+        verify(pieceService).create(any(Piece.class));
         verify(modelService).addPiece(any(Model.class), any(Piece.class));
     }
 
@@ -222,6 +222,7 @@ public class ModelFacadeTest {
     public void testRemovePiece() {
         modelFacade.removePiece(modelDTO.getId(), oldPieceDTO.getId());
 
+        verify(pieceService).delete(any(Piece.class));
         verify(modelService).removePiece(any(Model.class), any(Piece.class));
     }
 
