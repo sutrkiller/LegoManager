@@ -157,14 +157,14 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
     public void testMapToPieceType() throws Exception {
         PieceType actual = mappingService.mapTo(wheelDTO, PieceType.class);
 
-        //assertEquals(actual.getName(), wheelDTO.getName());
+        assertEquals(actual.getName(), wheelDTO.getName());
     }
 
     @Test
     public void testMapToPieceTypeDTO() throws Exception {
         PieceTypeDTO actual = mappingService.mapTo(wheel, PieceTypeDTO.class);
 
-        //assertEquals(actual.getName(), wheel.getName());
+        assertEquals(actual.getName(), wheel.getName());
     }
 
 

@@ -37,7 +37,7 @@ public class PieceType {
     @NotNull
     @ElementCollection(targetClass = Color.class)
     @Enumerated(EnumType.STRING)
-    private Set<Color> colors = new HashSet<Color>();
+    private Set<Color> colors = new HashSet<>();
 
     public Long getId() {
         return id;
