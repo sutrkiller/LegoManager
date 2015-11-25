@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.lego.service;
 
+import cz.muni.fi.pa165.lego.Utils;
 import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
 import cz.muni.fi.pa165.legomanager.dao.CategoryDao;
 import cz.muni.fi.pa165.legomanager.dao.ModelDao;
@@ -32,7 +33,6 @@ import static org.testng.Assert.*;
 /**
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
-@Transactional
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
@@ -127,7 +127,7 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
         List<Category> actual = categoryService.findAll();
         verify(categoryDao).findAll();
 
-        assertTrue(equalsUnordered(actual, all));
+        assertTrue(Utils.equalsUnordered(actual, all));
     }
 
     @Test
@@ -154,11 +154,4 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
         categoryService.delete(null);
     }
 
-    private <T extends Object> boolean equalsUnordered(Collection<T> c1, Collection<T> c2) {
-        Set<T> set1 = new HashSet<>();
-        set1.addAll(c1);
-        Set<T> set2 = new HashSet<>();
-        set2.addAll(c2);
-        return set1.equals(set2);
-    }
 }
