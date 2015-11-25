@@ -26,29 +26,26 @@ public class LegoSetServiceImpl implements LegoSetService {
 
     @Override
     public void createLegoSet(LegoSet legoSet) {
-        try {
-            legoSetDao.create(legoSet);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Persistence of " + legoSet + " Failed", e);
+        if (legoSet == null) {
+            throw new IllegalArgumentException("Argument legoSet is null");
         }
+        legoSetDao.create(legoSet);
     }
 
     @Override
     public LegoSet findById(Long id) {
-        try {
-            return legoSetDao.findById(id);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Load from persistence context failed", e);
+        if (id == null) {
+            throw new IllegalArgumentException("Argument id is null");
         }
+        return legoSetDao.findById(id);
     }
 
     @Override
     public LegoSet findByName(String name) {
-        try {
-            return legoSetDao.findByName(name);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Load from persistence context failed", e);
+        if (name == null) {
+            throw new IllegalArgumentException("Argument name is null");
         }
+        return legoSetDao.findByName(name);
     }
 
     @Override
@@ -58,6 +55,9 @@ public class LegoSetServiceImpl implements LegoSetService {
 
     @Override
     public List<LegoSet> findByCategory(Category category) {
+        if (category == null) {
+            throw new IllegalArgumentException("Argument category is null");
+        }
         List<LegoSet> legoSets = new ArrayList<>();
         for (LegoSet legoSet : legoSetDao.findAll()) {
             if (legoSet.getCategory().equals(category)) {
@@ -68,64 +68,54 @@ public class LegoSetServiceImpl implements LegoSetService {
     }
 
     @Override
+    public void updateLegoSet(LegoSet legoSet) {
+        if (legoSet == null) {
+            throw new IllegalArgumentException("Argument legoSet is null");
+        }
+        legoSetDao.update(legoSet);
+    }
+
+    @Override
+    @Deprecated
     public void updateName(LegoSet legoSet, String newName) {
-        legoSet.setName(newName);
-        try {
-            legoSetDao.update(legoSet);
-        } catch (EntityAlreadyExistsException e) {
-            throw new LegoServiceException("Update name of " + legoSet + " failed. " +
-                    "New name " + newName + " is not unique.", e);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Update name of " + legoSet + " failed", e);
-        }
+        throw new UnsupportedOperationException();
     }
 
     @Override
+    @Deprecated
     public void updatePrice(LegoSet legoSet, BigDecimal newPrice) {
-        legoSet.setPrice(newPrice);
-        try {
-            legoSetDao.update(legoSet);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Update price of " + legoSet + " failed", e);
-        }
+        throw new UnsupportedOperationException();
     }
 
     @Override
+    @Deprecated
     public void updateCategory(LegoSet legoSet, Category newCategory) {
-        legoSet.setCategory(newCategory);
-        try {
-            legoSetDao.update(legoSet);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Update category " + newCategory + " of " + legoSet + " failed", e);
-        }
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void addModel(LegoSet legoSet, Model model) {
-        legoSet.addModel(model);
-        try {
-            legoSetDao.update(legoSet);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Adding model " + model + " to " + legoSet + " failed", e);
+        if (legoSet == null || model == null) {
+            throw new IllegalArgumentException("Argument legoSet or model is null");
         }
+        legoSet.addModel(model);
+        legoSetDao.update(legoSet);
     }
 
     @Override
     public void removeModel(LegoSet legoSet, Model model) {
-        legoSet.removeModel(model);
-        try {
-            legoSetDao.update(legoSet);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Removing model " + model + " from " + legoSet + " failed", e);
+        if (legoSet == null || model == null) {
+            throw new IllegalArgumentException("Argument legoSet or model is null");
         }
+        legoSet.removeModel(model);
+        legoSetDao.update(legoSet);
     }
 
     @Override
     public void deleteLegoSet(LegoSet legoSet) {
-        try {
-            legoSetDao.delete(legoSet);
-        } catch (EntityNotExistsException e) {
-            throw new LegoServiceException("LegoSer " + legoSet + " does not exist. So it couldn't be deleted.", e);
+        if (legoSet == null) {
+            throw new IllegalArgumentException("Argument legoSet is null");
         }
+        legoSetDao.delete(legoSet);
     }
 }

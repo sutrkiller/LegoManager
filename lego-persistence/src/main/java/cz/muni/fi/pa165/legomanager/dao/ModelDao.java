@@ -20,10 +20,10 @@ public interface ModelDao {
      * @throws LegoPersistenceException if model is already stored or 
      * violate constraint (e.g. unique name).
      */
-    public void create(Model model) throws LegoPersistenceException;
+    public void create(Model model);
     
     /**
-     * find model by its id
+     * find model by its id. Model with ID has to exists.
      * 
      * @param id id of model
      * @return model with defined id
@@ -31,10 +31,10 @@ public interface ModelDao {
      * @throws EntityNotExistsException if model with given id was not found 
      * in storage
      */
-    public Model findById(Long id) throws EntityNotExistsException;
+    public Model findById(Long id);
     
     /**
-     * find model by its name
+     * find model by its name. Model with name has to exists.
      * 
      * @param name name of model
      * @return model with given name
@@ -42,7 +42,7 @@ public interface ModelDao {
      * @throws EntityNotExistsException if model with given name was not found 
      * in storage
      */
-    public Model findByName(String name) throws EntityNotExistsException;
+    public Model findByName(String name);
 
     /**
      * find all stored models
@@ -60,16 +60,16 @@ public interface ModelDao {
      * @throws LegoPersistenceException if model is not found in storage
      * or if violate some constraint.
      */
-    public Model update(Model model) throws LegoPersistenceException;
+    public Model update(Model model);
 
     /**
-     * remove given model from storage
+     * remove given model from storage.
      * 
      * @param model model to be deleted
      * @throws IllegalArgumentException when model is null
      * @throws EntityNotExistsException if entity is already removed or 
      * is not in storage.
      */
-    public void delete(Model model) throws EntityNotExistsException;
+    public void delete(Model model);
 
 }
