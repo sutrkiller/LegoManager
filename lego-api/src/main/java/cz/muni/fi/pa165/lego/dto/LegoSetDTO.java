@@ -79,13 +79,13 @@ public class LegoSetDTO {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof LegoSet)) {
+        if (!(obj instanceof LegoSetDTO)) {
             return false;
         }
         if (this == obj) {
             return true;
         }
-        final LegoSet other = (LegoSet) obj;
+        final LegoSetDTO other = (LegoSetDTO) obj;
         if (this.getId() == null) {
             return false;
         }
@@ -97,7 +97,7 @@ public class LegoSetDTO {
 
     @Override
     public String toString() {
-        return "LegoSet{" + "id=" + getId() + ", name=" + getName() + ", models=" + getModels() +
+        return "LegoSetDTO{" + "id=" + getId() + ", name=" + getName() + ", models=" + getModels() +
                 ", price=" + getPrice() + ", category=" + getCategory() + '}';
     }
 }
