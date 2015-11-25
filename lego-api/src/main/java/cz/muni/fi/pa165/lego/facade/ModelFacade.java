@@ -2,10 +2,8 @@ package cz.muni.fi.pa165.lego.facade;
 
 import cz.muni.fi.pa165.lego.dto.ModelCreateDTO;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
-import cz.muni.fi.pa165.lego.dto.PieceCreateDTO;
-import cz.muni.fi.pa165.lego.enums.Color;
+import cz.muni.fi.pa165.lego.dto.PieceDTO;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -13,19 +11,16 @@ import java.util.List;
  */
 public interface ModelFacade {
 
-    Long createModel(ModelCreateDTO model);
+    Long createModel(ModelDTO model);
 
     ModelDTO findModelById(Long id);
     ModelDTO findModelByName(String name);
     List<ModelDTO> findAllModels();
     List<ModelDTO> findModelsByCategory(Long categoryId);
 
-    void updateName(Long modelId, String newName);
-    void updateAgeLimit(Long modelId, Byte newAgeLimit);
-    void updatePrice(Long modelId, BigDecimal newPrice);
-    void updateCategory(Long modelId, Long categoryId);
+    void update(ModelDTO model);
 
-    void addPiece(Long modelId, PieceCreateDTO piece);
+    void addPiece(Long modelId, PieceDTO piece);
     void removePiece(Long modelId, Long pieceId);
 
     void deleteModel(Long modelId);
