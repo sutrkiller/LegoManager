@@ -1,8 +1,9 @@
 package cz.muni.fi.pa165.lego.facade;
 
+import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
-import cz.muni.fi.pa165.lego.dto.PieceDTO;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
+import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.LegoSetService;
 import cz.muni.fi.pa165.lego.service.ModelService;
 import cz.muni.fi.pa165.lego.service.facade.LegoSetFacadeImpl;
@@ -21,7 +22,6 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
@@ -46,13 +46,13 @@ public class LegoSetFacadeTest {
     private ModelService modelService;
 
     @Mock
+    private CategoryService categoryService;
+
+    @Mock
     private LegoSetDTO legoSetDTO;
 
     @Mock
     private LegoSet testLegoSet;
-
-    @Mock
-    private LegoSet testLegoSet2;
 
     @Mock
     private Model testModel;
@@ -61,7 +61,10 @@ public class LegoSetFacadeTest {
     private Model newModel;
 
     @Mock
-    private Category category;
+    private Category testCategory;
+
+    @Mock
+    private CategoryDTO categoryDTO;
 
     @Mock
     private BeanMappingService mappingService;
@@ -79,9 +82,12 @@ public class LegoSetFacadeTest {
 
         when(testModel.getId()).thenReturn(1L);
         when(newModel.getId()).thenReturn(2L);
+        when(testCategory.getId()).thenReturn(1L);
 
         when(modelService.findById(1L)).thenReturn(testModel);
         when(modelService.findById(2L)).thenReturn(newModel);
+
+        when(categoryService.findById(testCategory.getId())).thenReturn(testCategory);
 
         when(legoSetService.findById(1L)).thenReturn(testLegoSet);
 
@@ -89,14 +95,16 @@ public class LegoSetFacadeTest {
         allModels.add(testModel);
 
         when(testLegoSet.getId()).thenReturn(1L);
-        when(testLegoSet.getCategory()).thenReturn(category);
+        when(testLegoSet.getCategory()).thenReturn(testCategory);
         when(testLegoSet.getName()).thenReturn("TestName");
         when(testLegoSet.getModels()).thenReturn(allModels);
 
-        when(testLegoSet2.getId()).thenReturn(2L);
-        when(testLegoSet2.getCategory()).thenReturn(category);
-        when(testLegoSet2.getName()).thenReturn("NewName");
-        when(testLegoSet2.getModels()).thenReturn(allModels);
+        when(categoryDTO.getId()).thenReturn(1L);
+
+        when(legoSetDTO.getId()).thenReturn(1L);
+        when(legoSetDTO.getCategory()).thenReturn(categoryDTO);
+        when(legoSetDTO.getName()).thenReturn("TestName");
+        when(legoSetDTO.getModels()).thenReturn(allModels);
     }
 
     @Test
@@ -136,20 +144,9 @@ public class LegoSetFacadeTest {
 
     @Test
     public void testFindAllLegoSets() {
-        List<LegoSet> allSets = new ArrayList<>();
-        allSets.add(testLegoSet);
-        allSets.add(testLegoSet2);
-
-        List<LegoSetDTO> legoSetDTOs = new ArrayList<>();
-        legoSetDTOs.add(mappingService.mapTo(testLegoSet, LegoSetDTO.class));
-        legoSetDTOs.add(mappingService.mapTo(testLegoSet2, LegoSetDTO.class));
-
-        when(legoSetService.findAll()).thenReturn(allSets);
-
-        List<LegoSetDTO> found = legoSetFacade.getAllLegoSets();
-
+        legoSetFacade.getAllLegoSets();
         verify(legoSetService).findAll();
-        Assert.assertEquals(found, legoSetDTOs);
+
     }
 
     @Test

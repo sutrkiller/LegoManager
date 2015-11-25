@@ -4,11 +4,15 @@ import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
 /**
+ * Data transfer object for {@link LegoSet class}
  *
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 21.11.2015
@@ -16,10 +20,20 @@ import java.util.Objects;
 public class LegoSetDTO {
 
     private Long id;
+
+    @NotNull
+    @Size(min = 3, max = 50)
     private String name;
+
+    @NotNull
     private List<Model> models;
+
+    @NotNull
+    @Min(0)
     private BigDecimal price;
-    private Category category;
+
+    @NotNull
+    private CategoryDTO category;
 
     public Long getId() {
         return id;
@@ -61,11 +75,11 @@ public class LegoSetDTO {
         this.price = price;
     }
 
-    public Category getCategory() {
+    public CategoryDTO getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryDTO category) {
         this.category = category;
     }
 
