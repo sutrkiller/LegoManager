@@ -26,10 +26,15 @@ public interface LegoSetService {
 
     List<LegoSet> findByCategory(Category category);
 
+    void updateLegoSet(LegoSet legoSet);
+
+    @Deprecated
     void updateName(LegoSet legoSet, String newName);
 
+    @Deprecated
     void updatePrice(LegoSet legoSet, BigDecimal newPrice);
 
+    @Deprecated
     void updateCategory(LegoSet legoSet, Category newCategory);
 
     void addModel(LegoSet legoSet, Model model);

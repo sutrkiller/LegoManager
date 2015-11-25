@@ -22,7 +22,7 @@ public class ModelDaoImpl implements ModelDao {
     private EntityManager em;
 
     @Override
-    public void create(Model model) throws LegoPersistenceException {
+    public void create(Model model) {
         if (model == null) {
             throw new IllegalArgumentException("Model can't be null.");
         }
@@ -37,7 +37,7 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
-    public Model findById(Long id) throws EntityNotExistsException {
+    public Model findById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Id can't be null.");
         }
@@ -52,7 +52,7 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
-    public Model findByName(String name) throws EntityNotExistsException {
+    public Model findByName(String name) {
         if (name == null) {
             throw new IllegalArgumentException("Name can");
         }
@@ -70,7 +70,7 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
-    public Model update(Model model) throws LegoPersistenceException {
+    public Model update(Model model) {
         if (model == null) {
             throw new IllegalArgumentException("Model can't be null.");
         }
@@ -90,7 +90,7 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
-    public void delete(Model model) throws EntityNotExistsException {
+    public void delete(Model model) {
         if (model == null) {
             throw new IllegalArgumentException("Model can't be null.");
         }
