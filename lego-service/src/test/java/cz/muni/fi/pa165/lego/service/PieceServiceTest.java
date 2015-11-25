@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.lego.service;
 
-import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
 import cz.muni.fi.pa165.legomanager.dao.PieceDao;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
@@ -12,23 +11,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import javax.inject.Inject;
-import org.hibernate.service.spi.ServiceException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

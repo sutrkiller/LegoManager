@@ -5,14 +5,10 @@
  */
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.PieceDTO;
 import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
-import cz.muni.fi.pa165.lego.enums.Color;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
-import cz.muni.fi.pa165.lego.service.PieceService;
 import cz.muni.fi.pa165.lego.service.PieceTypeService;
 import cz.muni.fi.pa165.lego.service.facade.PieceTypeFacadeImpl;
-import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,105 +40,98 @@ import org.testng.annotations.Test;
 @RunWith(MockitoJUnitRunner.class)
 public class PieceTypeFacadeTest {
     
-/*    @Mock
-    private PieceService pieceService;
+    @Mock
+    private PieceTypeService pieceTypeService;
     
     @Mock
     private BeanMappingService mappingService;
     
     @Inject
     @InjectMocks
-    private PieceTypeFacadeImpl pieceFacade;
-    
-    @Mock
-    private Piece pieceBlackCube;
+    private PieceTypeFacadeImpl pieceTypeFacade;
     
     @Mock
     private PieceType pieceTypeCube;
-    
-    @Mock
-    private PieceDTO pieceDTO;
-    
+          
     @Mock
     private PieceTypeDTO pieceTypeDTO;
     
     //@Mock
-    private PieceDTO returnedPieceDTO;
-    
-    
+    private PieceTypeDTO returnedPieceTypeDTO;
     
     @BeforeMethod 
     public void setup() {
         MockitoAnnotations.initMocks(this);
         
-        when(mappingService.mapTo(any(), eq(Piece.class))).thenReturn(pieceBlackCube);
-        when(mappingService.mapTo(any(), eq(PieceDTO.class))).thenReturn(pieceDTO);
-        List<PieceDTO> piecesDTO = new ArrayList<>();
-        piecesDTO.add(pieceDTO);
-        when(mappingService.mapTo(any(Collection.class), eq(PieceDTO.class))).thenReturn(piecesDTO);
-        //when(pieceService.findById(1L)).thenReturn(pieceBlackCube);
+        when(mappingService.mapTo(any(), eq(PieceType.class))).thenReturn(pieceTypeCube);
+        when(mappingService.mapTo(any(), eq(PieceTypeDTO.class))).thenReturn(pieceTypeDTO);
+        List<PieceTypeDTO> pieceTypesDTO = new ArrayList<>();
+        pieceTypesDTO.add(pieceTypeDTO);
+        when(mappingService.mapTo(any(Collection.class), eq(PieceTypeDTO.class))).thenReturn(pieceTypesDTO);
         
-        when(pieceBlackCube.getId()).thenReturn(1L);
-        when(pieceBlackCube.getCurrentColor()).thenReturn(cz.muni.fi.pa165.legomanager.enums.Color.BLACK);
-        when(pieceBlackCube.getType()).thenReturn(pieceTypeCube);
+        when(pieceTypeService.findById(1L)).thenReturn(pieceTypeCube);
+        
         when(pieceTypeCube.getId()).thenReturn(1L);
         when(pieceTypeCube.getName()).thenReturn("cube");
         when(pieceTypeCube.getColors()).thenReturn(new HashSet<>(Arrays.asList(cz.muni.fi.pa165.legomanager.enums.Color.BLACK,cz.muni.fi.pa165.legomanager.enums.Color.WHITE)));
-        when(pieceDTO.getId()).thenReturn(1L);
-        when(pieceDTO.getCurrentColor()).thenReturn(Color.BLACK);
-        when(pieceDTO.getPieceType()).thenReturn(pieceTypeDTO);
+        
         when(pieceTypeDTO.getId()).thenReturn(1L);
-        //TODO: mock other get methods for pieceTypeDTO
-    }
-    
-    
-    @Test
-    public void testCreatePiece() {
-        Long id = pieceFacade.createPiece(pieceDTO);
-        
-        returnedPieceDTO = pieceFacade.getPieceById(id);
-        
-        assertEquals(returnedPieceDTO, pieceDTO);
-        verify(pieceService).create(any(Piece.class));
+        //when(pieceTypeDTO.g)
     }
     
     @Test
-    public void testUpdate() {
-        pieceFacade.updatePiece(pieceDTO);
-        verify(pieceService).update(any(Piece.class));
+    public void testCreatePieceType() {
+        Long id = pieceTypeFacade.createPieceType(pieceTypeDTO);
+        
+        returnedPieceTypeDTO = pieceTypeFacade.getPieceTypeById(id);
+        
+        assertEquals(returnedPieceTypeDTO,pieceTypeDTO);
+        verify(pieceTypeService).create(any(PieceType.class));
     }
     
     @Test
-    public void testDelete() {
-        pieceFacade.deletePiece(pieceDTO.getId());
-        
-        verify(pieceService).delete(any(Piece.class));
+    public void testUpdatePieceType() {
+        pieceTypeFacade.updatePieceType(pieceTypeDTO);
+        verify(pieceTypeService).update(any(PieceType.class));
     }
     
     @Test
-    public void testFindById() {
-        returnedPieceDTO = pieceFacade.getPieceById(pieceDTO.getId());
+    public void testDeletePieceType() {
+        pieceTypeFacade.deletePieceType(pieceTypeDTO.getId());
         
-        assertEquals(returnedPieceDTO, pieceDTO);
-        verify(pieceService).findById(any(Long.class));
+        verify(pieceTypeService).delete(any(PieceType.class));
     }
     
     @Test
-    public void testFindAll() {
-        List<Piece> pieces = new ArrayList<>();
-        pieces.add(pieceBlackCube);
+    public void testGetPieceTypeById() {
+        returnedPieceTypeDTO = pieceTypeFacade.getPieceTypeById(pieceTypeDTO.getId());
         
-        List<PieceDTO> piecesDTO = new ArrayList<>();
-        piecesDTO.add(mappingService.mapTo(pieceBlackCube, PieceDTO.class));
-        
-        when(pieceService.findAll()).thenReturn(pieces);
-        
-        List<PieceDTO> returnedPiecesDTO = pieceFacade.getAllPieces();
-        
-        assertNotNull(returnedPiecesDTO);
-        assertEquals(returnedPiecesDTO.get(0),piecesDTO.get(0));
-        verify(pieceService).findAll();
+        assertEquals(returnedPieceTypeDTO, pieceTypeDTO);
+        verify(pieceTypeService).findById(any(Long.class));
     }
-    */
-   
+    
+    @Test
+    public void testGetAllPieceTypes() {
+        List<PieceType> pieceTypes = new ArrayList<>();
+        pieceTypes.add(pieceTypeCube);
+        
+        List<PieceTypeDTO> pieceTypesDTO = new ArrayList<>();
+        pieceTypesDTO.add(mappingService.mapTo(pieceTypeCube, PieceTypeDTO.class));
+        
+        when(pieceTypeService.findAll()).thenReturn(pieceTypes);
+        
+        List<PieceTypeDTO> returnedPieceTypesDTO = pieceTypeFacade.getAllPieceTypes();
+        
+        assertNotNull(returnedPieceTypesDTO);
+        assertEquals(returnedPieceTypesDTO.get(0),pieceTypesDTO.get(0));
+        verify(pieceTypeService).findAll();
+    }
+    
+    @Test
+    public void testGetPieceTypeByName() {
+        returnedPieceTypeDTO = pieceTypeFacade.getPieceTypeByName(pieceTypeDTO.getName());
+        
+        assertEquals(returnedPieceTypeDTO, pieceTypeDTO);
+        verify(pieceTypeService).findByName(any(String.class));
+    }
 }
