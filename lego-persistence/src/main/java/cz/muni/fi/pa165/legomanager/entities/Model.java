@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.legomanager.entities;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +48,7 @@ public class Model {
 
     @OneToMany
     @NotNull
-    private List<Piece> pieces;
+    private List<Piece> pieces = new ArrayList<>();
 
     public Long getId() {
         return id;
