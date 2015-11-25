@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.lego.service.facade;
 
-import cz.muni.fi.pa165.lego.dto.LegoSetCreateDTO;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
 import cz.muni.fi.pa165.lego.facade.LegoSetFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
@@ -8,7 +7,6 @@ import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.LegoSetService;
 import cz.muni.fi.pa165.lego.service.ModelService;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * LegoSetFacadeImpl implements {@ling LegoSeFacade}.
  * 
- * @author Tobias <tobias.kamenicky@gmail.com>
+ * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015
  */
 public class LegoSetFacadeImpl implements LegoSetFacade {
@@ -34,15 +32,23 @@ public class LegoSetFacadeImpl implements LegoSetFacade {
     private BeanMappingService beanMappingService;
     
     @Override
-    public Long createLegoSet(LegoSetCreateDTO legoSetCreateDTO) {
-        LegoSet mappedLegoSet = beanMappingService.mapTo(legoSetCreateDTO, LegoSet.class);
-        mappedLegoSet.setName(legoSetCreateDTO.getName());
-        mappedLegoSet.setPrice(legoSetCreateDTO.getPrice());
-        mappedLegoSet.setCategory(legoSetCreateDTO.getCategory());
+    public Long createLegoSet(LegoSetDTO legoSetDTO) {
+        LegoSet mappedLegoSet = beanMappingService.mapTo(legoSetDTO, LegoSet.class);
+        mappedLegoSet.setName(legoSetDTO.getName());
+        mappedLegoSet.setPrice(legoSetDTO.getPrice());
+        mappedLegoSet.setCategory(legoSetDTO.getCategory());
         legoSetService.createLegoSet(mappedLegoSet);
         return mappedLegoSet.getId();
     }
 
+    @Override
+    public void updateLegoSet(LegoSetDTO updated) {
+        LegoSet mapped = beanMappingService.mapTo(legoSetService.findById(updated.getId()), LegoSet.class);
+        legoSetService.updateLegoSet(mapped);
+    }
+
+    
+    
     @Override
     public void deleteLegoSet(Long legoSetId) {
         LegoSet lgs = legoSetService.findById(legoSetId);
@@ -72,18 +78,6 @@ public class LegoSetFacadeImpl implements LegoSetFacade {
     @Override
     public void removeModel(Long legoSetId, Long modelId) {
         legoSetService.removeModel(legoSetService.findById(legoSetId), modelService.findById(modelId));
-    }
-
-    @Override
-    public void changePrice(Long legoSetId, BigDecimal newPrice) {
-        legoSetService.updatePrice(legoSetService.findById(legoSetId), newPrice);
-    }
-
-    @Override
-    public void changeCategory(Long legoSetId, Long categoryId) {
-        legoSetService.updateCategory(legoSetService.findById(legoSetId), categoryService.findById(categoryId));
-    }
-
-   
+    }   
     
 }
