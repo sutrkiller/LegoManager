@@ -22,6 +22,9 @@ public class PieceTypeServiceImpl implements PieceTypeService {
 
     @Override
     public void create(PieceType pieceType) {
+        if (pieceType == null) {
+            throw new IllegalArgumentException("PieceType cannot be null.");
+        }
         try {
             pieceTypeDao.create(pieceType);
         } catch (LegoPersistenceException ex) {
@@ -31,6 +34,9 @@ public class PieceTypeServiceImpl implements PieceTypeService {
 
     @Override
     public void update(PieceType pieceType) {
+        if (pieceType == null) {
+            throw new IllegalArgumentException("PieceType cannot be null.");
+        }
         try {
             pieceTypeDao.update(pieceType);
         } catch (LegoPersistenceException ex) {
@@ -40,6 +46,9 @@ public class PieceTypeServiceImpl implements PieceTypeService {
 
     @Override
     public void delete(PieceType pieceType) {
+        if (pieceType == null) {
+            throw new IllegalArgumentException("PieceType cannot be null.");
+        }
         try {
             pieceTypeDao.delete(pieceType);
         } catch (LegoPersistenceException ex) {
@@ -49,6 +58,9 @@ public class PieceTypeServiceImpl implements PieceTypeService {
 
     @Override
     public PieceType findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("PieceType id cannot be null.");
+        }
         try {
             return pieceTypeDao.findById(id);
         } catch (LegoPersistenceException ex) {
@@ -58,6 +70,9 @@ public class PieceTypeServiceImpl implements PieceTypeService {
 
     @Override
     public PieceType findByName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("PieceType name cannot be null.");
+        }
         try {
             return pieceTypeDao.findByName(name);
         } catch (LegoPersistenceException ex) {
