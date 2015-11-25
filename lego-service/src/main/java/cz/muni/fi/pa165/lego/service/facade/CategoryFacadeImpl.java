@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.lego.service.facade;
 
-import cz.muni.fi.pa165.lego.dto.CategoryCreateDTO;
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
@@ -29,8 +28,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
     private BeanMappingService mappingService;
 
     @Override
-    public Long createCategory(CategoryCreateDTO categoryCreateDTO) {
-        Category category = mappingService.mapTo(categoryCreateDTO, Category.class);
+    public Long createCategory(CategoryDTO categoryDTO) {
+        Category category = mappingService.mapTo(categoryDTO, Category.class);
         categoryService.create(category);
         return category.getId();
     }

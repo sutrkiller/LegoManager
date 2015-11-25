@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.CategoryCreateDTO;
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;

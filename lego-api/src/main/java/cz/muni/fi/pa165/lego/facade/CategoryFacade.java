@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.CategoryCreateDTO;
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import java.util.List;
 
@@ -16,10 +15,10 @@ public interface CategoryFacade {
     /**
      * Create the given category.
      *
-     * @param categoryCreateDTO category to be created
+     * @param categoryDTO category to be created
      * @return id of the created category
      */
-    Long createCategory(CategoryCreateDTO categoryCreateDTO);
+    Long createCategory(CategoryDTO categoryDTO);
 
     /**
      * Update the given category.
