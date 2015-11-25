@@ -10,6 +10,7 @@ import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
 import cz.muni.fi.pa165.lego.enums.Color;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.PieceService;
+import cz.muni.fi.pa165.lego.service.PieceTypeService;
 import cz.muni.fi.pa165.lego.service.facade.PieceTypeFacadeImpl;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
@@ -43,7 +44,7 @@ import org.testng.annotations.Test;
 @RunWith(MockitoJUnitRunner.class)
 public class PieceTypeFacadeTest {
     
-    @Mock
+/*    @Mock
     private PieceService pieceService;
     
     @Mock
@@ -142,5 +143,6 @@ public class PieceTypeFacadeTest {
         assertEquals(returnedPiecesDTO.get(0),piecesDTO.get(0));
         verify(pieceService).findAll();
     }
-    
+    */
+   
 }
