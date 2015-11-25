@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.lego.service.facade;
 
 import cz.muni.fi.pa165.lego.dto.ModelCreateDTO;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
-import cz.muni.fi.pa165.lego.dto.PieceCreateDTO;
+import cz.muni.fi.pa165.lego.dto.PieceDTO;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.lego.service.*;
 import cz.muni.fi.pa165.legomanager.entities.Category;
@@ -38,9 +38,9 @@ public class ModelFacadeImpl implements ModelFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long createModel(ModelCreateDTO modelDTO) {
+    public Long createModel(ModelDTO modelDTO) {
         Model model = beanMappingService.mapTo(modelDTO, Model.class);
-        model.setCategory(categoryService.findById(modelDTO.getCategoryId()));
+        model.setCategory(categoryService.findById(modelDTO.getCategory().getId()));
         modelService.create(model);
         return model.getId();
     }
@@ -63,44 +63,19 @@ public class ModelFacadeImpl implements ModelFacade {
     @Override
     public List<ModelDTO> findModelsByCategory(Long categoryId) {
         Category category = categoryService.findById(categoryId);
-//TODO  return beanMappingService.mapTo(modelService.findByCategory(category), ModelDTO.class);
-        return null;
+        return beanMappingService.mapTo(modelService.findByCategory(category), ModelDTO.class);
     }
 
     @Override
-    public void updateName(Long modelId, String newName) {
-        Model model = modelService.findById(modelId);
-        model.setName(newName);
-        modelService.update(model);
+    public void update(ModelDTO model) {
+
     }
 
     @Override
-    public void updateAgeLimit(Long modelId, Byte newAgeLimit) {
-        Model model = modelService.findById(modelId);
-        model.setAgeLimit(newAgeLimit);
-        modelService.update(model);
-    }
-
-    @Override
-    public void updatePrice(Long modelId, BigDecimal newPrice) {
-        Model model = modelService.findById(modelId);
-        model.setPrice(newPrice);
-        modelService.update(model);
-    }
-
-    @Override
-    public void updateCategory(Long modelId, Long categoryId) {
-        Model model = modelService.findById(modelId);
-        Category category = categoryService.findById(categoryId);
-        model.setCategory(category);
-        modelService.update(model);
-    }
-
-    @Override
-    public void addPiece(Long modelId, PieceCreateDTO pieceDTO) {
+    public void addPiece(Long modelId, PieceDTO pieceDTO) {
         Model model = modelService.findById(modelId);
         Piece piece = beanMappingService.mapTo(pieceDTO, Piece.class);
-        piece.setType(pieceTypeService.findById(pieceDTO.getPieceTypeId()));
+        piece.setType(pieceTypeService.findById(pieceDTO.getPieceType().getId()));
         modelService.addPiece(model, piece);
     }
 
@@ -108,7 +83,7 @@ public class ModelFacadeImpl implements ModelFacade {
     public void removePiece(Long modelId, Long pieceId) {
         Model model = modelService.findById(modelId);
         Piece piece = pieceService.findById(pieceId);
-//TODO  modelService.removePiece(model, piece);
+        modelService.removePiece(model, piece);
     }
 
     @Override
