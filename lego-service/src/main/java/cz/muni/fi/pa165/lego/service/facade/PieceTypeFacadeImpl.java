@@ -1,9 +1,8 @@
 package cz.muni.fi.pa165.lego.service.facade;
 
 import cz.muni.fi.pa165.lego.dto.PieceDTO;
-import cz.muni.fi.pa165.lego.facade.PieceFacade;
+import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
-import cz.muni.fi.pa165.lego.service.ModelService;
 import cz.muni.fi.pa165.lego.service.PieceService;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class PieceFacadeImpl implements PieceFacade {
+public class PieceTypeFacadeImpl implements PieceTypeFacade {
 
     @Autowired
     private PieceService pieceService;
@@ -30,9 +29,7 @@ public class PieceFacadeImpl implements PieceFacade {
     public Long createPiece(PieceDTO pieceDTO) {
         Piece mappedPiece = beanMappingService.mapTo(pieceDTO, Piece.class);
         pieceService.create(mappedPiece);
-
-        // TODO: make pieceService.create return created Piece
-        return null;
+        return mappedPiece.getId();
     }
 
     @Override
@@ -54,6 +51,5 @@ public class PieceFacadeImpl implements PieceFacade {
 
     @Override
     public PieceDTO getPieceById(Long id) {
-        return null;
-    }
+        return beanMappingService.mapTo(pieceService.findById(id), PieceDTO.class);    }
 }

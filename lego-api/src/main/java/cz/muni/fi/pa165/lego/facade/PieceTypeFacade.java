@@ -5,10 +5,13 @@ import cz.muni.fi.pa165.lego.dto.PieceDTO;
 import java.util.List;
 
 /**
+ * PieceTypeFacade defines operations available within the Lego API to simplify
+ * the usage of the application.
+ *
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 21.11.2015
  */
-public interface PieceFacade {
+public interface PieceTypeFacade {
 
     /**
      * Create the given piece.
