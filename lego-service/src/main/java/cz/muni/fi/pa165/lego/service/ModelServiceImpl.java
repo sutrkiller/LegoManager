@@ -33,6 +33,9 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void create(Model model) throws LegoServiceException {
+        if(model == null) {
+            throw new IllegalArgumentException("Model can not be null");
+        }
         try {
             modelDao.create(model);
         } catch (LegoPersistenceException e) {
@@ -42,6 +45,9 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void update(Model model) throws LegoServiceException {
+        if(model == null) {
+            throw new IllegalArgumentException("Model can not be null");
+        }
         try {
             modelDao.update(model);
         } catch (LegoPersistenceException e) {
@@ -51,6 +57,9 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void delete(Model model) throws LegoServiceException {
+        if(model == null) {
+            throw new IllegalArgumentException("Model can not be null");
+        }
         try {
             modelDao.delete(model);
         } catch (EntityNotExistsException e) {
@@ -60,6 +69,9 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public Model findById(Long id) throws LegoServiceException {
+        if(id == null) {
+            throw new IllegalArgumentException("Id can not be null");
+        }
         try {
             return modelDao.findById(id);
         } catch (EntityNotExistsException e) {
@@ -69,6 +81,9 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public Model findByName(String name) throws LegoServiceException {
+        if(name == null) {
+            throw new IllegalArgumentException("Name can not be null");
+        }
         try {
             return modelDao.findByName(name);
         } catch (EntityNotExistsException e) {
@@ -78,6 +93,9 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public List<Model> findByCategory(Category category) {
+        if(category == null) {
+            throw new IllegalArgumentException("Category can not be null");
+        }
         List<Model> found = new ArrayList<>();
         for (Model m : findAll()) {
             if (m.getCategory().equals(category)) {
@@ -108,7 +126,7 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void addPiece(Model model, Piece piece) throws LegoServiceException {
-        if (model == null || model.getPieces() == null) {
+        if (model == null || model.getPieces() == null || piece == null) {
             throw new IllegalArgumentException("Model or its pieces is null.");
         }
         List<Piece> pieces = model.getPieces();
@@ -127,7 +145,7 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void removePiece(Model model, Piece piece) throws LegoServiceException {
-        if (model == null || model.getPieces() == null) {
+        if (model == null || model.getPieces() == null || piece == null) {
             throw new IllegalArgumentException("Model or its pieces is null.");
         }
         List<Piece> pieces = model.getPieces();
@@ -146,8 +164,8 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void changeCategory(Model model, Category category) throws LegoServiceException {
-        if (model == null) {
-            throw new IllegalArgumentException("Model is null.");
+        if (model == null || category == null) {
+            throw new IllegalArgumentException("Model or category is null.");
         }
         model.setCategory(category);
         try {
