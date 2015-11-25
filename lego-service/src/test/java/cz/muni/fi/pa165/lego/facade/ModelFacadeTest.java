@@ -124,6 +124,7 @@ public class ModelFacadeTest {
         when(newCategoryDTO.getId()).thenReturn(2L);
         when(newCategoryDTO.getName()).thenReturn("Category containing BMW cars only.");
         when(pieceTypeDTO.getId()).thenReturn(1L);
+        when(newPieceDTO.getPieceType()).thenReturn(pieceTypeDTO);
 
         // mocking Model entity
         when(modelBMW.getId()).thenReturn(1L);
@@ -150,12 +151,9 @@ public class ModelFacadeTest {
 
     @Test
     public void testUpdate() {
-        fail();
-
-        /*
-        modelFacade.update(modelDTO.getId(), newCategoryDTO.getId());
+        modelFacade.update(modelDTO);
+        verify(mappingService).mapTo(any(ModelDTO.class), eq(Model.class));
         verify(modelService).update(any(Model.class));
-         */
     }
 
     @Test
@@ -212,7 +210,6 @@ public class ModelFacadeTest {
     public void testAddPiece() {
         modelFacade.addPiece(modelDTO.getId(), newPieceDTO);
 
-        verify(pieceService).create(any(Piece.class));
         verify(modelService).addPiece(any(Model.class), any(Piece.class));
     }
 
@@ -220,7 +217,6 @@ public class ModelFacadeTest {
     public void testRemovePiece() {
         modelFacade.removePiece(modelDTO.getId(), oldPieceDTO.getId());
 
-        verify(pieceService).delete(any(Piece.class));
         verify(modelService).removePiece(any(Model.class), any(Piece.class));
     }
 

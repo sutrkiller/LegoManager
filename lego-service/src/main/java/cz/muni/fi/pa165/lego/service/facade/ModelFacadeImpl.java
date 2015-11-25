@@ -67,8 +67,10 @@ public class ModelFacadeImpl implements ModelFacade {
     }
 
     @Override
-    public void update(ModelDTO model) {
-
+    public void update(ModelDTO modelDTO) {
+        Model model = beanMappingService.mapTo(modelDTO, Model.class);
+        model.setCategory(categoryService.findById(modelDTO.getCategory().getId()));
+        modelService.update(model);
     }
 
     @Override
