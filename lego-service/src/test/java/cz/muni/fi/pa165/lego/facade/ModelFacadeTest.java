@@ -12,10 +12,11 @@ import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+import java.util.*;
 import javax.inject.Inject;
+
+import cz.muni.fi.pa165.legomanager.enums.Color;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
@@ -126,7 +127,12 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
         when(newCategoryDTO.getId()).thenReturn(2L);
         when(newCategoryDTO.getName()).thenReturn("Category containing BMW cars only.");
         when(pieceTypeDTO.getId()).thenReturn(1L);
+        Set<Color> clrs = new HashSet<>();
+        clrs.add(Color.BLUE);
+        clrs.add(Color.RED);
+        when(pieceTypeDTO.getColors()).thenReturn(clrs);
         when(newPieceDTO.getPieceType()).thenReturn(pieceTypeDTO);
+        when(newPieceDTO.getCurrentColor()).thenReturn(Color.RED);
 
         // mocking Model entity
         when(modelBMW.getId()).thenReturn(1L);
@@ -210,6 +216,15 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testAddPiece() {
+        modelFacade.addPiece(modelDTO.getId(), newPieceDTO);
+
+        verify(modelService).addPiece(any(Model.class), any(Piece.class));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddPieceBadColor() {
+        when(newPieceDTO.getCurrentColor()).thenReturn(Color.GREEN);
+
         modelFacade.addPiece(modelDTO.getId(), newPieceDTO);
 
         verify(modelService).addPiece(any(Model.class), any(Piece.class));
