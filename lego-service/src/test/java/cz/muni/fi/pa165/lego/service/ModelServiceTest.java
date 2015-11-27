@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.lego.service;
 
+import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
 import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import cz.muni.fi.pa165.legomanager.dao.ModelDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
@@ -15,16 +16,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 import javax.inject.Inject;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -36,8 +38,9 @@ import static org.testng.AssertJUnit.assertNotNull;
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 22.11.2015
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ModelServiceTest {
+@ContextConfiguration(classes = ServiceConfiguration.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+public class ModelServiceTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private ModelDao modelDao;

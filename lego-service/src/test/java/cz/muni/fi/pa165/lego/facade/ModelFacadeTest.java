@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.ModelService;
 import cz.muni.fi.pa165.lego.service.PieceService;
 import cz.muni.fi.pa165.lego.service.PieceTypeService;
+import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
 import cz.muni.fi.pa165.lego.service.facade.ModelFacadeImpl;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
@@ -15,12 +16,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.mockito.Matchers.any;
@@ -36,8 +39,9 @@ import static org.testng.Assert.fail;
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 22.11.2015
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ModelFacadeTest {
+@ContextConfiguration(classes = ServiceConfiguration.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private ModelService modelService;

@@ -1,15 +1,17 @@
 package cz.muni.fi.pa165.lego.service;
 
+import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
 import cz.muni.fi.pa165.legomanager.dao.LegoSetDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
-import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -26,8 +28,9 @@ import static org.mockito.Mockito.when;
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 24.10.2015
  */
-@RunWith(MockitoJUnitRunner.class)
-public class LegoSetServiceTest {
+@ContextConfiguration(classes = ServiceConfiguration.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+public class LegoSetServiceTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private Category category;
