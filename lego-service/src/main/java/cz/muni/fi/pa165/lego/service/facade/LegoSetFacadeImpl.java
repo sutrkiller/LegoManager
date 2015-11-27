@@ -10,6 +10,8 @@ import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * LegoSetFacadeImpl implements {@ling LegoSeFacade}.
@@ -17,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015
  */
+@Service
+@Transactional
 public class LegoSetFacadeImpl implements LegoSetFacade {
 
     @Inject
@@ -28,7 +32,7 @@ public class LegoSetFacadeImpl implements LegoSetFacade {
     @Inject
     private CategoryService categoryService;
     
-    @Autowired
+    @Inject
     private BeanMappingService beanMappingService;
     
     @Override
