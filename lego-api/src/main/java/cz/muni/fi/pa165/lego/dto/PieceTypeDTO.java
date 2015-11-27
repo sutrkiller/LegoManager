@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.lego.dto;
 
 
-import cz.muni.fi.pa165.lego.enums.Color;
+import cz.muni.fi.pa165.legomanager.enums.Color;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
 
 import java.util.HashSet;

@@ -84,15 +84,15 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
 
         wheelDTO = new PieceTypeDTO();
         wheelDTO.setId(1L);
-        // TODO wheelDTO.setName("Wheel");
-        // TODO wheelDTO.setColors(colors);
+        wheelDTO.setName("Wheel");
+        wheelDTO.setColors(colors);
 
         leftFrontWheel = new Piece();
         leftFrontWheel.setCurrentColor(Color.RED);
 
         leftFrontWheelDTO = new PieceDTO();
         leftFrontWheelDTO.setId(1L);
-        leftFrontWheelDTO.setCurrentColor(cz.muni.fi.pa165.lego.enums.Color.RED);
+        leftFrontWheelDTO.setCurrentColor(Color.RED);
     }
 
 
