@@ -25,11 +25,7 @@ public class PieceServiceImpl implements PieceService {
         if (piece == null) {
             throw new IllegalArgumentException("Piece cannot be null.");
         }
-        try {
-            pieceDao.create(piece);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Creating Piece entity " + piece + " failed.", ex);
-        }
+        pieceDao.create(piece);
     }
 
     @Override
@@ -37,11 +33,7 @@ public class PieceServiceImpl implements PieceService {
         if (piece == null) {
             throw new IllegalArgumentException("Piece cannot be null.");
         }
-        try {
-            pieceDao.update(piece);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Updating Piece entity " + piece + " failed.", ex);
-        }
+        pieceDao.update(piece);
     }
 
     @Override
@@ -49,11 +41,7 @@ public class PieceServiceImpl implements PieceService {
         if (piece == null) {
             throw new IllegalArgumentException("Piece cannot be null.");
         }
-        try {
-            pieceDao.delete(piece);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Deleting Piece entity " + piece + " failed.", ex);
-        }
+        pieceDao.delete(piece);
     }
 
     @Override
@@ -61,11 +49,7 @@ public class PieceServiceImpl implements PieceService {
         if (id == null) {
             throw new IllegalArgumentException("Piece id cannot be null.");
         }
-        try {
-            return pieceDao.findById(id);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Looking for Piece entity with id " + id + " failed.", ex);
-        }
+        return pieceDao.findById(id);
     }
 
     @Override

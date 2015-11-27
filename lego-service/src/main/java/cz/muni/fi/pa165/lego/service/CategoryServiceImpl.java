@@ -29,11 +29,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (c == null) {
             throw new IllegalArgumentException("Category is null.");
         }
-        try{
         categoryDao.create(c);
-        } catch(LegoPersistenceException e) {
-            throw new LegoServiceException("Persistence of "+c+" failed",e);
-        }
     }
 
     @Override
@@ -41,11 +37,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (c == null) {
             throw new IllegalArgumentException("Category is null.");
         }
-        try {
-            categoryDao.update(c);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Could not update category: "+c,ex);
-        }
+        categoryDao.update(c);
     }
 
     @Override
@@ -53,11 +45,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (c == null) {
             throw new IllegalArgumentException("Category is null.");
         }
-        try {
-            categoryDao.delete(c);
-        } catch (EntityNotExistsException ex) {
-            throw new LegoServiceException("Could not delete category: "+c,ex);
-        }
+        categoryDao.delete(c);
     }
 
     @Override
@@ -65,11 +53,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (id == null) {
             throw new IllegalArgumentException("Id is null.");
         }
-        try {
-            return categoryDao.findById(id);
-        } catch (EntityNotExistsException ex) {
-            throw new LegoServiceException("Could not find category with id: "+id, ex);
-        }
+        return categoryDao.findById(id);
     }
 
     @Override
@@ -77,11 +61,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (name == null) {
             throw new IllegalArgumentException("Name is null.");
         }
-        try {
-            return categoryDao.findByName(name);
-        } catch (EntityNotExistsException ex) {
-            throw new LegoServiceException("Could not find category with name: "+name,ex);
-        }
+        return categoryDao.findByName(name);
     }
 
     @Override

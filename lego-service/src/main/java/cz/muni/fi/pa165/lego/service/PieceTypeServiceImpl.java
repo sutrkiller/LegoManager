@@ -25,11 +25,7 @@ public class PieceTypeServiceImpl implements PieceTypeService {
         if (pieceType == null) {
             throw new IllegalArgumentException("PieceType cannot be null.");
         }
-        try {
-            pieceTypeDao.create(pieceType);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Creating PieceType entity " + pieceType + " failed.", ex);
-        }
+        pieceTypeDao.create(pieceType);
     }
 
     @Override
@@ -37,11 +33,7 @@ public class PieceTypeServiceImpl implements PieceTypeService {
         if (pieceType == null) {
             throw new IllegalArgumentException("PieceType cannot be null.");
         }
-        try {
-            pieceTypeDao.update(pieceType);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Updating PieceType entity " + pieceType + " failed.", ex);
-        }
+        pieceTypeDao.update(pieceType);
     }
 
     @Override
@@ -49,11 +41,7 @@ public class PieceTypeServiceImpl implements PieceTypeService {
         if (pieceType == null) {
             throw new IllegalArgumentException("PieceType cannot be null.");
         }
-        try {
-            pieceTypeDao.delete(pieceType);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Deleting PieceType entity " + pieceType + " failed.", ex);
-        }
+        pieceTypeDao.delete(pieceType);
     }
 
     @Override
@@ -61,11 +49,7 @@ public class PieceTypeServiceImpl implements PieceTypeService {
         if (id == null) {
             throw new IllegalArgumentException("PieceType id cannot be null.");
         }
-        try {
-            return pieceTypeDao.findById(id);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Looking for PieceType entity with id " + id + " failed.", ex);
-        }
+        return pieceTypeDao.findById(id);
     }
 
     @Override
@@ -73,11 +57,7 @@ public class PieceTypeServiceImpl implements PieceTypeService {
         if (name == null) {
             throw new IllegalArgumentException("PieceType name cannot be null.");
         }
-        try {
-            return pieceTypeDao.findByName(name);
-        } catch (LegoPersistenceException ex) {
-            throw new LegoServiceException("Looking for PieceType entity with name " + name + " failed.", ex);
-        }
+        return pieceTypeDao.findByName(name);
     }
 
     @Override

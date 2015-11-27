@@ -32,63 +32,43 @@ public class ModelServiceImpl implements ModelService {
     private PieceService pieceService;
 
     @Override
-    public void create(Model model) throws LegoServiceException {
+    public void create(Model model) {
         if(model == null) {
             throw new IllegalArgumentException("Model can not be null");
         }
-        try {
-            modelDao.create(model);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Could not create model:" + model.toString());
-        }
+        modelDao.create(model);
     }
 
     @Override
-    public void update(Model model) throws LegoServiceException {
+    public void update(Model model) {
         if(model == null) {
             throw new IllegalArgumentException("Model can not be null");
         }
-        try {
-            modelDao.update(model);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Could not update model: " + model.toString());
-        }
+        modelDao.update(model);
     }
 
     @Override
-    public void delete(Model model) throws LegoServiceException {
+    public void delete(Model model) {
         if(model == null) {
             throw new IllegalArgumentException("Model can not be null");
         }
-        try {
-            modelDao.delete(model);
-        } catch (EntityNotExistsException e) {
-            throw new LegoServiceException("Could not delete model: " + model.toString());
-        }
+        modelDao.delete(model);
     }
 
     @Override
-    public Model findById(Long id) throws LegoServiceException {
+    public Model findById(Long id) {
         if(id == null) {
             throw new IllegalArgumentException("Id can not be null");
         }
-        try {
-            return modelDao.findById(id);
-        } catch (EntityNotExistsException e) {
-            throw new LegoServiceException("Could not find model with id: " + id);
-        }
+        return modelDao.findById(id);
     }
 
     @Override
-    public Model findByName(String name) throws LegoServiceException {
+    public Model findByName(String name) {
         if(name == null) {
             throw new IllegalArgumentException("Name can not be null");
         }
-        try {
-            return modelDao.findByName(name);
-        } catch (EntityNotExistsException e) {
-            throw new LegoServiceException("Could not find model with name: " + name);
-        }
+        return modelDao.findByName(name);
     }
 
     @Override
@@ -112,20 +92,16 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public void setFiftyPercentDiscount(Model model) throws LegoServiceException {
+    public void setFiftyPercentDiscount(Model model) {
         if (model == null || model.getPrice() == null) {
             throw new IllegalArgumentException("Model or its price is null.");
         }
         model.setPrice(model.getPrice().divide(new BigDecimal("2"), RoundingMode.HALF_UP));
-        try {
-            modelDao.update(model);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Could not change price of model: " + model.toString());
-        }
+        modelDao.update(model);
     }
 
     @Override
-    public void addPiece(Model model, Piece piece) throws LegoServiceException {
+    public void addPiece(Model model, Piece piece) {
         if (model == null || model.getPieces() == null || piece == null) {
             throw new IllegalArgumentException("Model or its pieces is null.");
         }
@@ -136,15 +112,11 @@ public class ModelServiceImpl implements ModelService {
         pieceService.create(piece);
         pieces.add(piece);
         model.setPieces(pieces);
-        try {
-            modelDao.update(model);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Could not add piece to model: " + model.toString());
-        }
+        modelDao.update(model);
     }
 
     @Override
-    public void removePiece(Model model, Piece piece) throws LegoServiceException {
+    public void removePiece(Model model, Piece piece) {
         if (model == null || model.getPieces() == null || piece == null) {
             throw new IllegalArgumentException("Model or its pieces is null.");
         }
@@ -155,23 +127,15 @@ public class ModelServiceImpl implements ModelService {
         pieces.remove(piece);
         model.setPieces(pieces);
         pieceService.delete(piece);
-        try {
-            modelDao.update(model);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Could not remove piece from model: " + model.toString());
-        }
+        modelDao.update(model);
     }
 
     @Override
-    public void changeCategory(Model model, Category category) throws LegoServiceException {
+    public void changeCategory(Model model, Category category) {
         if (model == null || category == null) {
             throw new IllegalArgumentException("Model or category is null.");
         }
         model.setCategory(category);
-        try {
-            modelDao.update(model);
-        } catch (LegoPersistenceException e) {
-            throw new LegoServiceException("Could not change category of model: " + model.toString());
-        }
+        modelDao.update(model);
     }
 }
