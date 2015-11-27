@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.lego.service;
 
 import cz.muni.fi.pa165.legomanager.entities.Category;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -9,6 +11,7 @@ import java.util.List;
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015
  */
+@Service
 public interface CategoryService {
 
     /**
