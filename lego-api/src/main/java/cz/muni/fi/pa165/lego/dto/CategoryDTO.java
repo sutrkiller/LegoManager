@@ -1,10 +1,13 @@
 package cz.muni.fi.pa165.lego.dto;
 
+import cz.muni.fi.pa165.legomanager.entities.Category;
+
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
+ * Data transfer object for {@link Category class}
  *
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 11.11.2015

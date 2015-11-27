@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.lego.dto;
 
+import cz.muni.fi.pa165.legomanager.entities.Model;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -8,10 +10,12 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
+ * Data transfer object for {@link Model class}
+ *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
-public class ModelDTO
-{
+public class ModelDTO {
+
     private Long id;
 
     @NotNull

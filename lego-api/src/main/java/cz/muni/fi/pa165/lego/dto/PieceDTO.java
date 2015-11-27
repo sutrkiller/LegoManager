@@ -1,11 +1,14 @@
 package cz.muni.fi.pa165.lego.dto;
 
 import cz.muni.fi.pa165.lego.enums.Color;
+import cz.muni.fi.pa165.legomanager.entities.Piece;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
+ * Data transfer object for {@link Piece class}
+ *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 public class PieceDTO {

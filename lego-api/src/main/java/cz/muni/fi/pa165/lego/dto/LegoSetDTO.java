@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.lego.dto;
 
-import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 

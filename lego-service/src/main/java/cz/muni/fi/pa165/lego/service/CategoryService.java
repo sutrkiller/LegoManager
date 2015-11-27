@@ -4,7 +4,7 @@ import cz.muni.fi.pa165.legomanager.entities.Category;
 import java.util.List;
 
 /**
- *An interface that defines a service access to the {@link Category} entity
+ * An interface that defines a service access to the {@link Category} entity
  * 
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015
