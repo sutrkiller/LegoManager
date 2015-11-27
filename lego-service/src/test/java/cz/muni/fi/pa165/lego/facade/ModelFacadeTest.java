@@ -59,8 +59,6 @@ public class ModelFacadeTest {
     @Mock
     private Model modelKIA;
     @Mock
-    private ModelCreateDTO modelCreateDTO;
-    @Mock
     private ModelDTO modelDTO;
     @Mock
     private ModelDTO returnedModelDTO;
