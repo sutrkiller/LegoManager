@@ -16,31 +16,71 @@ import java.util.List;
 @Service
 public interface LegoSetService {
 
+    /**
+     * Create given legoSet
+     *
+     * @param legoSet legoSet to be created
+     */
     void createLegoSet(LegoSet legoSet);
 
+    /**
+     * find legoSet by its id.
+     *
+     * @param id id of wanted legoSet. It has to exists.
+     * @return LegoSet with the id.
+     */
     LegoSet findById(Long id);
 
+    /**
+     * find legoSet by its name.
+     *
+     * @param name name of wanted legoSet. It has to exists.
+     * @return LegoSet with the name.
+     */
     LegoSet findByName(String name);
 
+    /**
+     * find all legoSets.
+     *
+     * @return List of LegoSets
+     */
     List<LegoSet> findAll();
 
+    /**
+     * find all legoSets in given category.
+     *
+     * @return List of LegoSets in given category
+     */
     List<LegoSet> findByCategory(Category category);
 
+    /**
+     * Update data of the given legoset.
+     *
+     * @param legoSet legoset to be updated.
+     */
     void updateLegoSet(LegoSet legoSet);
 
-    @Deprecated
-    void updateName(LegoSet legoSet, String newName);
-
-    @Deprecated
-    void updatePrice(LegoSet legoSet, BigDecimal newPrice);
-
-    @Deprecated
-    void updateCategory(LegoSet legoSet, Category newCategory);
-
+    /**
+     * Add model to legoset. Model has to exists already and shouldn't be in legoset.
+     *
+     * @param legoSet legoset where you want to add the model
+     * @param model model you want to add to legoset
+     */
     void addModel(LegoSet legoSet, Model model);
 
+    /**
+     * Add model to legoset. Model has to exists already and be already in legoset.
+     *
+     * @param legoSet legoset where you want to remove the model
+     * @param model model you want to remove from legoset
+     */
     void removeModel(LegoSet legoSet, Model model);
 
+    /**
+     * Delete legoset. It has to exists in legoset.
+     *
+     * @param legoSet legoSet to be deleted.
+     */
     void deleteLegoSet(LegoSet legoSet);
 
 }

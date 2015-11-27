@@ -76,24 +76,6 @@ public class LegoSetServiceImpl implements LegoSetService {
     }
 
     @Override
-    @Deprecated
-    public void updateName(LegoSet legoSet, String newName) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    @Deprecated
-    public void updatePrice(LegoSet legoSet, BigDecimal newPrice) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    @Deprecated
-    public void updateCategory(LegoSet legoSet, Category newCategory) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void addModel(LegoSet legoSet, Model model) {
         if (legoSet == null || model == null) {
             throw new IllegalArgumentException("Argument legoSet or model is null");
