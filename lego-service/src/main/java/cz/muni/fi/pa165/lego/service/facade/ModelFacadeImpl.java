@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.lego.service.*;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,6 +77,9 @@ public class ModelFacadeImpl implements ModelFacade {
         Model model = modelService.findById(modelId);
         Piece piece = beanMappingService.mapTo(pieceDTO, Piece.class);
         piece.setType(pieceTypeService.findById(pieceDTO.getPieceType().getId()));
+        if (!pieceDTO.getPieceType().getColors().contains(pieceDTO.getCurrentColor())) {
+            throw new IllegalArgumentException("piece do not have color from its piece type.");
+        }
         modelService.addPiece(model, piece);
     }
 
