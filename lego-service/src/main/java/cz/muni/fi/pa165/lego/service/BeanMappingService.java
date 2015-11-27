@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.service;
 
 import org.dozer.Mapper;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
+@Service
 public interface BeanMappingService {
 
     /**

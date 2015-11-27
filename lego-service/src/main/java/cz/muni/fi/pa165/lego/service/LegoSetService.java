@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
+ * An interface that defines a service access to the {@link Model} entity.
+ *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 @Service
