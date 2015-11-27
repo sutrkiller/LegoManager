@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.lego.dto;
 
 
 import cz.muni.fi.pa165.lego.enums.Color;
-import cz.muni.fi.pa165.legomanager.entities.Piece;
+import cz.muni.fi.pa165.legomanager.entities.PieceType;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Data transfer object for {@link Piece class}
+ * Data transfer object for {@link PieceType class}
  *
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 25.11.2015
