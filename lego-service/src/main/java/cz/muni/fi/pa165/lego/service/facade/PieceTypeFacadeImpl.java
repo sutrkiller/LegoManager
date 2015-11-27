@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- *
  * PieceTypeFacadeImpl implements {@link PieceTypeFacade}.
  *
  * @author Marek Abaffy <abaffy.m@gmail.com>
@@ -29,36 +28,36 @@ public class PieceTypeFacadeImpl implements PieceTypeFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long createPieceType(PieceTypeDTO pieceTypeDTO) {
+    public Long create(PieceTypeDTO pieceTypeDTO) {
         PieceType mappedPieceType = beanMappingService.mapTo(pieceTypeDTO, PieceType.class);
         pieceTypeService.create(mappedPieceType);
         return mappedPieceType.getId();
     }
 
     @Override
-    public void updatePieceType(PieceTypeDTO pieceTypeDTO) {
+    public void update(PieceTypeDTO pieceTypeDTO) {
         PieceType mappedPieceType = beanMappingService.mapTo(pieceTypeDTO, PieceType.class);
         pieceTypeService.update(mappedPieceType);
     }
 
     @Override
-    public void deletePieceType(Long pieceTypeId) {
+    public void delete(Long pieceTypeId) {
         PieceType pieceType = pieceTypeService.findById(pieceTypeId);
         pieceTypeService.delete(pieceType);
     }
 
     @Override
-    public List<PieceTypeDTO> getAllPieceTypes() {
+    public List<PieceTypeDTO> findAll() {
         return beanMappingService.mapTo(pieceTypeService.findAll(), PieceTypeDTO.class);
     }
 
     @Override
-    public PieceTypeDTO getPieceTypeById(Long id) {
+    public PieceTypeDTO findById(Long id) {
         return beanMappingService.mapTo(pieceTypeService.findById(id), PieceTypeDTO.class);
     }
 
     @Override
-    public PieceTypeDTO getPieceTypeByName(String name) {
+    public PieceTypeDTO findByName(String name) {
         return beanMappingService.mapTo(pieceTypeService.findByName(name), PieceTypeDTO.class);
     }
 }

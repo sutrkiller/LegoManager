@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.facade;
 
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
+
 import java.util.List;
 
 /**
@@ -18,21 +19,21 @@ public interface CategoryFacade {
      * @param categoryDTO category to be created
      * @return id of the created category
      */
-    Long createCategory(CategoryDTO categoryDTO);
+    Long create(CategoryDTO categoryDTO);
 
     /**
      * Update the given category.
      *
      * @param categoryDTO category to be updated
      */
-    void updateCategory(CategoryDTO categoryDTO);
+    void update(CategoryDTO categoryDTO);
 
     /**
      * Delete the given category.
      *
      * @param id id of the category
      */
-    void deleteCategory(Long id);
+    void delete(Long id);
 
     /**
      * Get category with the given ID.
@@ -40,7 +41,7 @@ public interface CategoryFacade {
      * @param id id of the category
      * @return existing category with given id
      */
-    CategoryDTO getCategoryById(Long id);
+    CategoryDTO findById(Long id);
 
     /**
      * Get category with the given name.
@@ -48,13 +49,13 @@ public interface CategoryFacade {
      * @param name name of the category
      * @return existing category with given name
      */
-    CategoryDTO getCategoryByName(String name);
+    CategoryDTO findByName(String name);
 
     /**
      * Get all existing categories.
      *
      * @return list of existing categories
      */
-    List<CategoryDTO> getAllCategories();
+    List<CategoryDTO> findAll();
 
 }

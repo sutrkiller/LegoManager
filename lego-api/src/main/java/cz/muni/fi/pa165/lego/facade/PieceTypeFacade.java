@@ -19,28 +19,21 @@ public interface PieceTypeFacade {
      * @param pieceTypeDTO pieceType to be created
      * @return id of created pieceType
      */
-    Long createPieceType(PieceTypeDTO pieceTypeDTO);
+    Long create(PieceTypeDTO pieceTypeDTO);
 
     /**
      * Update the given pieceType.
      *
      * @param pieceTypeDTO pieceType to be created
      */
-    void updatePieceType(PieceTypeDTO pieceTypeDTO);
+    void update(PieceTypeDTO pieceTypeDTO);
 
     /**
      * Delete the given pieceType.
      *
      * @param pieceTypeId id of the pieceType
      */
-    void deletePieceType(Long pieceTypeId);
-
-    /**
-     * Get all existing pieceTypes.
-     *
-     * @return all existing pieceTypes
-     */
-    List<PieceTypeDTO> getAllPieceTypes();
+    void delete(Long pieceTypeId);
 
     /**
      * Get pieceType by id.
@@ -48,7 +41,7 @@ public interface PieceTypeFacade {
      * @param id id of the pieceType
      * @return existing piece with the given id
      */
-    public PieceTypeDTO getPieceTypeById(Long id);
+    PieceTypeDTO findById(Long id);
 
     /**
      * Get pieceType by name.
@@ -56,5 +49,13 @@ public interface PieceTypeFacade {
      * @param name name of the pieceType
      * @return existing piece with the given name
      */
-    PieceTypeDTO getPieceTypeByName(String name);
+    PieceTypeDTO findByName(String name);
+
+    /**
+     * Get all existing pieceTypes.
+     *
+     * @return all existing pieceTypes
+     */
+    List<PieceTypeDTO> findAll();
+
 }

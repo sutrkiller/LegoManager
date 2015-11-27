@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -37,7 +36,7 @@ public class ModelFacadeImpl implements ModelFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long createModel(ModelDTO modelDTO) {
+    public Long create(ModelDTO modelDTO) {
         Model model = beanMappingService.mapTo(modelDTO, Model.class);
         model.setCategory(categoryService.findById(modelDTO.getCategory().getId()));
         modelService.create(model);
@@ -45,22 +44,22 @@ public class ModelFacadeImpl implements ModelFacade {
     }
 
     @Override
-    public ModelDTO findModelById(Long id) {
+    public ModelDTO findById(Long id) {
         return beanMappingService.mapTo(modelService.findById(id), ModelDTO.class);
     }
 
     @Override
-    public ModelDTO findModelByName(String name) {
+    public ModelDTO findByName(String name) {
         return beanMappingService.mapTo(modelService.findByName(name), ModelDTO.class);
     }
 
     @Override
-    public List<ModelDTO> findAllModels() {
+    public List<ModelDTO> findByName() {
         return beanMappingService.mapTo(modelService.findAll(), ModelDTO.class);
     }
 
     @Override
-    public List<ModelDTO> findModelsByCategory(Long categoryId) {
+    public List<ModelDTO> findByCategory(Long categoryId) {
         Category category = categoryService.findById(categoryId);
         return beanMappingService.mapTo(modelService.findByCategory(category), ModelDTO.class);
     }
@@ -88,7 +87,7 @@ public class ModelFacadeImpl implements ModelFacade {
     }
 
     @Override
-    public void deleteModel(Long modelId) {
+    public void delete(Long modelId) {
         Model model = modelService.findById(modelId);
         modelService.delete(model);
     }

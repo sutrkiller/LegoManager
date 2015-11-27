@@ -25,6 +25,24 @@ public interface LegoSetDao {
     public void create(LegoSet ls) throws LegoPersistenceException;
 
     /**
+     * Updates already existing LegoSet in DB.
+     *
+     * @param ls LegoSet to be updated in DB
+     * @throws IllegalArgumentException when LegoSet is null.
+     * @throws EntityNotExistsException when LegoSet does not exist in db.
+     */
+    public void update(LegoSet ls) throws LegoPersistenceException;
+
+    /**
+     * Deletes LegoSet from DB.
+     *
+     * @param ls LegoSet to be deleted from DB
+     * @throws IllegalArgumentException when LegoSet is null.
+     * @throws EntityNotExistsException when LegoSet does not exist in db.
+     */
+    public void delete(LegoSet ls) throws EntityNotExistsException;
+
+    /**
      * Returns LegoSet with corresponding id.
      *
      * @param id id of the LegoSet
@@ -50,22 +68,5 @@ public interface LegoSetDao {
      * @return list of all existing LegoSets
      */
     public List<LegoSet> findAll();
-
-    /**
-     * Updates already existing LegoSet in DB.
-     *
-     * @param ls LegoSet to be updated in DB
-     */
-    public void update(LegoSet ls) throws LegoPersistenceException;
-
-    /**
-     * Deletes LegoSet from DB.
-     *
-     * @param ls LegoSet to be deleted from DB
-     * @throws IllegalArgumentException when LegoSet is null.
-     * @throws EntityNotExistsException when LegoSet does not exist in db.
-     */
-    public void delete(LegoSet ls) throws EntityNotExistsException;
-
 
 }

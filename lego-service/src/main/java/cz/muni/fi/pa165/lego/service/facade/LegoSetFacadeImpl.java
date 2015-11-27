@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * LegoSetFacadeImpl implements {@ling LegoSeFacade}.
- * 
+ *
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015
  */
@@ -36,41 +36,39 @@ public class LegoSetFacadeImpl implements LegoSetFacade {
     private BeanMappingService beanMappingService;
     
     @Override
-    public Long createLegoSet(LegoSetDTO legoSetDTO) {
+    public Long create(LegoSetDTO legoSetDTO) {
         LegoSet mappedLegoSet = beanMappingService.mapTo(legoSetDTO, LegoSet.class);
         mappedLegoSet.setName(legoSetDTO.getName());
         mappedLegoSet.setPrice(legoSetDTO.getPrice());
         mappedLegoSet.setCategory(categoryService.findById(legoSetDTO.getCategory().getId()));
-        legoSetService.createLegoSet(mappedLegoSet);
+        legoSetService.create(mappedLegoSet);
         return mappedLegoSet.getId();
     }
 
     @Override
-    public void updateLegoSet(LegoSetDTO updated) {
+    public void update(LegoSetDTO updated) {
         LegoSet mapped = beanMappingService.mapTo(legoSetService.findById(updated.getId()), LegoSet.class);
         legoSetService.updateLegoSet(mapped);
     }
 
-    
-    
     @Override
-    public void deleteLegoSet(Long legoSetId) {
+    public void delete(Long legoSetId) {
         LegoSet lgs = legoSetService.findById(legoSetId);
         legoSetService.deleteLegoSet(lgs);
     }
 
     @Override
-    public LegoSetDTO getLegoSetById(Long id) {
+    public LegoSetDTO findById(Long id) {
         return beanMappingService.mapTo(legoSetService.findById(id), LegoSetDTO.class);
     }
 
     @Override
-    public LegoSetDTO getLegoSetByName(String name) {
+    public LegoSetDTO findByName(String name) {
         return beanMappingService.mapTo(legoSetService.findByName(name), LegoSetDTO.class);
     }
 
     @Override
-    public List<LegoSetDTO> getAllLegoSets() {
+    public List<LegoSetDTO> findAll() {
         return beanMappingService.mapTo(legoSetService.findAll(), LegoSetDTO.class);
     }
 
@@ -82,6 +80,6 @@ public class LegoSetFacadeImpl implements LegoSetFacade {
     @Override
     public void removeModel(Long legoSetId, Long modelId) {
         legoSetService.removeModel(legoSetService.findById(legoSetId), modelService.findById(modelId));
-    }   
-    
+    }
+
 }

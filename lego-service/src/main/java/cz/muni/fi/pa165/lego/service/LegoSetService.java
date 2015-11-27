@@ -21,7 +21,21 @@ public interface LegoSetService {
      *
      * @param legoSet legoSet to be created
      */
-    void createLegoSet(LegoSet legoSet);
+    void create(LegoSet legoSet);
+
+    /**
+     * Update data of the given legoset.
+     *
+     * @param legoSet legoset to be updated.
+     */
+    void updateLegoSet(LegoSet legoSet);
+
+    /**
+     * Delete legoset. It has to exists in legoset.
+     *
+     * @param legoSet legoSet to be deleted.
+     */
+    void deleteLegoSet(LegoSet legoSet);
 
     /**
      * find legoSet by its id.
@@ -54,17 +68,10 @@ public interface LegoSetService {
     List<LegoSet> findByCategory(Category category);
 
     /**
-     * Update data of the given legoset.
-     *
-     * @param legoSet legoset to be updated.
-     */
-    void updateLegoSet(LegoSet legoSet);
-
-    /**
      * Add model to legoset. Model has to exists already and shouldn't be in legoset.
      *
      * @param legoSet legoset where you want to add the model
-     * @param model model you want to add to legoset
+     * @param model   model you want to add to legoset
      */
     void addModel(LegoSet legoSet, Model model);
 
@@ -72,15 +79,8 @@ public interface LegoSetService {
      * Add model to legoset. Model has to exists already and be already in legoset.
      *
      * @param legoSet legoset where you want to remove the model
-     * @param model model you want to remove from legoset
+     * @param model   model you want to remove from legoset
      */
     void removeModel(LegoSet legoSet, Model model);
-
-    /**
-     * Delete legoset. It has to exists in legoset.
-     *
-     * @param legoSet legoSet to be deleted.
-     */
-    void deleteLegoSet(LegoSet legoSet);
 
 }

@@ -143,9 +143,9 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testCreateModel() {
-        Long id = modelFacade.createModel(modelDTO);
+        Long id = modelFacade.create(modelDTO);
 
-        returnedModelDTO = modelFacade.findModelById(id);
+        returnedModelDTO = modelFacade.findById(id);
 
         assertEquals(modelDTO, returnedModelDTO);
         verify(modelService).create(any(Model.class));
@@ -160,7 +160,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindModelById() {
-        returnedModelDTO = modelFacade.findModelById(modelDTO.getId());
+        returnedModelDTO = modelFacade.findById(modelDTO.getId());
 
         assertEquals(modelDTO, returnedModelDTO);
         verify(modelService).findById(any(Long.class));
@@ -168,7 +168,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindModelByName() {
-        returnedModelDTO = modelFacade.findModelByName(modelDTO.getName());
+        returnedModelDTO = modelFacade.findByName(modelDTO.getName());
 
         assertEquals(modelDTO, returnedModelDTO);
         verify(modelService).findByName(any(String.class));
@@ -184,7 +184,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
         when(modelService.findAll()).thenReturn(cars);
 
-        List<ModelDTO> returnedCarsDTO = modelFacade.findAllModels();
+        List<ModelDTO> returnedCarsDTO = modelFacade.findByName();
 
         assertNotNull(returnedCarsDTO);
         assertEquals(carsDTO.get(0), returnedCarsDTO.get(0));
@@ -201,7 +201,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
         when(modelService.findByCategory(category)).thenReturn(cars);
 
-        List<ModelDTO> returnedCars = modelFacade.findModelsByCategory(category.getId());
+        List<ModelDTO> returnedCars = modelFacade.findByCategory(category.getId());
 
         assertNotNull(returnedCars);
         assertEquals(carsDTO.get(0), returnedCars.get(0));
@@ -224,7 +224,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testDeleteModel() {
-        modelFacade.deleteModel(modelDTO.getId());
+        modelFacade.delete(modelDTO.getId());
 
         verify(modelService).delete(any(Model.class));
     }

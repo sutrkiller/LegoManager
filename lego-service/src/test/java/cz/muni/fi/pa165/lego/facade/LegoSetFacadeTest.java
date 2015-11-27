@@ -112,42 +112,42 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testCreateLegoSet() {
-        Long id = legoSetFacade.createLegoSet(legoSetDTO);
+        Long id = legoSetFacade.create(legoSetDTO);
 
-        LegoSetDTO found = legoSetFacade.getLegoSetById(id);
+        LegoSetDTO found = legoSetFacade.findById(id);
 
         Assert.assertEquals(legoSetDTO, found);
-        verify(legoSetService).createLegoSet(any(LegoSet.class));
+        verify(legoSetService).create(any(LegoSet.class));
     }
 
     @Test
     public void testUpdateLegoSet() {
-        legoSetFacade.updateLegoSet(legoSetDTO);
+        legoSetFacade.update(legoSetDTO);
         verify(legoSetService).updateLegoSet(any(LegoSet.class));
     }
 
     @Test
     public void testDeleteLegoSet() {
-        legoSetFacade.deleteLegoSet(legoSetDTO.getId());
+        legoSetFacade.delete(legoSetDTO.getId());
         verify(legoSetService).deleteLegoSet(any(LegoSet.class));
     }
 
     @Test
     public void testFindLegoSetById() {
-        legoSetFacade.getLegoSetById(legoSetDTO.getId());
+        legoSetFacade.findById(legoSetDTO.getId());
         verify(legoSetService).findById(legoSetDTO.getId());
     }
 
     @Test
     public void testFindLegoSetByName() {
-        LegoSetDTO found = legoSetFacade.getLegoSetByName(legoSetDTO.getName());
+        LegoSetDTO found = legoSetFacade.findByName(legoSetDTO.getName());
         verify(legoSetService).findByName(legoSetDTO.getName());
         Assert.assertEquals(legoSetDTO, found);
     }
 
     @Test
     public void testFindAllLegoSets() {
-        legoSetFacade.getAllLegoSets();
+        legoSetFacade.findAll();
         verify(legoSetService).findAll();
 
     }

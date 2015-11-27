@@ -22,7 +22,25 @@ public interface CategoryDao {
      * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException when Category already in DB.
      * @throws cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException when entity constrains are violated.
      */
-    public void create(Category c) throws EntityAlreadyExistsException, LegoPersistenceException;
+    public void create(Category c) throws LegoPersistenceException;
+
+    /**
+     * Updates Category in DB.
+     *
+     * @param c category to update
+     * @throws EntityNotExistsException when c is not in DB.
+     * @throws LegoPersistenceException  when entity constraints are violated.
+     */
+    public void update(Category c)throws LegoPersistenceException;
+
+    /**
+     * Removes Category from DB.
+     *
+     * @param c Category to remove
+     * @throws IllegalArgumentException when Category is null.
+     * @throws EntityNotExistsException when Category does not exist in db.
+     */
+    public void delete(Category c) throws EntityNotExistsException;
     
     
     /**
@@ -50,26 +68,5 @@ public interface CategoryDao {
      * @return Categories stored in DB
      */
     public List<Category> findAll();
-    
-    /**
-     * Removes Category from DB.
-     * 
-     * @param c Category to remove
-     * @throws IllegalArgumentException when Category is null.
-     * @throws EntityNotExistsException when Category does not exist in db.
-     */
-    public void delete(Category c) throws EntityNotExistsException;
-    
-    
-    /**
-     * Updates Category in DB.
-     * 
-     * @param c category to update
-     * @throws EntityNotExistsException when c is not in DB.
-     * @throws LegoPersistenceException  when entity constraints are violated.
-     */
-    public void update(Category c)throws EntityNotExistsException, LegoPersistenceException;
-   
 
-    
 }

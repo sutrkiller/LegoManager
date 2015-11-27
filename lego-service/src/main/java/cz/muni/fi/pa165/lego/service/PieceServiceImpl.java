@@ -4,8 +4,10 @@ import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import cz.muni.fi.pa165.legomanager.dao.PieceDao;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
+
 import java.util.List;
 import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 
 /**

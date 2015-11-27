@@ -3,9 +3,7 @@ package cz.muni.fi.pa165.lego.service;
 import cz.muni.fi.pa165.lego.Utils;
 import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
 import cz.muni.fi.pa165.legomanager.dao.CategoryDao;
-import cz.muni.fi.pa165.legomanager.dao.ModelDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
-import cz.muni.fi.pa165.legomanager.entities.Model;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,12 +13,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import javax.inject.Inject;
 
 import java.util.*;
 

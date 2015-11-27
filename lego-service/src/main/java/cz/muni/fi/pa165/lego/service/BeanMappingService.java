@@ -15,9 +15,9 @@ public interface BeanMappingService {
     /**
      * Map object by names of its fields.
      *
-     * @param object object with filled data you want to map.
+     * @param object     object with filled data you want to map.
      * @param mapToClass class you want to get from mapping service.
-     * @param <T> class you want to get from mapping service.
+     * @param <T>        class you want to get from mapping service.
      * @return object with class T with filled data from object param.
      */
     public <T> T mapTo(Object object, Class<T> mapToClass);
@@ -25,9 +25,9 @@ public interface BeanMappingService {
     /**
      * Map Collection of objects by names of its fields.
      *
-     * @param objects Collection of objects with filled data you want to map.
+     * @param objects    Collection of objects with filled data you want to map.
      * @param mapToClass Type of collection you want to get from mapping service.
-     * @param <T> Type of collection you want to get from mapping service.
+     * @param <T>        Type of collection you want to get from mapping service.
      * @return List of objects with class T with filled data from objects param.
      */
     public <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass);

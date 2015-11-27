@@ -25,11 +25,27 @@ public class LegoSetServiceImpl implements LegoSetService {
     private LegoSetDao legoSetDao;
 
     @Override
-    public void createLegoSet(LegoSet legoSet) {
+    public void create(LegoSet legoSet) {
         if (legoSet == null) {
             throw new IllegalArgumentException("Argument legoSet is null");
         }
         legoSetDao.create(legoSet);
+    }
+
+    @Override
+    public void updateLegoSet(LegoSet legoSet) {
+        if (legoSet == null) {
+            throw new IllegalArgumentException("Argument legoSet is null");
+        }
+        legoSetDao.update(legoSet);
+    }
+
+    @Override
+    public void deleteLegoSet(LegoSet legoSet) {
+        if (legoSet == null) {
+            throw new IllegalArgumentException("Argument legoSet is null");
+        }
+        legoSetDao.delete(legoSet);
     }
 
     @Override
@@ -68,14 +84,6 @@ public class LegoSetServiceImpl implements LegoSetService {
     }
 
     @Override
-    public void updateLegoSet(LegoSet legoSet) {
-        if (legoSet == null) {
-            throw new IllegalArgumentException("Argument legoSet is null");
-        }
-        legoSetDao.update(legoSet);
-    }
-
-    @Override
     public void addModel(LegoSet legoSet, Model model) {
         if (legoSet == null || model == null) {
             throw new IllegalArgumentException("Argument legoSet or model is null");
@@ -93,11 +101,4 @@ public class LegoSetServiceImpl implements LegoSetService {
         legoSetDao.update(legoSet);
     }
 
-    @Override
-    public void deleteLegoSet(LegoSet legoSet) {
-        if (legoSet == null) {
-            throw new IllegalArgumentException("Argument legoSet is null");
-        }
-        legoSetDao.delete(legoSet);
-    }
 }

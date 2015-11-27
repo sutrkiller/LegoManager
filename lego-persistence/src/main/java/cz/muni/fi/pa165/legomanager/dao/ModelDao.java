@@ -21,6 +21,27 @@ public interface ModelDao {
      * violate constraint (e.g. unique name).
      */
     public void create(Model model);
+
+    /**
+     * update data of given model
+     *
+     * @param model model with updated data but with same id.
+     * @return updated model. Should be same as given model.
+     * @throws IllegalArgumentException when model is null
+     * @throws LegoPersistenceException if model is not found in storage
+     * or if violate some constraint.
+     */
+    public Model update(Model model);
+
+    /**
+     * remove given model from storage.
+     *
+     * @param model model to be deleted
+     * @throws IllegalArgumentException when model is null
+     * @throws EntityNotExistsException if entity is already removed or
+     * is not in storage.
+     */
+    public void delete(Model model);
     
     /**
      * find model by its id. Model with ID has to exists.
@@ -50,26 +71,5 @@ public interface ModelDao {
      * @return all stored models or empty list if no models is found.
      */
     public List<Model> findAll();
-    
-    /**
-     * update data of given model
-     * 
-     * @param model model with updated data but with same id.
-     * @return updated model. Should be same as given model.
-     * @throws IllegalArgumentException when model is null
-     * @throws LegoPersistenceException if model is not found in storage
-     * or if violate some constraint.
-     */
-    public Model update(Model model);
-
-    /**
-     * remove given model from storage.
-     * 
-     * @param model model to be deleted
-     * @throws IllegalArgumentException when model is null
-     * @throws EntityNotExistsException if entity is already removed or 
-     * is not in storage.
-     */
-    public void delete(Model model);
 
 }

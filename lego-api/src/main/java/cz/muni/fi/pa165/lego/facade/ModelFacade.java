@@ -19,38 +19,7 @@ public interface ModelFacade {
      * @param model model to be created. It shouldn't have setted id.
      * @return id of the created model
      */
-    Long createModel(ModelDTO model);
-
-    /**
-     * Get model with the given ID.
-     *
-     * @param id id of the model
-     * @return existing model with given id
-     */
-    ModelDTO findModelById(Long id);
-
-    /**
-     * Get model with the given name.
-     *
-     * @param name name of the model
-     * @return existing model with given name
-     */
-    ModelDTO findModelByName(String name);
-
-    /**
-     * Get all existing models.
-     *
-     * @return list of existing models
-     */
-    List<ModelDTO> findAllModels();
-
-    /**
-     * Get all existing models in given category.
-     *
-     * @param categoryId id of existing category.
-     * @return list of existing categories
-     */
-    List<ModelDTO> findModelsByCategory(Long categoryId);
+    Long create(ModelDTO model);
 
     /**
      * Update the given model.
@@ -58,6 +27,44 @@ public interface ModelFacade {
      * @param model to be updated. It should have setted id.
      */
     void update(ModelDTO model);
+
+    /**
+     * Delete the model.
+     *
+     * @param modelId id of the category.
+     */
+    void delete(Long modelId);
+
+    /**
+     * Get model with the given ID.
+     *
+     * @param id id of the model
+     * @return existing model with given id
+     */
+    ModelDTO findById(Long id);
+
+    /**
+     * Get model with the given name.
+     *
+     * @param name name of the model
+     * @return existing model with given name
+     */
+    ModelDTO findByName(String name);
+
+    /**
+     * Get all existing models.
+     *
+     * @return list of existing models
+     */
+    List<ModelDTO> findByName();
+
+    /**
+     * Get all existing models in given category.
+     *
+     * @param categoryId id of existing category.
+     * @return list of existing categories
+     */
+    List<ModelDTO> findByCategory(Long categoryId);
 
     /**
      * Add given piece to the model defined by id. It also create piece and than add it to the model.
@@ -74,12 +81,5 @@ public interface ModelFacade {
      * @param pieceId id of the piece to be removed and deleted.
      */
     void removePiece(Long modelId, Long pieceId);
-
-    /**
-     * Delete the model.
-     *
-     * @param modelId id of the category.
-     */
-    void deleteModel(Long modelId);
 
 }

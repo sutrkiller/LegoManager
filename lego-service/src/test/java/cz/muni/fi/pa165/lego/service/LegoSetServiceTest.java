@@ -81,13 +81,13 @@ public class LegoSetServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testCreateLegoSet() {
-        legoSetService.createLegoSet(testLegoSet);
+        legoSetService.create(testLegoSet);
         verify(legoSetDao).create(testLegoSet);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateNullLegoSet() {
-        legoSetService.createLegoSet(null);
+        legoSetService.create(null);
         verify(legoSetDao).create(null);
     }
 

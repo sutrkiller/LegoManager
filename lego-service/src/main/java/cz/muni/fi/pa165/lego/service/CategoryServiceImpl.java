@@ -12,20 +12,20 @@ import javax.inject.Inject;
 
 /**
  * Implementation of the {@link CategoryService}/ This class is part of the
- * service module of the application that provides the implementation of 
- *  the business logic (main logic of the application).
- * 
+ * service module of the application that provides the implementation of
+ * the business logic (main logic of the application).
+ *
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015
  */
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     @Inject
     private CategoryDao categoryDao;
-    
+
     @Override
-    public void create(Category c){
+    public void create(Category c) {
         if (c == null) {
             throw new IllegalArgumentException("Category is null.");
         }
@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public void update(Category c){
+    public void update(Category c) {
         if (c == null) {
             throw new IllegalArgumentException("Category is null.");
         }
@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public void delete(Category c){
+    public void delete(Category c) {
         if (c == null) {
             throw new IllegalArgumentException("Category is null.");
         }
@@ -68,5 +68,5 @@ public class CategoryServiceImpl implements CategoryService{
     public List<Category> findAll() {
         return categoryDao.findAll();
     }
-    
+
 }

@@ -2,12 +2,9 @@ package cz.muni.fi.pa165.lego.facade;
 
 import cz.muni.fi.pa165.lego.Utils;
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
-import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
-import cz.muni.fi.pa165.lego.service.facade.CategoryFacadeImpl;
-import cz.muni.fi.pa165.legomanager.dao.CategoryDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
@@ -20,7 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -127,7 +123,7 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
     public void testCreateCategory() throws Exception {
         carsDTO.setId(null);
 
-        Long id = categoryFacade.createCategory(carsDTO);
+        Long id = categoryFacade.create(carsDTO);
 
         verify(beanMappingService).mapTo(eq(carsDTO), eq(Category.class));
         verify(categoryService).create(cars);
@@ -139,7 +135,7 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
 
         carsDTO.setName("newName");
 
-        categoryFacade.updateCategory(carsDTO);
+        categoryFacade.update(carsDTO);
 
         verify(beanMappingService).mapTo(eq(carsDTO), eq(Category.class));
         verify(categoryService).update(cars);
@@ -148,7 +144,7 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testDeleteCategory() throws Exception {
 
-        categoryFacade.deleteCategory(1L);
+        categoryFacade.delete(1L);
 
         verify(categoryService).findById(eq(1L));
         verify(categoryService).delete(cars);
@@ -157,7 +153,7 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testGetCategoryById() throws Exception {
 
-        CategoryDTO categoryDTO = categoryFacade.getCategoryById(1L);
+        CategoryDTO categoryDTO = categoryFacade.findById(1L);
 
         verify(categoryService).findById(eq(1L));
         verify(beanMappingService).mapTo(cars, CategoryDTO.class);
@@ -168,7 +164,7 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testGetCategoryByName() throws Exception {
 
-        CategoryDTO categoryDTO = categoryFacade.getCategoryByName("Cars");
+        CategoryDTO categoryDTO = categoryFacade.findByName("Cars");
 
         verify(categoryService).findByName("Cars");
         verify(beanMappingService).mapTo(cars, CategoryDTO.class);
@@ -179,7 +175,7 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testGetAllCategories() throws Exception {
 
-        List<CategoryDTO> categories = categoryFacade.getAllCategories();
+        List<CategoryDTO> categories = categoryFacade.findAll();
 
         verify(categoryService).findAll();
         verify(beanMappingService).mapTo(all, CategoryDTO.class);

@@ -80,9 +80,9 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void testCreatePieceType() {
-        Long id = pieceTypeFacade.createPieceType(pieceTypeDTO);
+        Long id = pieceTypeFacade.create(pieceTypeDTO);
         
-        returnedPieceTypeDTO = pieceTypeFacade.getPieceTypeById(id);
+        returnedPieceTypeDTO = pieceTypeFacade.findById(id);
         
         assertEquals(returnedPieceTypeDTO,pieceTypeDTO);
         verify(pieceTypeService).create(any(PieceType.class));
@@ -90,20 +90,20 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void testUpdatePieceType() {
-        pieceTypeFacade.updatePieceType(pieceTypeDTO);
+        pieceTypeFacade.update(pieceTypeDTO);
         verify(pieceTypeService).update(any(PieceType.class));
     }
     
     @Test
     public void testDeletePieceType() {
-        pieceTypeFacade.deletePieceType(pieceTypeDTO.getId());
+        pieceTypeFacade.delete(pieceTypeDTO.getId());
         
         verify(pieceTypeService).delete(any(PieceType.class));
     }
     
     @Test
     public void testGetPieceTypeById() {
-        returnedPieceTypeDTO = pieceTypeFacade.getPieceTypeById(pieceTypeDTO.getId());
+        returnedPieceTypeDTO = pieceTypeFacade.findById(pieceTypeDTO.getId());
         
         assertEquals(returnedPieceTypeDTO, pieceTypeDTO);
         verify(pieceTypeService).findById(any(Long.class));
@@ -119,7 +119,7 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
         
         when(pieceTypeService.findAll()).thenReturn(pieceTypes);
         
-        List<PieceTypeDTO> returnedPieceTypesDTO = pieceTypeFacade.getAllPieceTypes();
+        List<PieceTypeDTO> returnedPieceTypesDTO = pieceTypeFacade.findAll();
         
         assertNotNull(returnedPieceTypesDTO);
         assertEquals(returnedPieceTypesDTO.get(0),pieceTypesDTO.get(0));
@@ -128,7 +128,7 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void testGetPieceTypeByName() {
-        returnedPieceTypeDTO = pieceTypeFacade.getPieceTypeByName(pieceTypeDTO.getName());
+        returnedPieceTypeDTO = pieceTypeFacade.findByName(pieceTypeDTO.getName());
         
         assertEquals(returnedPieceTypeDTO, pieceTypeDTO);
         verify(pieceTypeService).findByName(any(String.class));
