@@ -14,7 +14,9 @@
     <name>Lego Manager</name>
     <modules>
         <module>lego-persistence</module>
-        <module>lego-api</module>
         <module>lego-service</module>
+        <module>lego-api</module>
+        <module>lego-rest</module>
+        <module>lego-spring-mvc</module>
     </modules>
 </project>
