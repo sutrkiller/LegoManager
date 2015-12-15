@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.lego.mvc.config;
 
+import cz.muni.fi.pa165.sampledata.LegoManagerWithSampleDataConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -25,8 +26,8 @@ import javax.validation.Validator;
  * @date 12.12.2015
  */
 @EnableWebMvc
-// @Import .. TO-DO
 @Configuration
+@Import({LegoManagerWithSampleDataConfiguration.class})
 @ComponentScan(basePackages = "cz.muni.fi.pa165")
 public class MySpringMvcConfig extends WebMvcConfigurerAdapter {
 

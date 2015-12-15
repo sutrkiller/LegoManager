@@ -38,6 +38,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>cz.muni.fi.PA165</groupId>
+            <artifactId>lego-sample-data</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-api</artifactId>
             <version>${tomcat.version}</version>
