@@ -110,8 +110,7 @@ public class ModelServiceImpl implements ModelService {
             throw new LegoServiceException("Model: " + model.toString() + " already contains piece:" + piece.toString());
         }
         pieceService.create(piece);
-        pieces.add(piece);
-        model.setPieces(pieces);
+        model.addPiece(piece);
         modelDao.update(model);
     }
 
