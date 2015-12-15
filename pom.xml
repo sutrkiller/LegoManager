@@ -10,6 +10,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+    
+    <parent>
+        <groupId>io.spring.platform</groupId>
+        <artifactId>platform-bom</artifactId>
+        <version>2.0.0.RELEASE</version>
+        <relativePath/>
+    </parent>
 
     <name>Lego Manager</name>
     <modules>
