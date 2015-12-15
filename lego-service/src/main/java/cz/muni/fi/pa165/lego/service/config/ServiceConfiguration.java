@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @Import(PersistenceApplicationContext.class)
-@EnableTransactionManagement
 @ComponentScan(basePackageClasses = {PieceServiceImpl.class, ModelFacadeImpl.class})
 public class ServiceConfiguration {
 

@@ -20,6 +20,7 @@ import java.io.IOException;
  */
 @Configuration
 @Import(ServiceConfiguration.class)
+@EnableTransactionManagement
 @ComponentScan(basePackageClasses = {SampleDataLoadingFacadeImpl.class})
 public class LegoManagerWithSampleDataConfiguration {
 
@@ -29,7 +30,7 @@ public class LegoManagerWithSampleDataConfiguration {
     SampleDataLoadingFacade sampleDataLoadingFacade;
 
     @PostConstruct
-    public void dataLoading() throws IOException {
+    public void dataLoaading() throws IOException {
         log.debug("dataLoading()");
         sampleDataLoadingFacade.loadData();
     }
