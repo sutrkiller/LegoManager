@@ -93,7 +93,7 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
         pieceTypeFacade.update(pieceTypeDTO);
         verify(pieceTypeService).update(any(PieceType.class));
     }
-    
+
     @Test
     public void testDeletePieceType() {
         pieceTypeFacade.delete(pieceTypeDTO.getId());

@@ -55,7 +55,7 @@ public class ModelFacadeImpl implements ModelFacade {
     }
 
     @Override
-    public List<ModelDTO> findByName() {
+    public List<ModelDTO> findAll() {
         return beanMappingService.mapTo(modelService.findAll(), ModelDTO.class);
     }
 

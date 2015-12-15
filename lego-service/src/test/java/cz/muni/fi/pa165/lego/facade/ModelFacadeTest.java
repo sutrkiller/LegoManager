@@ -190,7 +190,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
         when(modelService.findAll()).thenReturn(cars);
 
-        List<ModelDTO> returnedCarsDTO = modelFacade.findByName();
+        List<ModelDTO> returnedCarsDTO = modelFacade.findAll();
 
         assertNotNull(returnedCarsDTO);
         assertEquals(carsDTO.get(0), returnedCarsDTO.get(0));

@@ -56,7 +56,7 @@ public interface ModelFacade {
      *
      * @return list of existing models
      */
-    List<ModelDTO> findByName();
+    List<ModelDTO> findAll();
 
     /**
      * Get all existing models in given category.
