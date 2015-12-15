@@ -1,9 +1,12 @@
 package cz.muni.fi.pa165.lego.mvc.controllers;
 
+import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
+import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * SpringMVC Controller for administering models.
@@ -32,11 +36,22 @@ public class ModelController {
 
     private final static Logger log = LoggerFactory.getLogger(ModelController.class);
 
-    @Inject
+    @Autowired
     private ModelFacade modelFacade;
 
+    @Autowired
+    private CategoryFacade categoryFacade;
+
+    @ModelAttribute("categories")
+    public List<CategoryDTO> categories() {
+        log.debug("categories()");
+        return categoryFacade.findAll();
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createModel(@Valid @ModelAttribute("modelCreate") ModelDTO modelDTO, BindingResult bindingResult,
                               Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+
         log.debug("create", modelDTO);
 
         if (bindingResult.hasErrors()) {
