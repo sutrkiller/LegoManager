@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
+import cz.muni.fi.pa165.sampledata.LegoManagerWithSampleDataConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -23,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @EnableWebMvc
 @Configuration
-@Import({ServiceConfiguration.class})//, EshopWithSampleDataConfiguration.class})
+@Import({ServiceConfiguration.class, LegoManagerWithSampleDataConfiguration.class})
 @ComponentScan(basePackages = "cz.muni.fi.pa165")
 public class RootWebContext extends WebMvcConfigurerAdapter {
 
