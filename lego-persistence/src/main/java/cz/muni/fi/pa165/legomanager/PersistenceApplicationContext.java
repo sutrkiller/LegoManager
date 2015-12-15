@@ -20,6 +20,7 @@ import javax.sql.DataSource;
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 @Configuration
+//@EnableJpaRepositories
 @ComponentScan(basePackageClasses = {Model.class, ModelDao.class})
 public class PersistenceApplicationContext {
 
