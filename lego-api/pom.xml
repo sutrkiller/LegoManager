@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cz.muni.fi.PA165</groupId>
         <artifactId>lego</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>lego-api</artifactId>
     <packaging>jar</packaging>
+
+    <name>API Layer</name>
+
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
-    <name>API Layer</name>
+
     <dependencies>
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-            <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>cz.muni.fi.PA165</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>lego-persistence</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
