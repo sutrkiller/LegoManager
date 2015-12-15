@@ -25,5 +25,6 @@
         <module>lego-api</module>
         <module>lego-rest</module>
         <module>lego-spring-mvc</module>
+        <module>lego-sample-data</module>
     </modules>
 </project>
