@@ -40,11 +40,11 @@ public class ModelController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @ModelAttribute ModelDTO ModelDTO) throws Exception {
+    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @ModelAttribute ModelDTO modelDTO) throws Exception {
 
         log.debug("rest updateModel({})", id);
 
-        modelFacade.update(ModelDTO);
+        modelFacade.update(modelDTO);
 
         return modelFacade.findById(id);
     }
@@ -62,14 +62,14 @@ public class ModelController {
 
         log.debug("rest getModel({})", id);
 
-        ModelDTO ModelDTO = modelFacade.findById(id);
+        ModelDTO modelDTO = modelFacade.findById(id);
 
-        if (ModelDTO == null) {
+        if (modelDTO == null) {
             // TO-DO throw new exception
             throw new Exception("reason..");
         }
 
-        return ModelDTO;
+        return modelDTO;
     }
 
     @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,14 +77,14 @@ public class ModelController {
 
         log.debug("rest getModel({})", name);
 
-        ModelDTO ModelDTO = modelFacade.findByName(name);
+        ModelDTO modelDTO = modelFacade.findByName(name);
 
-        if (ModelDTO == null) {
+        if (modelDTO == null) {
             // TO-DO throw new exception
             throw new Exception("reason..");
         }
 
-        return ModelDTO;
+        return modelDTO;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
