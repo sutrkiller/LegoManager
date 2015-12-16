@@ -87,9 +87,9 @@ public class LegoSetDaoImpl implements LegoSetDao {
         if (ls == null) {
             throw new IllegalArgumentException("LegoSet is null.");
         }
-        if (!em.contains(ls)) {
-            throw new EntityNotExistsException("Entity does not exist.");
-        }
+//        if (!em.contains(ls)) {
+//            throw new EntityNotExistsException("Entity does not exist.");
+//        }
         try {
             em.merge(ls);
             em.flush();
