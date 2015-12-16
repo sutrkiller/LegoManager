@@ -30,7 +30,7 @@ public class LegoManagerWithSampleDataConfiguration {
     SampleDataLoadingFacade sampleDataLoadingFacade;
 
     @PostConstruct
-    public void dataLoaading() throws IOException {
+    public void dataLoading() throws IOException {
         log.debug("dataLoading()");
         sampleDataLoadingFacade.loadData();
     }
