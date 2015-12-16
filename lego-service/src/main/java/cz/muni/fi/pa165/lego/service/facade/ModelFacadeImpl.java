@@ -76,8 +76,8 @@ public class ModelFacadeImpl implements ModelFacade {
     public void addPiece(Long modelId, PieceDTO pieceDTO) {
         Model model = modelService.findById(modelId);
         Piece piece = beanMappingService.mapTo(pieceDTO, Piece.class);
-        piece.setType(pieceTypeService.findById(pieceDTO.getPieceType().getId()));
-        if (!pieceDTO.getPieceType().getColors().contains(pieceDTO.getCurrentColor())) {
+        piece.setType(pieceTypeService.findById(pieceDTO.getType().getId()));
+        if (!pieceDTO.getType().getColors().contains(pieceDTO.getCurrentColor())) {
             throw new IllegalArgumentException("piece do not have color from its piece type.");
         }
         modelService.addPiece(model, piece);

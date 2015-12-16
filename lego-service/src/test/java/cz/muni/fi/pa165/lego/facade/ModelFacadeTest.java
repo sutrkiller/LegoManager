@@ -121,7 +121,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
         when(modelDTO.getAgeLimit()).thenReturn(Byte.valueOf("5"));
         when(modelDTO.getCategory()).thenReturn(categoryDTO);
         when(oldPieceDTO.getId()).thenReturn(1L);
-        when(oldPieceDTO.getPieceType()).thenReturn(pieceTypeDTO);
+        when(oldPieceDTO.getType()).thenReturn(pieceTypeDTO);
         when(categoryDTO.getId()).thenReturn(1L);
         when(categoryDTO.getName()).thenReturn("Category containing cars only.");
         when(newCategoryDTO.getId()).thenReturn(2L);
@@ -131,7 +131,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
         clrs.add(Color.BLUE);
         clrs.add(Color.RED);
         when(pieceTypeDTO.getColors()).thenReturn(clrs);
-        when(newPieceDTO.getPieceType()).thenReturn(pieceTypeDTO);
+        when(newPieceDTO.getType()).thenReturn(pieceTypeDTO);
         when(newPieceDTO.getCurrentColor()).thenReturn(Color.RED);
 
         // mocking Model entity

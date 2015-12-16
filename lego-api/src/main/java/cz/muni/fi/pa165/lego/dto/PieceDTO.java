@@ -37,11 +37,11 @@ public class PieceDTO {
         this.currentColor = currentColor;
     }
 
-    public PieceTypeDTO getPieceType() {
+    public PieceTypeDTO getType() {
         return type;
     }
 
-    public void setPieceType(PieceTypeDTO type) {
+    public void setType(PieceTypeDTO type) {
         this.type = type;
     }
 
