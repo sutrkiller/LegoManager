@@ -6,19 +6,35 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <my:pagetemplate title="New category">
-<jsp:attribute name="body">
+    <jsp:attribute name="body">
+        <div class="container">
+            <form:form method="post" action="${pageContext.request.contextPath}/category/create"
+                       modelAttribute="categoryCreate" cssClass="form-horizontal">
+                <div class="form-group ${name_error?'has-error':''}">
+                    <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
+                        <div class="col-sm-10">
+                        <form:input path="name" cssClass="form-control"/>
+                        <form:errors path="name" cssClass="help-block"/>
+                    </div>
+                </div>
 
-    <form:form method="post" action="${pageContext.request.contextPath}/category/create"
-               modelAttribute="categoryCreate" cssClass="form-horizontal">
-        <div class="form-group ${name_error?'has-error':''}">
-            <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
-            <div class="col-sm-10">
-                <form:input path="name" cssClass="form-control"/>
-                <form:errors path="name" cssClass="help-block"/>
-            </div>
+                <div class="form-group ${name_error?'has-error':''}">
+                    <form:label path="description" cssClass="col-sm-2 control-label">Description</form:label>
+                        <div class="col-sm-10">
+                        <form:input path="description" cssClass="form-control"/>
+                        <form:errors path="description" cssClass="help-block"/>
+                    </div>
+                </div>
+
+                <div class="form-group">        
+                    <div class="col-sm-offset-2 col-sm-10">       
+                        <button class="btn btn-success" type="submit">Create category</button>
+                    </div>
+                </div>
+                </form:form>
         </div>
-        <button class="btn btn-primary" type="submit">Create category</button>
-    </form:form>
 
-</jsp:attribute>
+
+
+    </jsp:attribute>
 </my:pagetemplate>

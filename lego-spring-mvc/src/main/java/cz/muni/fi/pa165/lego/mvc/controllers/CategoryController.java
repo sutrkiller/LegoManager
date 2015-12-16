@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -126,7 +127,7 @@ public class CategoryController {
         return "category/view";
     }
 
-    @RequestMapping(value = "/view/{name}", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/view/{name}", method = RequestMethod.GET, params = {"name"})
     public String viewCategory(@PathVariable String name, Model model) {
 
         log.debug("view()", name);
@@ -134,7 +135,7 @@ public class CategoryController {
         model.addAttribute("category", categoryFacade.findByName(name));
 
         return "category/view";
-    }
+    }*/
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listCategories(Model model) {

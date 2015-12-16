@@ -6,30 +6,39 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <my:pagetemplate title="Categories">
-<jsp:attribute name="body">
+    <jsp:attribute name="body">
 
-    <my:a href="/category/new" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New category
-    </my:a>
+        <my:a href="/category/new" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            New category
+        </my:a>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>id</th>
-            <th>name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${categories}" var="category">
-            <tr>
-                <td>${category.id}</td>
-                <td><c:out value="${category.name}"/></td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${categories}" var="category">
+                    <tr>
+                        <td>${category.id}</td>
+                        <td><c:out value="${category.name}"/></td>
+                        <td>
+                            <my:a href="/category/view/${category.id}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                Detail
+                            </my:a>
+                            <my:a href="/category/delete/${category.id}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                Delete
+                            </my:a></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
 
 
-</jsp:attribute>
+    </jsp:attribute>
 </my:pagetemplate>

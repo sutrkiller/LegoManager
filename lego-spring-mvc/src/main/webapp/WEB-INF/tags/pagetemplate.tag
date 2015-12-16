@@ -34,14 +34,14 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><my:a href="/shopping/show"><f:message key="navigation.eshop"/></my:a></li>
+                <li><my:a href="/store/show"><f:message key="navigation.store"/></my:a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><my:a href="/order/list/all"><f:message key="navigation.admin.orders"/></my:a></li>
-                        <li><my:a href="/user/list"><f:message key="navigation.admin.customers"/></my:a></li>
-                        <li><my:a href="/product/list"><f:message key="navigation.admin.products"/></my:a></li>
                         <li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>
+                        <li><my:a href="/piecetype/list"><f:message key="navigation.admin.piecetypes"/></my:a></li>
+                        <li><my:a href="/model/list"><f:message key="navigation.admin.models"/></my:a></li>
+                        <li><my:a href="/legoset/list"><f:message key="navigation.admin.legosets"/></my:a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -115,7 +115,7 @@
 
     <!-- footer -->
     <footer class="footer">
-        <p>&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Masaryk University</p>
+        <p>&copy;&nbsp; <c:out value="${currentyear}"/> &nbsp;Masaryk University</p>
     </footer>
 </div>
 <!-- javascripts placed at the end of the document so the pages load faster -->
