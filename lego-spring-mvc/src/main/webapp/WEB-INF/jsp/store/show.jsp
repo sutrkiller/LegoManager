@@ -25,6 +25,12 @@
                             <td><p><c:out value="${category.id}"/></p></td>
                             <td><p><c:out value="${category.name}"/></p></td>
                             <td><p><c:out value="${category.description}"/></p></td>
+                            <td>
+                            <my:a href="/category/view/${category.id}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                Detail
+                            </my:a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -52,6 +58,12 @@
                                         <c:if test="${!loop.last}">, </c:if>
                                     </c:forEach>
                                 </p></td>
+                            <td>
+                            <my:a href="/piecetype/view/${piecetype.id}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                Detail
+                            </my:a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -85,6 +97,12 @@
                                         <c:if test="${!loop.last}">, </c:if>
                                     </c:forEach>
                                 </p></td>
+                            <td>
+                            <my:a href="/model/view/${model.id}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                Detail
+                            </my:a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -116,6 +134,12 @@
                                         <c:if test="${!loop.last}">, </c:if>
                                     </c:forEach>
                                 </p></td>
+                            <td>
+                            <my:a href="/legoset/view/${legoset.id}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                Detail
+                            </my:a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
