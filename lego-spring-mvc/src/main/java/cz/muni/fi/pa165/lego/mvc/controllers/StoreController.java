@@ -71,12 +71,12 @@ public class StoreController {
         List<CategoryDTO> allCategories = categoryFacade.findAll();
         List<PieceTypeDTO> allPieceTypes = pieceTypeFacade.findAll();
         List<ModelDTO> allModels = modelFacade.findAll();
-        //List<LegoSetDTO> allLegoSets = legoSetFacade.findAll();
+        List<LegoSetDTO> allLegoSets = legoSetFacade.findAll();
 
         model.addAttribute("categories", allCategories);
         model.addAttribute("piecetypes", allPieceTypes);
         model.addAttribute("models", allModels);
-        //model.addAttribute("legosets", allLegoSets);
+        model.addAttribute("legosets", allLegoSets);
 
         return "store/show";
     }

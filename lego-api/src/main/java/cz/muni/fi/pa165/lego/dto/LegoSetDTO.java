@@ -25,7 +25,7 @@ public class LegoSetDTO {
     private String name;
 
     @NotNull
-    private List<Model> models;
+    private List<ModelDTO> models;
 
     @NotNull
     @Min(0)
@@ -50,19 +50,19 @@ public class LegoSetDTO {
         this.name = name;
     }
 
-    public List<Model> getModels() {
+    public List<ModelDTO> getModels() {
         return models;
     }
 
-    public void setModels(List<Model> models) {
+    public void setModels(List<ModelDTO> models) {
         this.models = models;
     }
 
-    public void addModel(Model model) {
+    public void addModel(ModelDTO model) {
         models.add(model);
     }
 
-    public void removeModel(Model model) {
+    public void removeModel(ModelDTO model) {
         models.remove(model);
     }
 

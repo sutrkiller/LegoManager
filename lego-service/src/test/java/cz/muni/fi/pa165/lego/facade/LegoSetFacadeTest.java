@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.lego.facade;
 
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
+import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.LegoSetService;
@@ -64,6 +65,12 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
     private Model newModel;
 
     @Mock
+    private ModelDTO testModelDTO;
+
+    @Mock
+    private ModelDTO newModelDTO;
+
+    @Mock
     private Category testCategory;
 
     @Mock
@@ -94,20 +101,15 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
 
         when(legoSetService.findById(1L)).thenReturn(testLegoSet);
 
-        List<Model> allModels = new ArrayList<>();
-        allModels.add(testModel);
-
         when(testLegoSet.getId()).thenReturn(1L);
         when(testLegoSet.getCategory()).thenReturn(testCategory);
         when(testLegoSet.getName()).thenReturn("TestName");
-        when(testLegoSet.getModels()).thenReturn(allModels);
 
         when(categoryDTO.getId()).thenReturn(1L);
 
         when(legoSetDTO.getId()).thenReturn(1L);
         when(legoSetDTO.getCategory()).thenReturn(categoryDTO);
         when(legoSetDTO.getName()).thenReturn("TestName");
-        when(legoSetDTO.getModels()).thenReturn(allModels);
     }
 
     @Test
