@@ -47,7 +47,8 @@ public class LegoSetFacadeImpl implements LegoSetFacade {
 
     @Override
     public void update(LegoSetDTO updated) {
-        LegoSet mapped = beanMappingService.mapTo(legoSetService.findById(updated.getId()), LegoSet.class);
+        LegoSet mapped = beanMappingService.mapTo(updated, LegoSet.class);
+        mapped.setCategory(categoryService.findById(updated.getCategory().getId()));
         legoSetService.updateLegoSet(mapped);
     }
 
