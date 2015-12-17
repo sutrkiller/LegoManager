@@ -28,9 +28,9 @@ public class LegoSetController {
     @Inject
     private LegoSetFacade legoSetFacade;
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final LegoSetDTO createLegoSet(@RequestBody LegoSetDTO legoSetDTO) throws Exception {
+    @RequestMapping(value = "/create", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final @Valid @ResponseBody LegoSetDTO createLegoSet(@Valid @RequestBody LegoSetDTO legoSetDTO) throws Exception {
         log.debug("rest createLegoSet()");
 
         Long id = legoSetFacade.create(legoSetDTO);
@@ -38,17 +38,15 @@ public class LegoSetController {
         return legoSetFacade.findById(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final LegoSetDTO updateLegoSet(@PathVariable("id") long id, @RequestBody LegoSetDTO legoSetDTO) throws Exception {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final void updateLegoSet(@PathVariable("id") long id, @Valid @RequestBody LegoSetDTO legoSetDTO) throws Exception {
         log.debug("rest updateLegoSet({})", id);
 
         legoSetFacade.update(legoSetDTO);
-
-        return legoSetFacade.findById(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteLegoSet(@PathVariable("id") long id) throws Exception {
         log.debug("rest deleteLegoSet({})", id);
 
@@ -56,7 +54,7 @@ public class LegoSetController {
     }
 
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final LegoSetDTO getLegoSet(@PathVariable("identifier") String identifier) throws Exception {
+    public final @ResponseBody LegoSetDTO getLegoSet(@PathVariable("identifier") String identifier) throws Exception {
         log.debug("rest getLegoSet({})", identifier);
 
         LegoSetDTO legoSetDTO;
