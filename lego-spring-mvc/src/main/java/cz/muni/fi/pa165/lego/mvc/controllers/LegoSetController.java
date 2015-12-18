@@ -95,7 +95,7 @@ public class LegoSetController {
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String updateLegoSet(@Valid @ModelAttribute LegoSetDTOPut legoSetDTO, @PathVariable("id") long id, BindingResult bindingResult,
+    public String updateLegoSet(@Valid @ModelAttribute("legosetChange") LegoSetDTOPut legoSetDTO, BindingResult bindingResult, @PathVariable("id") long id, 
                                 RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
                                 Model model) {
         
@@ -109,7 +109,7 @@ public class LegoSetController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-            return "legoset/change/"+id;
+            return "legoset/change";
         }
         
         legoSetFacade.update(legoSetDTO, id);
@@ -129,12 +129,13 @@ public class LegoSetController {
         return "legoset/change";
     }
     
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteLegoSet(@PathVariable long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-
+        
+        LegoSetDTOGet legoSetDTO = legoSetFacade.findById(id);
         log.debug("delete()");
 
-        legoSetFacade.delete(id);
+        legoSetFacade.delete(legoSetDTO.getId());
 
         redirectAttributes.addFlashAttribute("alert_success", "LegoSet " + id + " was deleted");
 
@@ -171,7 +172,7 @@ public class LegoSetController {
         return "legoset/list";
     }
     
-    @RequestMapping(value="/{id}/addModel", method = RequestMethod.POST)
+    @RequestMapping(value="/{id}/addModel", method = RequestMethod.GET)
     public final String addModel(@PathVariable("id") long id, @RequestParam long modelId, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) throws Exception {
         log.debug("addModel({})",id);
         
@@ -181,7 +182,7 @@ public class LegoSetController {
         return "redirect:" + uriBuilder.path("/legoset/change/"+id).toUriString();
     }
     
-    @RequestMapping(value="/{id}/removeModel", method = RequestMethod.POST)
+    @RequestMapping(value="/{id}/removeModel", method = RequestMethod.GET)
     public final String removeModel(@PathVariable("id") long id, @RequestParam long modelId, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) throws Exception {
         log.debug("removeModel({})",id);
         
