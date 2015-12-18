@@ -1,0 +1,44 @@
+/* MAIN CSS FILE */
+
+.table > tbody > tr > td.button-cell {
+    padding: 1px;
+}
+.table > tbody > tr > td.button-cell .btn {
+    border-radius: 0px;
+}
+.table > tbody > tr > td.button-cell input.form-control {
+    border-color: transparent;
+    box-shadow: none;
+}
+.table > tbody > tr > td.button-cell input.form-control:focus {
+    border-color: #66afe9;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.table > tbody > tr > td.tight-cell {
+    width: 1%;
+}
+
+.btn-group > .btn.color {
+    opacity: 0.6;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-group > .btn.color:hover,
+.btn-group > .btn.color:focus  {
+    border-color: rgba(0, 0, 0, 0.4);
+    opacity: 0.8;
+}
+.btn-group > .btn.color.active {
+    border-color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+}
+
+.btn-group > .btn.color > span {
+    opacity: 0;
+}
+.btn-group > .btn.color:hover > span,
+.btn-group > .btn.color:focus > span  {
+    opacity: 0.5;
+}
+.btn-group > .btn.color.active > span {
+    opacity: 1;
+}
