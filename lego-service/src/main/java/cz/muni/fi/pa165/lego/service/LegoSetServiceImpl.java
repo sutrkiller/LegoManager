@@ -89,6 +89,9 @@ public class LegoSetServiceImpl implements LegoSetService {
         if (legoSet == null || model == null) {
             throw new IllegalArgumentException("Argument legoSet or model is null");
         }
+        if (legoSet.getModels().contains(model)) {
+            throw new LegoServiceException("Lego set " + legoSet.getId() +":"+ legoSet.getId() + " already contains model " + model);
+        }
         legoSet.addModel(model);
         legoSetDao.update(legoSet);
     }
@@ -97,6 +100,9 @@ public class LegoSetServiceImpl implements LegoSetService {
     public void removeModel(LegoSet legoSet, Model model) {
         if (legoSet == null || model == null) {
             throw new IllegalArgumentException("Argument legoSet or model is null");
+        }
+        if (!legoSet.getModels().contains(model)) {
+            throw new LegoServiceException("Lego set " + legoSet.getId() +":"+ legoSet.getId() + " does not contains model " + model);
         }
         legoSet.removeModel(model);
         legoSetDao.update(legoSet);

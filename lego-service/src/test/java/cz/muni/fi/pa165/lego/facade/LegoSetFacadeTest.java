@@ -49,31 +49,21 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private CategoryService categoryService;
 
-    @Mock
     private LegoSetDTOGet legoSetDTO;
-
-    @Mock
     private LegoSetDTOPut legoSetDTOPut;
 
     @Mock
     private LegoSet testLegoSet;
-
     @Mock
     private Model testModel;
-
     @Mock
     private Model newModel;
-
-    @Mock
-    private ModelDTO testModelDTO;
-
-    @Mock
-    private ModelDTO newModelDTO;
-
     @Mock
     private Category testCategory;
 
-    @Mock
+    private ModelDTO testModelDTO;
+    private ModelDTO newModelDTO;
+
     private CategoryDTO categoryDTO;
 
     @Mock
@@ -105,14 +95,20 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
         when(testLegoSet.getCategory()).thenReturn(testCategory);
         when(testLegoSet.getName()).thenReturn("TestName");
 
-        when(categoryDTO.getId()).thenReturn(1L);
+        testModelDTO = new ModelDTO();
+        newModelDTO = new ModelDTO();
 
-        when(legoSetDTO.getId()).thenReturn(1L);
-        when(legoSetDTO.getCategory()).thenReturn(categoryDTO);
-        when(legoSetDTO.getName()).thenReturn("TestName");
+        categoryDTO = new CategoryDTO();
+        categoryDTO.setId(1L);
 
-        when(legoSetDTOPut.getCategoryId()).thenReturn(categoryDTO.getId());
-        when(legoSetDTOPut.getName()).thenReturn("TestName");
+        legoSetDTO = new LegoSetDTOGet();
+        legoSetDTO.setId(1L);
+        legoSetDTO.setName("TestName");
+        legoSetDTO.setCategory(categoryDTO);
+
+        legoSetDTOPut = new LegoSetDTOPut();
+        legoSetDTOPut.setName("TestName");
+        legoSetDTOPut.setCategoryId(categoryDTO.getId());
     }
 
     @Test
