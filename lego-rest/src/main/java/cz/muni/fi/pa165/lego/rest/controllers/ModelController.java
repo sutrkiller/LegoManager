@@ -71,6 +71,7 @@ public class ModelController {
 
         return modelDTO;
     }
+/*
 
     @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final ModelDTO getModel(@PathVariable("name") String name) throws Exception {
@@ -86,6 +87,7 @@ public class ModelController {
 
         return modelDTO;
     }
+*/
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<ModelDTO> getModels() {

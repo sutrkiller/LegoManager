@@ -1,14 +1,14 @@
 package cz.muni.fi.pa165.lego.facade;
 
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
-import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOPut;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.LegoSetService;
 import cz.muni.fi.pa165.lego.service.ModelService;
 import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
-import cz.muni.fi.pa165.lego.service.facade.LegoSetFacadeImpl;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.entities.Model;
@@ -24,9 +24,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -53,7 +50,10 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
     private CategoryService categoryService;
 
     @Mock
-    private LegoSetDTO legoSetDTO;
+    private LegoSetDTOGet legoSetDTO;
+
+    @Mock
+    private LegoSetDTOPut legoSetDTOPut;
 
     @Mock
     private LegoSet testLegoSet;
@@ -88,7 +88,7 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
         MockitoAnnotations.initMocks(this);
 
         when(mappingService.mapTo(any(), eq(LegoSet.class))).thenReturn(testLegoSet);
-        when(mappingService.mapTo(any(), eq(LegoSetDTO.class))).thenReturn(legoSetDTO);
+        when(mappingService.mapTo(any(), eq(LegoSetDTOGet.class))).thenReturn(legoSetDTO);
 
         when(testModel.getId()).thenReturn(1L);
         when(newModel.getId()).thenReturn(2L);
@@ -110,13 +110,16 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
         when(legoSetDTO.getId()).thenReturn(1L);
         when(legoSetDTO.getCategory()).thenReturn(categoryDTO);
         when(legoSetDTO.getName()).thenReturn("TestName");
+
+        when(legoSetDTOPut.getCategoryId()).thenReturn(categoryDTO.getId());
+        when(legoSetDTOPut.getName()).thenReturn("TestName");
     }
 
     @Test
     public void testCreateLegoSet() {
-        Long id = legoSetFacade.create(legoSetDTO);
+        LegoSetDTOGet created = legoSetFacade.create(legoSetDTOPut);
 
-        LegoSetDTO found = legoSetFacade.findById(id);
+        LegoSetDTOGet found = legoSetFacade.findById(created.getId());
 
         Assert.assertEquals(legoSetDTO, found);
         verify(legoSetService).create(any(LegoSet.class));
@@ -124,7 +127,7 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testUpdateLegoSet() {
-        legoSetFacade.update(legoSetDTO);
+        legoSetFacade.update(legoSetDTOPut, 1L);
         verify(legoSetService).updateLegoSet(any(LegoSet.class));
     }
 
@@ -142,7 +145,7 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindLegoSetByName() {
-        LegoSetDTO found = legoSetFacade.findByName(legoSetDTO.getName());
+        LegoSetDTOGet found = legoSetFacade.findByName(legoSetDTO.getName());
         verify(legoSetService).findByName(legoSetDTO.getName());
         Assert.assertEquals(legoSetDTO, found);
     }

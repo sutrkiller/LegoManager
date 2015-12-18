@@ -37,6 +37,7 @@ public class LegoSetServiceImpl implements LegoSetService {
         if (legoSet == null) {
             throw new IllegalArgumentException("Argument legoSet is null");
         }
+        System.out.println(legoSet.toString());
         legoSetDao.update(legoSet);
     }
 

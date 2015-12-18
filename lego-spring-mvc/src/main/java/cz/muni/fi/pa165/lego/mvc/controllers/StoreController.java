@@ -1,22 +1,20 @@
 package cz.muni.fi.pa165.lego.mvc.controllers;
 
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
-import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.facade.LegoSetFacade;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -71,7 +69,7 @@ public class StoreController {
         List<CategoryDTO> allCategories = categoryFacade.findAll();
         List<PieceTypeDTO> allPieceTypes = pieceTypeFacade.findAll();
         List<ModelDTO> allModels = modelFacade.findAll();
-        List<LegoSetDTO> allLegoSets = legoSetFacade.findAll();
+        List<LegoSetDTOGet> allLegoSets = legoSetFacade.findAll();
 
         model.addAttribute("categories", allCategories);
         model.addAttribute("piecetypes", allPieceTypes);

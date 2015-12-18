@@ -1,7 +1,8 @@
 package cz.muni.fi.pa165.lego.mvc.forms;
 
-import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
 import java.math.BigDecimal;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -15,12 +16,12 @@ public class LegoSetDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> type) {
-        return LegoSetDTO.class.isAssignableFrom(type);
+        return LegoSetDTOGet.class.isAssignableFrom(type);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        LegoSetDTO legoSetDTO = (LegoSetDTO) o;
+        LegoSetDTOGet legoSetDTO = (LegoSetDTOGet) o;
         
         if (legoSetDTO.getName() == null) {
             errors.rejectValue("name", "LegoSetDTOValidator.name.null");

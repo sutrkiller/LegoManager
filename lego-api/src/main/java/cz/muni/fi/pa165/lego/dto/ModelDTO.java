@@ -23,7 +23,7 @@ public class ModelDTO {
     private String name;
 
     @NotNull
-    private CategoryDTO category = new CategoryDTO();
+    private CategoryDTO category;
 
     @NotNull
     @Min(0)

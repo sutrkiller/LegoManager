@@ -1,10 +1,8 @@
 package cz.muni.fi.pa165.lego.rest.controllers;
 
-import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOPut;
 import cz.muni.fi.pa165.lego.facade.LegoSetFacade;
-import cz.muni.fi.pa165.lego.facade.ModelFacade;
-import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -30,20 +28,35 @@ public class LegoSetController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final @Valid @ResponseBody LegoSetDTO createLegoSet(@Valid @RequestBody LegoSetDTO legoSetDTO) throws Exception {
+    public final @ResponseBody
+    LegoSetDTOGet createLegoSet(@Valid @RequestBody LegoSetDTOPut legoSetDTO) throws Exception {
         log.debug("rest createLegoSet()");
 
-        Long id = legoSetFacade.create(legoSetDTO);
-
-        return legoSetFacade.findById(id);
+        return legoSetFacade.create(legoSetDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void updateLegoSet(@PathVariable("id") long id, @Valid @RequestBody LegoSetDTO legoSetDTO) throws Exception {
+    public final void updateLegoSet(@PathVariable("id") long id, @Valid @RequestBody LegoSetDTOPut legoSetDTO) throws Exception {
         log.debug("rest updateLegoSet({})", id);
 
-        legoSetFacade.update(legoSetDTO);
+        legoSetFacade.update(legoSetDTO, id);
+    }
+
+    @RequestMapping(value = "/addModel/{id}", method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final void addModel(@PathVariable("id") long id, @RequestParam long modelId) throws Exception {
+        log.debug("rest addModel({})", id);
+
+        legoSetFacade.addModel(id, modelId);
+    }
+
+    @RequestMapping(value = "/removeModel/{id}", method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final void removeModel(@PathVariable("id") long id, @RequestParam long modelId) throws Exception {
+        log.debug("rest removeModel({})", id);
+
+        legoSetFacade.removeModel(id, modelId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -54,10 +67,11 @@ public class LegoSetController {
     }
 
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final @ResponseBody LegoSetDTO getLegoSet(@PathVariable("identifier") String identifier) throws Exception {
+    public final @ResponseBody
+    LegoSetDTOGet getLegoSet(@PathVariable("identifier") String identifier) throws Exception {
         log.debug("rest getLegoSet({})", identifier);
 
-        LegoSetDTO legoSetDTO;
+        LegoSetDTOGet legoSetDTO;
 
         // is integer?
         if (identifier.matches("^-?\\d+$")) {
@@ -80,7 +94,7 @@ public class LegoSetController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<LegoSetDTO> getLegoSets() {
+    public final List<LegoSetDTOGet> getLegoSets() {
         log.debug("rest getLegoSets()");
 
         return legoSetFacade.findAll();

@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.lego.service.config;
 
-import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
 import cz.muni.fi.pa165.lego.service.PieceServiceImpl;
@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
@@ -40,9 +39,12 @@ public class ServiceConfiguration {
     public class DozerCustomConfig extends BeanMappingBuilder {
         @Override
         protected void configure() {
-            mapping(PieceType.class, PieceTypeDTO.class).fields(field("colors").accessible(true), "colors");
-            mapping(Model.class, ModelDTO.class).fields(field("pieces").accessible(true), "pieces");
-            mapping(LegoSet.class, LegoSetDTO.class).fields(field("models").accessible(true), "models");
+            mapping(PieceType.class, PieceTypeDTO.class)
+                    .fields(field("colors").accessible(true), "colors");
+            mapping(Model.class, ModelDTO.class)
+                    .fields(field("pieces").accessible(true), "pieces");
+            mapping(LegoSet.class, LegoSetDTOGet.class)
+                    .fields(field("models").accessible(true), "models");
         }
     }
 
