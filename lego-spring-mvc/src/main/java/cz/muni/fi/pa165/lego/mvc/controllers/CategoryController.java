@@ -35,7 +35,7 @@ public class CategoryController {
     private CategoryFacade categoryFacade;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createCategory(@Valid @ModelAttribute CategoryDTO categoryDTO, BindingResult bindingResult,
+    public String createCategory(@Valid @ModelAttribute("categoryCreate") CategoryDTO categoryDTO, BindingResult bindingResult,
             Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
         log.debug("create()", categoryDTO);
@@ -69,10 +69,9 @@ public class CategoryController {
         return "category/new";
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    public String updateCategory(@Valid @ModelAttribute CategoryDTO categoryDTO, BindingResult bindingResult,
-            RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
-            Model model) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateCategory(@Valid @ModelAttribute("categoryChange") CategoryDTO categoryDTO, BindingResult bindingResult,
+            RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Model model) {
 
         log.debug("update()");
 
@@ -87,30 +86,41 @@ public class CategoryController {
             return "category/change";
         }
 
-        categoryFacade.update(categoryDTO);
-
+        //log.debug("BEFORE");
+        log.debug("id: " + categoryDTO.getId());
+        //log.debug("name: " + categoryDTO.getName());
+        //log.debug("description: " + categoryDTO.getDescription());
         Long id = categoryDTO.getId();
+        categoryFacade.findById(id);
+        categoryFacade.update(categoryDTO);
+        //log.debug("AFTER");
+        //log.debug("id: " + categoryDTO.getId());
+        //log.debug("name: " + categoryDTO.getName());
+        //log.debug("description: " + categoryDTO.getDescription());
+        
         redirectAttributes.addFlashAttribute("alert_success", "Category " + id + " was updated");
+        redirectAttributes.addAttribute("id", id);
 
         return "redirect:" + uriBuilder.path("/category/list").toUriString();
     }
 
-    @RequestMapping(value = "/change", method = RequestMethod.GET)
-    public String changeCategory(Model model) {
+    @RequestMapping(value = "/change/{id}", method = RequestMethod.GET)
+    public String changeCategory(@PathVariable long id, Model model) {
 
         log.debug("change()");
 
-        model.addAttribute("categoryChange", new CategoryDTO());
+        model.addAttribute("categoryChange", categoryFacade.findById(id));
 
         return "category/change";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String deleteCategory(@PathVariable long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteCategory(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
+        CategoryDTO categoryDTO = categoryFacade.findById(id);
         log.debug("delete()");
 
-        categoryFacade.delete(id);
+        categoryFacade.delete(categoryDTO.getId());
 
         redirectAttributes.addFlashAttribute("alert_success", "Category " + id + " was deleted");
 
@@ -136,12 +146,11 @@ public class CategoryController {
 
         return "category/view";
     }*/
-
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listCategories(Model model) {
 
         log.debug("list()");
-
+log.debug(categoryFacade.findAll().toString());
         model.addAttribute("categories", categoryFacade.findAll());
 
         return "category/list";

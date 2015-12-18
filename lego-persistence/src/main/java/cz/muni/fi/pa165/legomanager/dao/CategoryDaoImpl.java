@@ -92,7 +92,7 @@ public class CategoryDaoImpl implements CategoryDao {
             throw new IllegalArgumentException("Category is null.");
         }
         if (!em.contains(c)) {
-            throw new EntityNotExistsException("Category already in database");
+            throw new EntityNotExistsException("Category not in database");
         }
         em.merge(c);
         try {
