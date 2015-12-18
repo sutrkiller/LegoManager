@@ -10,7 +10,7 @@
 
         <my:a href="/legoset/new" class="btn btn-success">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            New lego set
+            New legoset
         </my:a>
 
         <table class="table">
@@ -19,6 +19,8 @@
                     <th>id</th>
                     <th>name</th>
                     <th>price</th>
+                    <th>Category</th>
+                    <th>Models</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,15 +29,22 @@
                         <td>${legoset.id}</td>
                         <td><c:out value="${legoset.name}"/></td>
                         <td><c:out value="${legoset.price}"/></td>
+                        <td><p><c:out value="${legoset.category.name}"/></p></td>
+                        <td><p>
+                                <c:forEach items="${legoset.models}" var="model" varStatus="loop">
+                                    <c:out value="${model.name}"></c:out>
+                                    <c:if test="${!loop.last}">, </c:if>
+                                </c:forEach>
+                            </p>
+                        </td>
                         <td>
-                            <my:a href="/legoset/view/${legoset.id}" class="btn btn-default">
+                            <my:a href="/legoset/change/${legoset.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                Detail
                             </my:a>
                             <my:a href="/legoset/delete/${legoset.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                Delete
-                            </my:a></td>
+                            </my:a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

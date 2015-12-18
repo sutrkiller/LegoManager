@@ -22,7 +22,7 @@ public class LegoSetDTOGet {
 
     private String name;
 
-    private List<ModelDTO> models;
+    private List<ModelDTO> models = new ArrayList<>();
 
     private BigDecimal price;
 

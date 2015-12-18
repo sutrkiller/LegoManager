@@ -10,8 +10,6 @@
         <div class="container">
             <form:form method="post" action="${pageContext.request.contextPath}/legoset/create"
                        modelAttribute="legoSetCreate" cssClass="form-horizontal">
-                <%--Add category  --%>
-                
                 <div class="form-group ${name_error?'has-error':''}">
                     <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
                         <div class="col-sm-10">
@@ -20,7 +18,7 @@
                     </div>
                 </div>
 
-                <div class="form-group ${name_error?'has-error':''}">
+                <div class="form-group ${price_error?'has-error':''}">
                     <form:label path="price" cssClass="col-sm-2 control-label">Price</form:label>
                         <div class="col-sm-10">
                         <form:input path="price" cssClass="form-control"/>
@@ -28,12 +26,25 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <form:label path="categoryId" cssClass="col-sm-2 control-label">Category</form:label>
+                        <div class="col-sm-10">
+                        <form:select path="categoryId" cssClass="form-control">
+                            <c:forEach items="${categories}" var="c">
+                                <form:option value="${c.id}"></form:option>
+                            </c:forEach>
+                        </form:select>
+                        <p class="help-block"><form:errors path="categoryId" cssClass="error"/></p>
+                    </div>
+                </div>
+
+
                 <div class="form-group">        
                     <div class="col-sm-offset-2 col-sm-10">       
                         <button class="btn btn-success" type="submit">Create legoset</button>
                     </div>
                 </div>
-                </form:form>
+            </form:form>
         </div>
 
 
