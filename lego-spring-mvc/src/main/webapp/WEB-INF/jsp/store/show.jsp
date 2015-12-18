@@ -8,68 +8,7 @@
 <fmt:message var="title" key="store.show.title"/>
 <my:pagetemplate title="${title}">
     <jsp:attribute name="body">
-
-        <div class="categoriesClass">
-            <h2>Categories</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${categories}" var="category" varStatus="ic">
-                        <tr>
-                            <td><p><c:out value="${category.id}"/></p></td>
-                            <td><p><c:out value="${category.name}"/></p></td>
-                            <td><p><c:out value="${category.description}"/></p></td>
-                            <td>
-                            <my:a href="/category/view/${category.id}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                Detail
-                            </my:a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="pieceTypesClass">
-            <h2>Piece types</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Colors</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${piecetypes}" var="piecetype" varStatus="ip">
-                        <tr>
-                            <td><p><c:out value="${piecetype.id}"/></p></td>
-                            <td><p><c:out value="${piecetype.name}"/></p></td>
-                            <td><p>
-                                    <c:forEach items="${piecetype.colors}" var="color" varStatus="loop">
-                                        <c:out value="${color}"></c:out>
-                                        <c:if test="${!loop.last}">, </c:if>
-                                    </c:forEach>
-                                </p></td>
-                            <td>
-                            <my:a href="/piecetype/view/${piecetype.id}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                Detail
-                            </my:a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
-
+        
         <div class="modelsClass">
             <h2>Models</h2>
             <table class="table">
@@ -97,12 +36,6 @@
                                         <c:if test="${!loop.last}">, </c:if>
                                     </c:forEach>
                                 </p></td>
-                            <td>
-                            <my:a href="/model/view/${model.id}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                Detail
-                            </my:a>
-                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -134,12 +67,6 @@
                                         <c:if test="${!loop.last}">, </c:if>
                                     </c:forEach>
                                 </p></td>
-                            <td>
-                            <my:a href="/legoset/view/${legoset.id}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                Detail
-                            </my:a>
-                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>

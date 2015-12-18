@@ -13,11 +13,13 @@
             New category
         </my:a>
 
+
         <table class="table">
             <thead>
                 <tr>
                     <th>id</th>
                     <th>name</th>
+                    <th>description</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,15 +27,15 @@
                     <tr>
                         <td>${category.id}</td>
                         <td><c:out value="${category.name}"/></td>
+                        <td><c:out value="${category.description}"/></td>
                         <td>
-                            <my:a href="/category/view/${category.id}" class="btn btn-default">
+                            <my:a href="/category/change/${category.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                Detail
                             </my:a>
                             <my:a href="/category/delete/${category.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                Delete
-                            </my:a></td>
+                            </my:a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

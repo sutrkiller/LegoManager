@@ -13,10 +13,13 @@
             <h1>Welcome to Lego Manager!</h1>
             <p class="lead">Lego Manager is a Java application, that serves to easily manage a Lego storage of your shop. </p>
             <p class="lead"><small>This Java application is created as a semestral project within a course PA165 Enterprise Java applications at MU.</small></p>
-            <p><a class="btn btn-lg btn-info" href="${pageContext.request.contextPath}/store/show"
-                  role="button">I'm a customer!</a>
-                <a class="btn btn-lg btn-warning" href="${pageContext.request.contextPath}/login"
-                   role="button">I'm a Lego admin!</a></p>
+
+            <div class="span7 text-center">
+
+                <my:a href="/store/show" class="btn btn-lg btn-info text-left">
+                    Go to the store
+                </my:a>
+            </div>
         </div>
 
     </jsp:attribute>
