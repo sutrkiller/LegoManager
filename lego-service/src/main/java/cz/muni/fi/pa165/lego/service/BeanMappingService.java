@@ -33,4 +33,13 @@ public interface BeanMappingService {
      * @return List of objects with class T with filled data from objects param.
      */
     public <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass);
+
+    /**
+     * Map object by names of its fields into another object.
+     *
+     * @param source    object with filled data you want to map.
+     * @param destination destination object with fields you want to fill.
+     */
+    public void mapTo(Object source, Object destination);
+
 }

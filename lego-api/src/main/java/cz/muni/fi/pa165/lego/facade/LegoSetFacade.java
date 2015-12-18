@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOPut;
 
 import java.util.List;
 
@@ -13,19 +14,20 @@ import java.util.List;
 public interface LegoSetFacade {
 
     /**
-     * Create the give legoSet
+     * Create the given legoSet with empty set of models.
      *
      * @param legoSetDTO legoSet to be created
-     * @return id of the created legoSet
+     * @return created legoSet
      */
-    public Long create(LegoSetDTO legoSetDTO);
+    public LegoSetDTOGet create(LegoSetDTOPut legoSetDTO);
 
     /**
      * Update the legoSet. Update does not apply to id.
      *
-     * @param updated LegoSetDTO with updated parameters.
+     * @param updated LegoSetDTOPut with parameters.
+     * @param id identifier of updated legoset.
      */
-    public void update(LegoSetDTO updated);
+    public void update(LegoSetDTOPut updated, Long id);
 
     /**
      * Delete the given legoSet.
@@ -40,7 +42,7 @@ public interface LegoSetFacade {
      * @param id id of the legoSet
      * @return existing legoSet with the given id
      */
-    public LegoSetDTO findById(Long id);
+    public LegoSetDTOGet findById(Long id);
 
     /**
      * Get legoSet with given name
@@ -48,14 +50,14 @@ public interface LegoSetFacade {
      * @param name name of the legoSet
      * @return existing legoSet with the given name
      */
-    public LegoSetDTO findByName(String name);
+    public LegoSetDTOGet findByName(String name);
 
     /**
      * Get all legoSets
      *
      * @return list of existing legoSets
      */
-    public List<LegoSetDTO> findAll();
+    public List<LegoSetDTOGet> findAll();
 
     /**
      * Add model to the legoSet

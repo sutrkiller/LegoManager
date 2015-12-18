@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.lego.dto.*;
 import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
 import cz.muni.fi.pa165.legomanager.entities.*;
 import cz.muni.fi.pa165.legomanager.enums.Color;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -34,7 +33,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
     private Model ferrari;
     private ModelDTO ferrariDTO;
     private LegoSet sportCars;
-    private LegoSetDTO sportCarsDTO;
+    private LegoSetDTOGet sportCarsDTO;
     private PieceType wheel;
     private PieceTypeDTO wheelDTO;
     private Piece leftFrontWheel;
@@ -67,7 +66,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
         sportCars.setName("Sport cars");
         ferrari.setPrice(BigDecimal.valueOf(1000));
 
-        sportCarsDTO = new LegoSetDTO();
+        sportCarsDTO = new LegoSetDTOGet();
         sportCarsDTO.setId(1L);
         sportCarsDTO.setName("Sport cars");
         sportCarsDTO.setPrice(BigDecimal.valueOf(1000));
@@ -145,7 +144,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testMapToLegoSetDTO() throws Exception {
-        LegoSetDTO actual = mappingService.mapTo(sportCars, LegoSetDTO.class);
+        LegoSetDTOGet actual = mappingService.mapTo(sportCars, LegoSetDTOGet.class);
 
         assertEquals(actual.getName(), sportCars.getName());
         assertEquals(actual.getPrice(), sportCars.getPrice());

@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.lego.dto;
 
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
-import cz.muni.fi.pa165.legomanager.entities.Model;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -17,22 +16,16 @@ import java.util.Objects;
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 21.11.2015
  */
-public class LegoSetDTO {
+public class LegoSetDTOGet {
 
     private Long id;
 
-    @NotNull
-    @Size(min = 3, max = 50)
     private String name;
 
-    @NotNull
-    private List<ModelDTO> models = new ArrayList<>();
+    private List<ModelDTO> models;
 
-    @NotNull
-    @Min(0)
     private BigDecimal price;
 
-    @NotNull
     private CategoryDTO category;
 
     public Long getId() {
@@ -93,13 +86,13 @@ public class LegoSetDTO {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof LegoSetDTO)) {
+        if (!(obj instanceof LegoSetDTOGet)) {
             return false;
         }
         if (this == obj) {
             return true;
         }
-        final LegoSetDTO other = (LegoSetDTO) obj;
+        final LegoSetDTOGet other = (LegoSetDTOGet) obj;
         if (this.getId() == null) {
             return false;
         }
@@ -111,7 +104,7 @@ public class LegoSetDTO {
 
     @Override
     public String toString() {
-        return "LegoSetDTO{" + "id=" + getId() + ", name=" + getName() + ", models=" + getModels() +
+        return "LegoSetDTOGet{" + "id=" + getId() + ", name=" + getName() + ", models=" + getModels() +
                 ", price=" + getPrice() + ", category=" + getCategory() + '}';
     }
 }

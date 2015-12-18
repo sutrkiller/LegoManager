@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.mvc.controllers;
 
-import cz.muni.fi.pa165.lego.dto.LegoSetDTO;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
+import cz.muni.fi.pa165.lego.dto.LegoSetDTOPut;
 import cz.muni.fi.pa165.lego.facade.LegoSetFacade;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -34,8 +35,8 @@ public class LegoSetController {
     private LegoSetFacade legoSetFacade;
     
     @RequestMapping(value = "/create", method =RequestMethod.POST)
-    public String createLegoSet(@Valid @ModelAttribute LegoSetDTO legoSetDTO, BindingResult bindingResult,
-            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String createLegoSet(@Valid @ModelAttribute LegoSetDTOPut legoSetDTO, BindingResult bindingResult,
+                                Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         
         log.debug("create()", legoSetDTO);
         
@@ -50,10 +51,10 @@ public class LegoSetController {
             return "legoset/new";
         }
         
-        Long id = legoSetFacade.create(legoSetDTO);
+        LegoSetDTOGet created = legoSetFacade.create(legoSetDTO);
         
-        redirectAttributes.addFlashAttribute("alert_success", "LegoSet " + id + " was created");
-        redirectAttributes.addAttribute("id", id);
+        redirectAttributes.addFlashAttribute("alert_success", "LegoSet " + created.getName() + " was created");
+        redirectAttributes.addAttribute("id", created.getId());
         
         return "redirect:" + uriBuilder.path("/legoset/list").toUriString();
     } 
@@ -62,15 +63,15 @@ public class LegoSetController {
     public String newLegoSet(Model model) {
         log.debug("new()");
         
-        model.addAttribute("legoSetCreate", new LegoSetDTO());
+        model.addAttribute("legoSetCreate", new LegoSetDTOGet());
         
         return "legoset/new";
     }
     
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    public String updateLegoSet(@Valid @ModelAttribute LegoSetDTO legoSetDTO, BindingResult bindingResult,
-            RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
-            Model model) {
+    public String updateLegoSet(@Valid @ModelAttribute LegoSetDTOPut legoSetDTO, @PathVariable("id") long id, BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
+                                Model model) {
         
         log.debug("update()");
         
@@ -85,9 +86,8 @@ public class LegoSetController {
             return "legoset/change";
         }
         
-        legoSetFacade.update(legoSetDTO);
-        
-        Long id = legoSetDTO.getId();
+        legoSetFacade.update(legoSetDTO, id);
+
         redirectAttributes.addFlashAttribute("alert_success", "LegoSet " + id + " was updated");
         
         return "redirect:" + uriBuilder.path("/legoset/list").toUriString();
@@ -98,7 +98,7 @@ public class LegoSetController {
 
         log.debug("change()");
 
-        model.addAttribute("legoSetChange", new LegoSetDTO());
+        model.addAttribute("legoSetChange", new LegoSetDTOGet());
 
         return "legoset/change";
     }
