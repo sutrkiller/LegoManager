@@ -30,7 +30,7 @@ public class LegoSetController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final @Valid @ResponseBody LegoSetDTO createLegoSet(@Valid @RequestBody LegoSetDTO legoSetDTO) throws Exception {
+    public final @ResponseBody LegoSetDTO createLegoSet(@Valid @RequestBody LegoSetDTO legoSetDTO) throws Exception {
         log.debug("rest createLegoSet()");
 
         Long id = legoSetFacade.create(legoSetDTO);
@@ -43,6 +43,7 @@ public class LegoSetController {
     public final void updateLegoSet(@PathVariable("id") long id, @Valid @RequestBody LegoSetDTO legoSetDTO) throws Exception {
         log.debug("rest updateLegoSet({})", id);
 
+        legoSetDTO.setId(id);
         legoSetFacade.update(legoSetDTO);
     }
 

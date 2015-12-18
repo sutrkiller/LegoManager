@@ -28,4 +28,5 @@ public class BeanMappingServiceImpl implements BeanMappingService {
     public <T> T mapTo(Object u, Class<T> mapToClass) {
         return dozer.map(u, mapToClass);
     }
+
 }
