@@ -1,17 +1,16 @@
 package cz.muni.fi.pa165.lego.mvc.controllers;
 
-import cz.muni.fi.pa165.lego.dto.CategoryDTO;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
-import cz.muni.fi.pa165.lego.facade.CategoryFacade;
-import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
-import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import cz.muni.fi.pa165.legomanager.enums.Color;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.persistence.PersistenceException;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * SpringMVC Controller for managing piecetypes.
@@ -48,9 +45,7 @@ public class PieceTypeController {
 
         log.debug("list()");
 
-        fillModel(model, new PieceTypeDTO(), pieceTypeFacade.findAll());
-
-        return "piecetype/list";
+        return loadListModel(model, new PieceTypeDTO());
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -71,26 +66,19 @@ public class PieceTypeController {
                 log.trace("FieldError: {}", fe);
             }
 
-            fillModel(model, pieceTypeCreate, new ArrayList<PieceTypeDTO>());
-
             model.addAttribute("alert_danger", "Creation of PieceType " + pieceTypeCreate.getName() + " failed.");
-
-            return "piecetype/list";
+            return loadListModel(model, pieceTypeCreate);
         }
 
         try {
-            Long id = pieceTypeFacade.create(pieceTypeCreate);
-        } catch (EntityAlreadyExistsException e) {
+            pieceTypeFacade.create(pieceTypeCreate);
+        } catch (LegoPersistenceException e) {
 
-            fillModel(model, pieceTypeCreate, new ArrayList<PieceTypeDTO>());
-
-            model.addAttribute("alert_danger", "Creation of PieceType " + pieceTypeCreate.getName() + " failed.");
-
-            return "piecetype/list";
+            model.addAttribute("alert_danger", "Creation of PieceType " + pieceTypeCreate.getName() + " failed. It already exists. Try to change It's name.");
+            return loadListModel(model, pieceTypeCreate);
         }
 
         redirectAttributes.addFlashAttribute("alert_success", "PieceType " + pieceTypeCreate.getName() + " was created");
-
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
     }
 
@@ -101,22 +89,45 @@ public class PieceTypeController {
 
         log.debug("delete()", id);
 
-        pieceTypeFacade.delete(id);
+        try {
+            pieceTypeFacade.delete(id);
+        } catch (DataAccessException e) {
+            model.addAttribute("alert_danger", "Deletion of PieceType " + id + " failed. You have to remove all related Pieces with this PieceType before.");
+            return loadListModel(model, new PieceTypeDTO());
+        } catch (RuntimeException e) {
+            model.addAttribute("alert_danger", "Deletion of PieceType " + id + " failed.");
+            return loadListModel(model, new PieceTypeDTO());
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "PieceType " + id + " was deleted");
-
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
     }
 
 
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String edit(@PathVariable long id, @Valid @ModelAttribute("pieceTypes") List<PieceTypeDTO> pieceTypes, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editForm(@PathVariable long id, Model model) {
 
         log.debug("edit()", id);
 
-        log.error(pieceTypes.toString());
+        try {
+            PieceTypeDTO pieceTypeDTO = pieceTypeFacade.findById(id);
+            return loadEditModel(model, pieceTypeFacade.findById(id));
+        } catch (LegoPersistenceException e) {
+
+            model.addAttribute("alert_danger", "Editation of PieceType can not be performed. PieceType does not exists.");
+            return loadEditModel(model, new PieceTypeDTO());
+        }
+    }
+
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String edit(@PathVariable long id,
+                       @Valid @ModelAttribute("pieceTypeEdit") PieceTypeDTO pieceTypeEdit,
+                       BindingResult bindingResult,
+                       Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+
+        log.debug("edit()", id);
 
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -127,27 +138,47 @@ public class PieceTypeController {
                 log.trace("FieldError: {}", fe);
             }
 
-            fillModel(model, new PieceTypeDTO(), pieceTypes);
-
             model.addAttribute("alert_danger", "Editation of PieceType " + id + " failed.");
-
-            return "piecetype/list";
+            return loadEditModel(model, pieceTypeEdit);
         }
 
-//        pieceTypeDTO.setId(id);
-//        pieceTypeFacade.update(pieceTypeDTO);
+        pieceTypeEdit.setId(id);
+        try {
+            pieceTypeFacade.update(pieceTypeEdit);
+        } catch (EntityNotExistsException e) {
+
+            model.addAttribute("alert_danger", "Editation of PieceType" +pieceTypeEdit.getName()+ "failed. PieceType does not exists.");
+            return loadEditModel(model, pieceTypeEdit);
+        } catch (PersistenceException e) {
+
+            model.addAttribute("alert_danger", "Editation of PieceType" +pieceTypeEdit.getName()+ "failed. PieceType with this name already exists.");
+            return loadEditModel(model, pieceTypeEdit);
+        } catch (LegoPersistenceException e) {
+
+            model.addAttribute("alert_danger", "Editation of PieceType" +pieceTypeEdit.getName()+ "failed.");
+            return loadEditModel(model, pieceTypeEdit);
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "PieceType " + id + " was edited");
 
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
     }
 
-    private void fillModel(Model model, PieceTypeDTO pieceTypeCreate, List<PieceTypeDTO> pieceTypes) {
-        model.addAttribute("pieceTypeForm",pieceTypeCreate);
+    private String loadListModel(Model model, PieceTypeDTO create) {
 
+        model.addAttribute("pieceTypeCreate", create);
+        model.addAttribute("allColors", Arrays.asList(Color.values()));
+        model.addAttribute("pieceTypes", pieceTypeFacade.findAll());
+
+        return "piecetype/list";
+    }
+
+    private String loadEditModel(Model model, PieceTypeDTO edit) {
+
+        model.addAttribute("pieceTypeEdit", edit);
         model.addAttribute("allColors", Arrays.asList(Color.values()));
 
-        model.addAttribute("pieceTypes", pieceTypes);
+        return "piecetype/edit";
     }
 
 }
