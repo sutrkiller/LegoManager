@@ -1,44 +1,68 @@
 /* MAIN CSS FILE */
 
+.navbar-brand img {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.footer {
+    margin-top: 16px;
+}
+
 .table > tbody > tr > td.button-cell {
     padding: 1px;
 }
 .table > tbody > tr > td.button-cell .btn {
     border-radius: 0px;
 }
-.table > tbody > tr > td.button-cell input.form-control {
-    border-color: transparent;
-    box-shadow: none;
-}
-.table > tbody > tr > td.button-cell input.form-control:focus {
-    border-color: #66afe9;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
-}
 .table > tbody > tr > td.tight-cell {
     width: 1%;
 }
 
-.btn-group > .btn.color {
-    opacity: 0.6;
+.btn-group.colors > .btn.color {
     border-color: rgba(0, 0, 0, 0.2);
+    opacity: 0.6;
 }
-.btn-group > .btn.color:hover,
-.btn-group > .btn.color:focus  {
+.btn-group.colors > .btn.color:hover,
+.btn-group.colors > .btn.color:focus  {
     border-color: rgba(0, 0, 0, 0.4);
     opacity: 0.8;
 }
-.btn-group > .btn.color.active {
+.btn-group.colors > .btn.color.active {
     border-color: rgba(0, 0, 0, 0.5);
     opacity: 1;
 }
 
-.btn-group > .btn.color > span {
+.btn-group.colors > .btn.color > span {
     opacity: 0;
 }
-.btn-group > .btn.color:hover > span,
-.btn-group > .btn.color:focus > span  {
+.btn-group.colors > .btn.color:hover > span,
+.btn-group.colors > .btn.color:focus > span  {
     opacity: 0.5;
 }
-.btn-group > .btn.color.active > span {
+.btn-group.colors > .btn.color.active > span {
     opacity: 1;
+}
+
+.btn-group.colors > .btn.color.active > span {
+    opacity: 1;
+}
+
+.btn-group.colors.inactive > .btn.color {
+    opacity: 1;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-group.colors.inactive > .btn.color:hover {
+    z-index: 0;
+}
+
+.has-error .btn-group.colors > .btn.color {
+    border-top: 1px solid #a94442;
+    border-bottom: 1px solid #a94442;
+}
+.has-error .btn-group.colors > .btn.color:first-child {
+    border-left: 1px solid #a94442;
+}
+.has-error .btn-group.colors > .btn.color:last-child {
+    border-right: 1px solid #a94442;
 }

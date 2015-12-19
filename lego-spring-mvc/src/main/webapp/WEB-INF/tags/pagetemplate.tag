@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Lego Manager</title>
         <!-- bootstrap loaded from content delivery network -->
-        <link rel="shortcut icon" href="${pageContext.request.contextPath}/legoicon.jpg" type="image/x-icon">
+        <link rel="shortcut icon" href="<c:url value="/resources/img/lego.png" />" type="image/x-icon">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
         <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
         <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">--%>
@@ -31,7 +31,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="${pageContext.request.contextPath}"><f:message key="navigation.project"/></a>
+                    <a class="navbar-brand" href="${pageContext.request.contextPath}">
+                        <img alt="Brand" src="<c:url value="/resources/img/lego.png" />"><f:message key="navigation.project"/>
+                    </a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
