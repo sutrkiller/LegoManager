@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/** 
+ * SpringMVC Controller for administering REST API.
+ * 
+ * @author Sona Mastrakova <sona.mastrakova@gmail.com>
+ * @date 12.12.2015
+ */
+
 @RestController
 public class MainController {
     

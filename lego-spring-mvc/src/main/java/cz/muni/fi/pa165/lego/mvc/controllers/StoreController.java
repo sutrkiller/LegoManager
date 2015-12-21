@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * SpringMVC Controller for managing store.
  *
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 15.12.2015
@@ -56,12 +57,6 @@ public class StoreController {
         this.legoSetFacade = legoSetFacade;
     }
 
-    /**
-     * Shows all categories and products.
-     *
-     * @param model data to display
-     * @return JSP page name
-     */
     @RequestMapping("/show")
     public String list(Model model) {
         log.debug("show()");
@@ -78,33 +73,4 @@ public class StoreController {
 
         return "store/show";
     }
-
-    /**
-     * Shows product detail.
-     *
-     * @param id product id
-     * @param model data to display
-     * @return JSP page name
-     */
-    /*@RequestMapping("/product/{id}")
-    public String product(@PathVariable long id, Model model) {
-        log.debug("product({})", id);
-        model.addAttribute("product", productFacade.getProductWithId(id));
-        return "store/product";
-    }*/
-
-    /**
-     * Shows category detail.
-     *
-     * @param id category id
-     * @param model data to display
-     * @return JSP page name
-     */
-    /*@RequestMapping("/category/{id}")
-    public String category(@PathVariable long id, Model model) {
-        log.debug("category({})", id);
-        CategoryDTO categoryDTO = categoryFacade.findById(id);
-        model.addAttribute("category", categoryDTO);
-        return "store/category";
-    }*/
 }

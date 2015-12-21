@@ -17,23 +17,25 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>id</th>
                     <th>name</th>
                     <th>description</th>
+                    <th>edit</th>
+                    <th>delete</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${categories}" var="category">
                     <tr>
-                        <td>${category.id}</td>
                         <td><c:out value="${category.name}"/></td>
                         <td><c:out value="${category.description}"/></td>
-                        <td>
+                        <td class="button-cell tight-cell">
                             <my:a href="/category/change/${category.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </my:a>
-                            <my:a href="/category/delete/${category.id}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </td>
+                        <td class="button-cell tight-cell">
+                            <my:a href="/category/delete/${category.id}" class="btn btn-danger" method="POST">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </my:a>
                         </td>
                     </tr>

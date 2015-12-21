@@ -9,8 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Filter for adding year to the bottom of the pages.
  *
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
+ * @date 18.12.2015
  */
 @WebFilter("/*")
 public class CurrentYearFilter implements Filter {
