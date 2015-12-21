@@ -32,11 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/store/**").hasRole("USER")
                     .anyRequest().hasRole("ADMIN")
                     .and()
-                .httpBasic()
+                .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                    .and()
+                .csrf()
                     .and()
                 .logout()
+                    .logoutUrl("/logout")
                     .logoutSuccessUrl("/login?logout")
-                    .logoutUrl("/j_spring_security_logout")
                     .permitAll();
     }
 

@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="${pageContext.request.locale}">
@@ -16,7 +17,8 @@
         <title>Lego Manager</title>
         <!-- bootstrap loaded from content delivery network -->
         <link rel="shortcut icon" href="<c:url value="/resources/img/lego.png" />" type="image/x-icon">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+              crossorigin="anonymous">
         <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
         <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">--%>
         <jsp:invoke fragment="head"/>
@@ -26,7 +28,8 @@
         <nav class="navbar navbar-inverse navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -38,24 +41,27 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.store"/><b class="caret"></b></a>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.store"/><b
+                                    class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><my:a href="/model/list"><f:message key="navigation.store.models"/></my:a></li>
                                 <li><my:a href="/legoset/list"><f:message key="navigation.store.legosets"/></my:a></li>
                             </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b class="caret"></b></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b
+                                    class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>
                                 <li><my:a href="/piecetype/list"><f:message key="navigation.admin.piecetypes"/></my:a></li>
                                 <li><my:a href="/model/list"><f:message key="navigation.admin.models"/></my:a></li>
                                 <li><my:a href="/legoset/list"><f:message key="navigation.admin.legosets"/></my:a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b class="caret"></b></a>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b
+                                    class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-header">Javadocs</li>
                                 <li><a href="http://docs.oracle.com/javase/8/docs/api/">JDK 8 API</a></li>
@@ -68,19 +74,39 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.about"/><b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.about"/><b
+                                    class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="https://is.muni.cz/predmet/fi/podzim2015/PA165">PA165</a></li>
-                                <li><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">SpringMVC</a></li>
+                                <li>
+                                    <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">SpringMVC</a>
+                                </li>
                                 <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
                                 <li><a href="https://maven.apache.org/">Maven</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <c:url value="/j_spring_security_logout" var="logoutUrl" scope="page" />
-                    <form:form action="${logoutUrl}" class="navbar-form navbar-right" method="post">
-                        <button type="submit" class="btn btn-link">Logout</button>
-                    </form:form>
+                    <!-- authenticated user info -->
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication var="user" property="principal"/>
+                        <c:url value="/logout" var="logoutUrl" scope="page"/>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <c:out value='Logged as ${user.username}'/>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <form:form action="${logoutUrl}" class="" method="post">
+                                            <button type="submit" class="btn btn-link btn-block">Logout</button>
+                                        </form:form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </sec:authorize>
+
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
@@ -94,27 +120,13 @@
                 </div>
             </c:if>
 
-            <!-- authenticated user info -->
-            <c:if test="${not empty authenticatedUser}">
-                <div class="row">
-                    <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <c:out value="${authenticatedUser.givenName} ${authenticatedUser.surname}"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </c:if>
-
             <!-- alerts -->
             <c:if test="${not empty alert_danger}">
                 <div class="alert alert-danger" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     <c:out value="${alert_danger}"/></div>
-                </c:if>
-                <c:if test="${not empty alert_info}">
+            </c:if>
+            <c:if test="${not empty alert_info}">
                 <div class="alert alert-info" role="alert"><c:out value="${alert_info}"/></div>
             </c:if>
             <c:if test="${not empty alert_success}">
