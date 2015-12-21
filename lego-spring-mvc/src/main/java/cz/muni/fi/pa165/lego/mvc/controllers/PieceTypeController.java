@@ -144,7 +144,7 @@ public class PieceTypeController {
 
         pieceTypeEdit.setId(id);
         try {
-            pieceTypeFacade.update(pieceTypeEdit);
+            pieceTypeFacade.update(pieceTypeEdit, id);
         } catch (EntityNotExistsException e) {
 
             model.addAttribute("alert_danger", "Editation of PieceType" +pieceTypeEdit.getName()+ "failed. PieceType does not exists.");

@@ -31,6 +31,17 @@ public class PieceTypeController {
     @Inject
     private PieceTypeFacade pieceTypeFacade;
 
+    /**
+     * Create pieceType with given parameters
+     *
+     * example: curl -X POST -H "Accept:application/json" -H
+     * "Content-Type:application/json"
+     * http://localhost:8080/pa165/rest/piecetypes/create -d '{ "name": "Arm",
+     * "colors": [ "YELLOW", "GREEN" ] }' | python -m json.tool
+     *
+     * @param pieceTypeDTO DTO to be created
+     * @return created PieceType
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final PieceTypeDTO createPieceType(@RequestBody PieceTypeDTO pieceTypeDTO) throws Exception {
@@ -40,15 +51,33 @@ public class PieceTypeController {
         return pieceTypeFacade.create(pieceTypeDTO);
     }
 
+    /**
+     * Update pieceType with given parameters
+     *
+     * example: curl -X PUT -H "Accept:application/json" -H
+     * "Content-Type:application/json"
+     * http://localhost:8080/pa165/rest/piecetypes/7 -d '{ "name": "Arm",
+     * "colors": [ "YELLOW" ] }' | python -m json.tool
+     *
+     * @param id id of updated pieceType
+     * @param pieceTypeDTO DTO to be updated
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void updatePieceType(@PathVariable("id") long id, @Valid @ModelAttribute PieceTypeDTO pieceTypeDTO) throws Exception {
+    public final void updatePieceType(@PathVariable("id") long id, @Valid @RequestBody PieceTypeDTO pieceTypeDTO) throws Exception {
 
         log.debug("rest updatePieceType({})", id);
 
-        pieceTypeFacade.update(pieceTypeDTO);
+        pieceTypeFacade.update(pieceTypeDTO, id);
     }
 
+    /**
+     * Delete pieceType defined by its id
+     *
+     * example: curl -X DELETE http://localhost:8080/pa165/rest/piecetypes/7
+     *
+     * @param id of pieceType
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deletePieceType(@PathVariable("id") long id) throws Exception {
 
@@ -57,6 +86,17 @@ public class PieceTypeController {
         pieceTypeFacade.delete(id);
     }
 
+    /**
+     * Get pieceType defined by its id. If identifier is not numeric it tries to
+     * find LegoSet by its name.
+     *
+     * example: curl -H "Accept:application/json"
+     * http://localhost:8080/pa165/rest/piecetypes/1 | python -m json.tool
+     *
+     * @param identifier Text or can be numeric. if it is numeric it tries to
+     * find pieceType by id. If not it tries to find pieceType by name.
+     * @return pieceType with given identifier
+     */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public final PieceTypeDTO getPieceType(@PathVariable("identifier") String identifier) throws Exception {
@@ -74,6 +114,14 @@ public class PieceTypeController {
         return pieceTypeDTO;
     }
 
+    /**
+     * Get all pieceTypes from the system
+     *
+     * example: curl -H "Accept:application/json"
+     * http://localhost:8080/pa165/rest/piecetypes | python -m json.tool
+     *
+     * @return List of all pieceType
+     */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public final List<PieceTypeDTO> getPieceTypes() {

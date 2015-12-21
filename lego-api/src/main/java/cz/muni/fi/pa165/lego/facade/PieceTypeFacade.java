@@ -26,7 +26,7 @@ public interface PieceTypeFacade {
      *
      * @param pieceTypeDTO pieceType to be created
      */
-    void update(PieceTypeDTO pieceTypeDTO);
+    void update(PieceTypeDTO pieceTypeDTO, Long id);
 
     /**
      * Delete the given pieceType.

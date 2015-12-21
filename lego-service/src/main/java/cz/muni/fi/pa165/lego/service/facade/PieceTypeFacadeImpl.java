@@ -35,8 +35,8 @@ public class PieceTypeFacadeImpl implements PieceTypeFacade {
     }
 
     @Override
-    public void update(PieceTypeDTO pieceTypeDTO) {
-        PieceType destination = pieceTypeService.findById(pieceTypeDTO.getId());
+    public void update(PieceTypeDTO pieceTypeDTO, Long id) {
+        PieceType destination = pieceTypeService.findById(id);
         beanMappingService.mapTo(pieceTypeDTO, destination);
         destination.setColors(pieceTypeDTO.getColors());
         pieceTypeService.update(destination);
