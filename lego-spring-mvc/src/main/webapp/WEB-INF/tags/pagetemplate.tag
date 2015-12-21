@@ -5,6 +5,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html lang="${pageContext.request.locale}">
@@ -76,6 +77,10 @@
                             </ul>
                         </li>
                     </ul>
+                    <c:url value="/j_spring_security_logout" var="logoutUrl" scope="page" />
+                    <form:form action="${logoutUrl}" class="navbar-form navbar-right" method="post">
+                        <button type="submit" class="btn btn-link">Logout</button>
+                    </form:form>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
