@@ -38,7 +38,7 @@
                             </p>
                         </td>
                         <td>
-                            <my:a href="/legoset/change/${legoset.id}" class="btn btn-default">
+                            <my:a href="/legoset/edit/${legoset.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </my:a>
                             <my:a href="/legoset/delete/${legoset.id}" class="btn btn-default">

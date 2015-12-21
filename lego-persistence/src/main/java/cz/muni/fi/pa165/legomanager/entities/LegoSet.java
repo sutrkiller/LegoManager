@@ -26,7 +26,7 @@ public class LegoSet {
     private String name;
 
     @NotNull
-    @OneToMany
+    @ManyToMany
     private List<Model> models = new ArrayList<>();
 
     @NotNull
