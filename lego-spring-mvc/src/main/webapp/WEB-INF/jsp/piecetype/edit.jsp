@@ -10,7 +10,7 @@
 
 
         <form:form class="form-inline clearfix"
-                   action="${pageContext.request.contextPath}/piecetype/edit/${pieceTypeEdit.id}"
+                   action="${pageContext.request.contextPath}/piecetype/edit/${pieceTypeEditId}"
                    method="POST"
                    commandName="pieceTypeEdit">
 

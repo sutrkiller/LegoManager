@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.lego.service.config;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOPut;
 import cz.muni.fi.pa165.lego.service.PieceServiceImpl;
 import cz.muni.fi.pa165.lego.service.facade.ModelFacadeImpl;
 import cz.muni.fi.pa165.legomanager.PersistenceApplicationContext;
@@ -40,6 +41,8 @@ public class ServiceConfiguration {
         @Override
         protected void configure() {
             mapping(PieceType.class, PieceTypeDTOGet.class)
+                    .fields(field("colors").accessible(true), "colors");
+            mapping(PieceType.class, PieceTypeDTOPut.class)
                     .fields(field("colors").accessible(true), "colors");
             mapping(Model.class, ModelDTO.class)
                     .fields(field("pieces").accessible(true), "pieces");
