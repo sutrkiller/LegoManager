@@ -9,6 +9,23 @@
     margin-top: 16px;
 }
 
+.login-form {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 16px;
+}
+.login-form .form-group:last-child {
+    margin-bottom: 0px;
+}
+
+.navbar-inverse .btn-link {
+    color: #333;
+}
+.navbar-inverse .btn-link:hover,
+.navbar-inverse .btn-link:focus {
+    color: #000;
+}
+
 .table > tbody > tr > td.button-cell {
     padding: 1px;
 }
