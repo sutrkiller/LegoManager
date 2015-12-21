@@ -35,7 +35,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
     private LegoSet sportCars;
     private LegoSetDTOGet sportCarsDTO;
     private PieceType wheel;
-    private PieceTypeDTO wheelDTO;
+    private PieceTypeDTOGet wheelDTO;
     private Piece leftFrontWheel;
     private PieceDTOGet leftFrontWheelDTO;
 
@@ -81,7 +81,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
         wheel.setColors(colors);
 
 
-        wheelDTO = new PieceTypeDTO();
+        wheelDTO = new PieceTypeDTOGet();
         wheelDTO.setId(1L);
         wheelDTO.setName("Wheel");
         wheelDTO.setColors(colors);
@@ -161,7 +161,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testMapToPieceTypeDTO() throws Exception {
-        PieceTypeDTO actual = mappingService.mapTo(wheel, PieceTypeDTO.class);
+        PieceTypeDTOGet actual = mappingService.mapTo(wheel, PieceTypeDTOGet.class);
 
         assertEquals(actual.getName(), wheel.getName());
     }

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.mvc.controllers;
 
-import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOPut;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
 import cz.muni.fi.pa165.legomanager.enums.Color;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
@@ -30,7 +31,6 @@ import java.util.Arrays;
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 14.12.2015
  */
-
 @Controller
 @RequestMapping("/piecetype")
 public class PieceTypeController {
@@ -45,13 +45,13 @@ public class PieceTypeController {
 
         log.debug("list()");
 
-        return loadListModel(model, new PieceTypeDTO());
+        return loadListModel(model, new PieceTypeDTOPut());
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("pieceTypeCreate") PieceTypeDTO pieceTypeCreate,
-                         BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String create(@Valid @ModelAttribute("pieceTypeCreate") PieceTypeDTOPut pieceTypeCreate,
+            BindingResult bindingResult,
+            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
         log.debug("create()", pieceTypeCreate);
 
@@ -71,7 +71,7 @@ public class PieceTypeController {
         }
 
         try {
-            pieceTypeFacade.create(pieceTypeCreate);
+            PieceTypeDTOGet created = pieceTypeFacade.create(pieceTypeCreate);
         } catch (LegoPersistenceException e) {
 
             model.addAttribute("alert_danger", "Creation of PieceType " + pieceTypeCreate.getName() + " failed. It already exists. Try to change It's name.");
@@ -82,10 +82,9 @@ public class PieceTypeController {
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
     }
 
-
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
         log.debug("delete()", id);
 
@@ -93,17 +92,15 @@ public class PieceTypeController {
             pieceTypeFacade.delete(id);
         } catch (DataAccessException e) {
             model.addAttribute("alert_danger", "Deletion of PieceType " + id + " failed. You have to remove all related Pieces with this PieceType before.");
-            return loadListModel(model, new PieceTypeDTO());
+            return loadListModel(model, new PieceTypeDTOPut());
         } catch (RuntimeException e) {
             model.addAttribute("alert_danger", "Deletion of PieceType " + id + " failed.");
-            return loadListModel(model, new PieceTypeDTO());
+            return loadListModel(model, new PieceTypeDTOPut());
         }
 
         redirectAttributes.addFlashAttribute("alert_success", "PieceType " + id + " was deleted");
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
     }
-
-
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable long id, Model model) {
@@ -111,21 +108,23 @@ public class PieceTypeController {
         log.debug("edit()", id);
 
         try {
-            PieceTypeDTO pieceTypeDTO = pieceTypeFacade.findById(id);
-            return loadEditModel(model, pieceTypeFacade.findById(id));
+            PieceTypeDTOGet pieceTypeDTOGet = pieceTypeFacade.findById(id);
+            PieceTypeDTOPut pieceTypeDTOPut = new PieceTypeDTOPut();
+            pieceTypeDTOPut.setName(pieceTypeDTOGet.getName());
+            pieceTypeDTOPut.setColors(pieceTypeDTOGet.getColors());
+            return loadEditModel(model, pieceTypeDTOGet);
         } catch (LegoPersistenceException e) {
 
             model.addAttribute("alert_danger", "Editation of PieceType can not be performed. PieceType does not exists.");
-            return loadEditModel(model, new PieceTypeDTO());
+            return loadEditModel(model, new PieceTypeDTOGet());
         }
     }
 
-
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@PathVariable long id,
-                       @Valid @ModelAttribute("pieceTypeEdit") PieceTypeDTO pieceTypeEdit,
-                       BindingResult bindingResult,
-                       Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+            @Valid @ModelAttribute("pieceTypeEdit") PieceTypeDTOGet pieceTypeEdit,
+            BindingResult bindingResult,
+            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
         log.debug("edit()", id);
 
@@ -142,20 +141,23 @@ public class PieceTypeController {
             return loadEditModel(model, pieceTypeEdit);
         }
 
-        pieceTypeEdit.setId(id);
         try {
-            pieceTypeFacade.update(pieceTypeEdit, id);
+            PieceTypeDTOPut pieceTypePut = new PieceTypeDTOPut();
+            pieceTypePut.setName(pieceTypeEdit.getName());
+            pieceTypePut.setColors(pieceTypeEdit.getColors());
+
+            pieceTypeFacade.update(pieceTypePut, id);
         } catch (EntityNotExistsException e) {
 
-            model.addAttribute("alert_danger", "Editation of PieceType" +pieceTypeEdit.getName()+ "failed. PieceType does not exists.");
+            model.addAttribute("alert_danger", "Editation of PieceType" + pieceTypeEdit.getName() + "failed. PieceType does not exists.");
             return loadEditModel(model, pieceTypeEdit);
         } catch (PersistenceException e) {
 
-            model.addAttribute("alert_danger", "Editation of PieceType" +pieceTypeEdit.getName()+ "failed. PieceType with this name already exists.");
+            model.addAttribute("alert_danger", "Editation of PieceType" + pieceTypeEdit.getName() + "failed. PieceType with this name already exists.");
             return loadEditModel(model, pieceTypeEdit);
         } catch (LegoPersistenceException e) {
 
-            model.addAttribute("alert_danger", "Editation of PieceType" +pieceTypeEdit.getName()+ "failed.");
+            model.addAttribute("alert_danger", "Editation of PieceType" + pieceTypeEdit.getName() + "failed.");
             return loadEditModel(model, pieceTypeEdit);
         }
 
@@ -164,7 +166,7 @@ public class PieceTypeController {
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
     }
 
-    private String loadListModel(Model model, PieceTypeDTO create) {
+    private String loadListModel(Model model, PieceTypeDTOPut create) {
 
         model.addAttribute("pieceTypeCreate", create);
         model.addAttribute("allColors", Arrays.asList(Color.values()));
@@ -173,7 +175,7 @@ public class PieceTypeController {
         return "piecetype/list";
     }
 
-    private String loadEditModel(Model model, PieceTypeDTO edit) {
+    private String loadEditModel(Model model, PieceTypeDTOGet edit) {
 
         model.addAttribute("pieceTypeEdit", edit);
         model.addAttribute("allColors", Arrays.asList(Color.values()));

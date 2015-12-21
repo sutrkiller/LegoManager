@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.lego.mvc.controllers;
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
-import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.facade.LegoSetFacade;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
@@ -62,7 +62,7 @@ public class StoreController {
         log.debug("show()");
 
         List<CategoryDTO> allCategories = categoryFacade.findAll();
-        List<PieceTypeDTO> allPieceTypes = pieceTypeFacade.findAll();
+        List<PieceTypeDTOGet> allPieceTypes = pieceTypeFacade.findAll();
         List<ModelDTO> allModels = modelFacade.findAll();
         List<LegoSetDTOGet> allLegoSets = legoSetFacade.findAll();
 

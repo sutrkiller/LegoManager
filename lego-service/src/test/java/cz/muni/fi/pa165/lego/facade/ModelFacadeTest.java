@@ -93,7 +93,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
     private Piece piece;
     @Mock
     private PieceType pieceType;
-    private PieceTypeDTO pieceTypeDTO;
+    private PieceTypeDTOGet pieceTypeDTO;
     private PieceDTOGet oldPieceDTO;
     private PieceDTOPut newPieceDTORed;
     private PieceDTOPut newPieceDTOGreen;
@@ -113,7 +113,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
         // mocking Category entity
         when(category.getId()).thenReturn(1L);
 
-        pieceTypeDTO = new PieceTypeDTO();
+        pieceTypeDTO = new PieceTypeDTOGet();
         pieceTypeDTO.setId(1L);
         Set<Color> clrs = new HashSet<>();
         clrs.add(Color.BLUE);
