@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOPut;
 
 import java.util.List;
 
@@ -19,14 +20,15 @@ public interface PieceTypeFacade {
      * @param pieceTypeDTO pieceType to be created
      * @return created pieceType
      */
-    PieceTypeDTO create(PieceTypeDTO pieceTypeDTO);
+    PieceTypeDTOGet create(PieceTypeDTOPut pieceTypeDTO);
 
     /**
      * Update the given pieceType.
      *
-     * @param pieceTypeDTO pieceType to be created
+     * @param pieceTypeDTO pieceType to be updated
+     * @param id identifier of updated pieceType
      */
-    void update(PieceTypeDTO pieceTypeDTO, Long id);
+    void update(PieceTypeDTOPut pieceTypeDTO, Long id);
 
     /**
      * Delete the given pieceType.
@@ -41,7 +43,7 @@ public interface PieceTypeFacade {
      * @param id id of the pieceType
      * @return existing piece with the given id
      */
-    PieceTypeDTO findById(Long id);
+    PieceTypeDTOGet findById(Long id);
 
     /**
      * Get pieceType by name.
@@ -49,13 +51,13 @@ public interface PieceTypeFacade {
      * @param name name of the pieceType
      * @return existing piece with the given name
      */
-    PieceTypeDTO findByName(String name);
+    PieceTypeDTOGet findByName(String name);
 
     /**
      * Get all existing pieceTypes.
      *
      * @return all existing pieceTypes
      */
-    List<PieceTypeDTO> findAll();
+    List<PieceTypeDTOGet> findAll();
 
 }

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.rest.controllers;
 
-import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOPut;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
 import java.util.List;
 import javax.inject.Inject;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +45,7 @@ public class PieceTypeController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final PieceTypeDTO createPieceType(@RequestBody PieceTypeDTO pieceTypeDTO) throws Exception {
+    public final PieceTypeDTOGet createPieceType(@RequestBody PieceTypeDTOPut pieceTypeDTO) throws Exception {
 
         log.debug("rest createPieceType()");
 
@@ -63,7 +65,7 @@ public class PieceTypeController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void updatePieceType(@PathVariable("id") long id, @Valid @RequestBody PieceTypeDTO pieceTypeDTO) throws Exception {
+    public final void updatePieceType(@PathVariable("id") long id, @Valid @ModelAttribute PieceTypeDTOPut pieceTypeDTO) throws Exception {
 
         log.debug("rest updatePieceType({})", id);
 
@@ -98,11 +100,11 @@ public class PieceTypeController {
      */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final PieceTypeDTO getPieceType(@PathVariable("identifier") String identifier) throws Exception {
+    public final PieceTypeDTOGet getPieceType(@PathVariable("identifier") String identifier) throws Exception {
 
         log.debug("rest getPieceType({})", identifier);
 
-        PieceTypeDTO pieceTypeDTO;
+        PieceTypeDTOGet pieceTypeDTO;
 
         if (identifier.matches("^-?\\d+$")) {
             pieceTypeDTO = pieceTypeFacade.findById(Long.parseLong(identifier));
@@ -123,7 +125,7 @@ public class PieceTypeController {
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final List<PieceTypeDTO> getPieceTypes() {
+    public final List<PieceTypeDTOGet> getPieceTypes() {
 
         log.debug("rest getPieceTypes()");
 

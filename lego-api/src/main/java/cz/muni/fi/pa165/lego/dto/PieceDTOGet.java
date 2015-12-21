@@ -17,7 +17,7 @@ public class PieceDTOGet {
 
     private Color currentColor;
 
-    private PieceTypeDTO type;
+    private PieceTypeDTOGet type;
 
     public Long getId() {
         return id;
@@ -35,11 +35,11 @@ public class PieceDTOGet {
         this.currentColor = currentColor;
     }
 
-    public PieceTypeDTO getType() {
+    public PieceTypeDTOGet getType() {
         return type;
     }
 
-    public void setType(PieceTypeDTO type) {
+    public void setType(PieceTypeDTOGet type) {
         this.type = type;
     }
 
