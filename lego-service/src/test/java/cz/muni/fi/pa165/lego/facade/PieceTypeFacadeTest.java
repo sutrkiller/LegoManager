@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOPut;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.PieceTypeService;
 import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
@@ -53,20 +54,22 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
     private PieceType pieceTypeCube;
 
     @Mock
-    private PieceTypeDTO pieceTypeDTO;
+    private PieceTypeDTOPut pieceTypeDTONew;
+    @Mock
+    private PieceTypeDTOGet pieceTypeDTO;
 
     //@Mock
-    private PieceTypeDTO returnedPieceTypeDTO;
+    private PieceTypeDTOGet returnedPieceTypeDTO;
 
     @BeforeMethod
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
         when(mappingService.mapTo(any(), eq(PieceType.class))).thenReturn(pieceTypeCube);
-        when(mappingService.mapTo(any(), eq(PieceTypeDTO.class))).thenReturn(pieceTypeDTO);
-        List<PieceTypeDTO> pieceTypesDTO = new ArrayList<>();
+        when(mappingService.mapTo(any(), eq(PieceTypeDTOGet.class))).thenReturn(pieceTypeDTO);
+        List<PieceTypeDTOGet> pieceTypesDTO = new ArrayList<>();
         pieceTypesDTO.add(pieceTypeDTO);
-        when(mappingService.mapTo(any(Collection.class), eq(PieceTypeDTO.class))).thenReturn(pieceTypesDTO);
+        when(mappingService.mapTo(any(Collection.class), eq(PieceTypeDTOGet.class))).thenReturn(pieceTypesDTO);
 
         when(pieceTypeService.findById(1L)).thenReturn(pieceTypeCube);
         when(pieceTypeService.findByName("cube")).thenReturn(pieceTypeCube);
@@ -77,11 +80,13 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
 
         when(pieceTypeDTO.getId()).thenReturn(1L);
         when(pieceTypeDTO.getName()).thenReturn("cube");
+        
+        when(pieceTypeDTONew.getName()).thenReturn("cube");
     }
 
     @Test
     public void testCreatePieceType() {
-        returnedPieceTypeDTO = pieceTypeFacade.create(pieceTypeDTO);
+        returnedPieceTypeDTO = pieceTypeFacade.create(pieceTypeDTONew);
 
         assertEquals(returnedPieceTypeDTO, pieceTypeDTO);
         verify(pieceTypeService).create(any(PieceType.class));
@@ -89,7 +94,7 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testUpdatePieceType() {
-        pieceTypeFacade.update(pieceTypeDTO);
+        pieceTypeFacade.update(pieceTypeDTONew, 1L);
         verify(pieceTypeService).update(any(PieceType.class));
     }
 
@@ -113,12 +118,12 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
         List<PieceType> pieceTypes = new ArrayList<>();
         pieceTypes.add(pieceTypeCube);
 
-        List<PieceTypeDTO> pieceTypesDTO = new ArrayList<>();
-        pieceTypesDTO.add(mappingService.mapTo(pieceTypeCube, PieceTypeDTO.class));
+        List<PieceTypeDTOGet> pieceTypesDTO = new ArrayList<>();
+        pieceTypesDTO.add(mappingService.mapTo(pieceTypeCube, PieceTypeDTOGet.class));
 
         when(pieceTypeService.findAll()).thenReturn(pieceTypes);
 
-        List<PieceTypeDTO> returnedPieceTypesDTO = pieceTypeFacade.findAll();
+        List<PieceTypeDTOGet> returnedPieceTypesDTO = pieceTypeFacade.findAll();
 
         assertNotNull(returnedPieceTypesDTO);
         assertEquals(returnedPieceTypesDTO.get(0), pieceTypesDTO.get(0));

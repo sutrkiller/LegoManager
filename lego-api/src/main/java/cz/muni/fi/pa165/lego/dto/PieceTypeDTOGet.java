@@ -1,14 +1,11 @@
 package cz.muni.fi.pa165.lego.dto;
 
-
 import cz.muni.fi.pa165.legomanager.enums.Color;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * Data transfer object for {@link PieceType class}
@@ -16,15 +13,12 @@ import javax.validation.constraints.Size;
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 25.11.2015
  */
-public class PieceTypeDTO {
+public class PieceTypeDTOGet {
 
     private Long id;
 
-    @NotNull
-    @Size(min = 3, max = 50)
     private String name;
 
-    @NotNull
     private Set<Color> colors = new HashSet<>();
 
     public Long getId() {
@@ -59,10 +53,10 @@ public class PieceTypeDTO {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof PieceTypeDTO)) {
+        if (!(obj instanceof PieceTypeDTOGet)) {
             return false;
         }
-        final PieceTypeDTO other = (PieceTypeDTO) obj;
+        final PieceTypeDTOGet other = (PieceTypeDTOGet) obj;
         if (this.getId() == null) {
             return false;
         }
@@ -79,8 +73,7 @@ public class PieceTypeDTO {
 
     @Override
     public String toString() {
-        return "PieceTypeDTO{" + "id=" + id + ", name=" + name + ", colors=" + colors + '}';
+        return "PieceTypeDTO{" + "id=" + getId() + ", name=" + getName() + ", colors=" + getColors() + '}';
     }
-
 
 }

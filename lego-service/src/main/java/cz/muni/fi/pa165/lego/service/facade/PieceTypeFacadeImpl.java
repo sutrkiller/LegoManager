@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.lego.service.facade;
 
-import cz.muni.fi.pa165.lego.dto.PieceTypeDTO;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
+import cz.muni.fi.pa165.lego.dto.PieceTypeDTOPut;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.PieceTypeService;
@@ -28,15 +29,15 @@ public class PieceTypeFacadeImpl implements PieceTypeFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public PieceTypeDTO create(PieceTypeDTO pieceTypeDTO) {
+    public PieceTypeDTOGet create(PieceTypeDTOPut pieceTypeDTO) {
         PieceType mappedPieceType = beanMappingService.mapTo(pieceTypeDTO, PieceType.class);
         pieceTypeService.create(mappedPieceType);
-        return beanMappingService.mapTo(pieceTypeService.findById(mappedPieceType.getId()), PieceTypeDTO.class);
+        return beanMappingService.mapTo(pieceTypeService.findById(mappedPieceType.getId()), PieceTypeDTOGet.class);
     }
 
     @Override
-    public void update(PieceTypeDTO pieceTypeDTO) {
-        PieceType destination = pieceTypeService.findById(pieceTypeDTO.getId());
+    public void update(PieceTypeDTOPut pieceTypeDTO, Long id) {
+        PieceType destination = pieceTypeService.findById(id);
         beanMappingService.mapTo(pieceTypeDTO, destination);
         destination.setColors(pieceTypeDTO.getColors());
         pieceTypeService.update(destination);
@@ -49,17 +50,17 @@ public class PieceTypeFacadeImpl implements PieceTypeFacade {
     }
 
     @Override
-    public List<PieceTypeDTO> findAll() {
-        return beanMappingService.mapTo(pieceTypeService.findAll(), PieceTypeDTO.class);
+    public List<PieceTypeDTOGet> findAll() {
+        return beanMappingService.mapTo(pieceTypeService.findAll(), PieceTypeDTOGet.class);
     }
 
     @Override
-    public PieceTypeDTO findById(Long id) {
-        return beanMappingService.mapTo(pieceTypeService.findById(id), PieceTypeDTO.class);
+    public PieceTypeDTOGet findById(Long id) {
+        return beanMappingService.mapTo(pieceTypeService.findById(id), PieceTypeDTOGet.class);
     }
 
     @Override
-    public PieceTypeDTO findByName(String name) {
-        return beanMappingService.mapTo(pieceTypeService.findByName(name), PieceTypeDTO.class);
+    public PieceTypeDTOGet findByName(String name) {
+        return beanMappingService.mapTo(pieceTypeService.findByName(name), PieceTypeDTOGet.class);
     }
 }
