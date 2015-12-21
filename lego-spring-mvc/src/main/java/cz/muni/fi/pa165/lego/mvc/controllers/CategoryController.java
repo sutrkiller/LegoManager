@@ -2,10 +2,14 @@ package cz.muni.fi.pa165.lego.mvc.controllers;
 
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
+import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
+import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -48,13 +51,18 @@ public class CategoryController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
+            model.addAttribute("alert_danger", "Creation of Category " + categoryDTO.getName() + " failed.");
             return "category/new";
         }
 
-        Long id = categoryFacade.create(categoryDTO);
+        try {
+            categoryFacade.create(categoryDTO);
+        } catch (LegoPersistenceException e) {
+            model.addAttribute("alert_danger", "Creation of Category " + categoryDTO.getName() + " failed. It already exists. Try to change it's name.");
+            return "category/new";
+        }
 
-        redirectAttributes.addFlashAttribute("alert_success", "Category " + id + " was created");
-        redirectAttributes.addAttribute("id", id);
+        redirectAttributes.addFlashAttribute("alert_success", "Category " + categoryDTO.getName() + " was created");
 
         return "redirect:" + uriBuilder.path("/category/list").toUriString();
     }
@@ -83,21 +91,28 @@ public class CategoryController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
+            model.addAttribute("alert_danger", "Editing of Category " + categoryDTO.getId() + " failed.");
+
             return "category/change";
         }
 
-        //log.debug("BEFORE");
-        log.debug("id: " + categoryDTO.getId());
-        //log.debug("name: " + categoryDTO.getName());
-        //log.debug("description: " + categoryDTO.getDescription());
         Long id = categoryDTO.getId();
-        categoryFacade.findById(id);
-        categoryFacade.update(categoryDTO);
-        //log.debug("AFTER");
-        //log.debug("id: " + categoryDTO.getId());
-        //log.debug("name: " + categoryDTO.getName());
-        //log.debug("description: " + categoryDTO.getDescription());
-        
+        try {
+            categoryFacade.update(categoryDTO);
+        } catch (EntityNotExistsException e) {
+
+            model.addAttribute("alert_danger", "Editation of Category " + categoryDTO.getName() + " failed. Category does not exists.");
+            return "category/change";
+        } catch (PersistenceException e) {
+
+            model.addAttribute("alert_danger", "Editation of Category " + categoryDTO.getName() + " failed. Category with this name already exists.");
+            return "category/change";
+        } catch (LegoPersistenceException e) {
+
+            model.addAttribute("alert_danger", "Editation of Category " + categoryDTO.getName() + " failed.");
+            return "category/change";
+        }
+
         redirectAttributes.addFlashAttribute("alert_success", "Category " + id + " was updated");
         redirectAttributes.addAttribute("id", id);
 
@@ -117,40 +132,44 @@ public class CategoryController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteCategory(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
-        CategoryDTO categoryDTO = categoryFacade.findById(id);
         log.debug("delete()");
 
-        categoryFacade.delete(categoryDTO.getId());
+        try {
+            categoryFacade.delete(id);
+        } catch (DataAccessException e) {
+            model.addAttribute("alert_danger", "Deletion of Category " + id + " failed. First you have to remove all related Models and Lego sets to this Category.");
+            return "category/list";
+        } catch (RuntimeException e) {
+            model.addAttribute("alert_danger", "Deletion of Category " + id + " failed.");
+            return "category/list";
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "Category " + id + " was deleted");
-
         return "redirect:" + uriBuilder.path("/category/list").toUriString();
     }
 
-    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
-    public String viewCategory(@PathVariable long id, Model model) {
+    @RequestMapping(value = "/view/{identifier}", method = RequestMethod.GET)
+    public String viewCategory(@PathVariable("identifier") String identifier, Model model) {
 
-        log.debug("view()", id);
+        log.debug("view()", identifier);
+        CategoryDTO categoryDTO;
 
-        model.addAttribute("category", categoryFacade.findById(id));
+        if (identifier.matches("^-?\\d+$")) {
+            categoryDTO = categoryFacade.findById(Long.parseLong(identifier));
+        } else {
+            categoryDTO = categoryFacade.findByName(identifier);
+        }
+
+        model.addAttribute("category", categoryDTO);
 
         return "category/view";
     }
 
-    /*@RequestMapping(value = "/view/{name}", method = RequestMethod.GET, params = {"name"})
-    public String viewCategory(@PathVariable String name, Model model) {
-
-        log.debug("view()", name);
-
-        model.addAttribute("category", categoryFacade.findByName(name));
-
-        return "category/view";
-    }*/
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listCategories(Model model) {
 
         log.debug("list()");
-log.debug(categoryFacade.findAll().toString());
+
         model.addAttribute("categories", categoryFacade.findAll());
 
         return "category/list";
