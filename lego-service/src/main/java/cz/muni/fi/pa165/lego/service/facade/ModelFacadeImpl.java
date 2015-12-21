@@ -1,13 +1,13 @@
 package cz.muni.fi.pa165.lego.service.facade;
 
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
-import cz.muni.fi.pa165.lego.dto.PieceDTO;
+import cz.muni.fi.pa165.lego.dto.PieceDTOPut;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.lego.service.*;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
-import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
+import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,11 +73,12 @@ public class ModelFacadeImpl implements ModelFacade {
     }
 
     @Override
-    public void addPiece(Long modelId, PieceDTO pieceDTO) {
+    public void addPiece(Long modelId, PieceDTOPut pieceDTO) {
         Model model = modelService.findById(modelId);
         Piece piece = beanMappingService.mapTo(pieceDTO, Piece.class);
-        piece.setType(pieceTypeService.findById(pieceDTO.getType().getId()));
-        if (!pieceDTO.getType().getColors().contains(pieceDTO.getCurrentColor())) {
+        PieceType pieceType = pieceTypeService.findById(pieceDTO.getPieceTypeId());
+        piece.setType(pieceType);
+        if (!pieceType.getColors().contains(pieceDTO.getCurrentColor())) {
             throw new IllegalArgumentException("piece do not have color from its piece type.");
         }
         modelService.addPiece(model, piece);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -36,20 +37,16 @@ public class PieceTypeController {
 
         log.debug("rest createPieceType()");
 
-        Long id = pieceTypeFacade.create(pieceTypeDTO);
-
-        return pieceTypeFacade.findById(id);
+        return pieceTypeFacade.create(pieceTypeDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final PieceTypeDTO updatePieceType(@PathVariable("id") long id, @Valid @ModelAttribute PieceTypeDTO pieceTypeDTO) throws Exception {
+    public final void updatePieceType(@PathVariable("id") long id, @Valid @ModelAttribute PieceTypeDTO pieceTypeDTO) throws Exception {
 
         log.debug("rest updatePieceType({})", id);
 
         pieceTypeFacade.update(pieceTypeDTO);
-
-        return pieceTypeFacade.findById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,37 +57,25 @@ public class PieceTypeController {
         pieceTypeFacade.delete(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final PieceTypeDTO getPieceType(@PathVariable("id") long id) throws Exception {
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public final PieceTypeDTO getPieceType(@PathVariable("identifier") String identifier) throws Exception {
 
-        log.debug("rest getPieceType({})", id);
+        log.debug("rest getPieceType({})", identifier);
 
-        PieceTypeDTO pieceTypeDTO = pieceTypeFacade.findById(id);
+        PieceTypeDTO pieceTypeDTO;
 
-        if (pieceTypeDTO == null) {
-            // TO-DO throw new exception
-            throw new Exception("reason..");
-        }
-
-        return pieceTypeDTO;
-    }
-
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final PieceTypeDTO getPieceType(@PathVariable("name") String name) throws Exception {
-
-        log.debug("rest getPieceType({})", name);
-
-        PieceTypeDTO pieceTypeDTO = pieceTypeFacade.findByName(name);
-
-        if (pieceTypeDTO == null) {
-            // TO-DO throw new exception
-            throw new Exception("reason..");
+        if (identifier.matches("^-?\\d+$")) {
+            pieceTypeDTO = pieceTypeFacade.findById(Long.parseLong(identifier));
+        } else {
+            pieceTypeDTO = pieceTypeFacade.findByName(identifier);
         }
 
         return pieceTypeDTO;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public final List<PieceTypeDTO> getPieceTypes() {
 
         log.debug("rest getPieceTypes()");

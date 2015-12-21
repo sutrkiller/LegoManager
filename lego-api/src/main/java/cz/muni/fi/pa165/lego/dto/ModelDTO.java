@@ -35,7 +35,7 @@ public class ModelDTO {
     private BigDecimal price;
 
     @NotNull
-    private Set<PieceDTO> pieces = new HashSet<>();
+    private List<PieceDTOGet> pieces = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -77,11 +77,11 @@ public class ModelDTO {
         this.ageLimit = ageLimit;
     }
 
-    public Set<PieceDTO> getPieces() {
+    public List<PieceDTOGet> getPieces() {
         return pieces;
     }
 
-    public void setPieces(Set<PieceDTO> pieces) {
+    public void setPieces(List<PieceDTOGet> pieces) {
         this.pieces = pieces;
     }
 

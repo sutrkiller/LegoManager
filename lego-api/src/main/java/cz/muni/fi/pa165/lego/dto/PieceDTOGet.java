@@ -11,14 +11,12 @@ import java.util.Objects;
  *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
-public class PieceDTO {
+public class PieceDTOGet {
 
     private Long id;
 
-    @NotNull
     private Color currentColor;
 
-    @NotNull
     private PieceTypeDTO type;
 
     public Long getId() {
@@ -54,11 +52,11 @@ public class PieceDTO {
             return false;
         }
 
-        if (!(o instanceof PieceDTO)) {
+        if (!(o instanceof PieceDTOGet)) {
             return false;
         }
 
-        PieceDTO pieceDTO = (PieceDTO) o;
+        PieceDTOGet pieceDTO = (PieceDTOGet) o;
 
         if (getId() == null) {
             return false;
@@ -74,10 +72,9 @@ public class PieceDTO {
 
     @Override
     public String toString() {
-        return "PieceDTO{" +
-                "id=" + id +
-                ", currentColor=" + currentColor +
-                ", type=" + type +
-                '}';
+        return "PieceDTO{"
+                + "id=" + getId()
+                + ", currentColor=" + getCurrentColor()
+                + ", type=" + getType() + '}';
     }
 }

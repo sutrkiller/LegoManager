@@ -37,7 +37,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
     private PieceType wheel;
     private PieceTypeDTO wheelDTO;
     private Piece leftFrontWheel;
-    private PieceDTO leftFrontWheelDTO;
+    private PieceDTOGet leftFrontWheelDTO;
 
     @BeforeMethod
     public void setup() {
@@ -89,7 +89,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
         leftFrontWheel = new Piece();
         leftFrontWheel.setCurrentColor(Color.RED);
 
-        leftFrontWheelDTO = new PieceDTO();
+        leftFrontWheelDTO = new PieceDTOGet();
         leftFrontWheelDTO.setId(1L);
         leftFrontWheelDTO.setCurrentColor(Color.RED);
     }
@@ -177,7 +177,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testMapToPieceDTO() throws Exception {
-        PieceDTO actual = mappingService.mapTo(leftFrontWheel, PieceDTO.class);
+        PieceDTOGet actual = mappingService.mapTo(leftFrontWheel, PieceDTOGet.class);
 
         assertEquals(actual.getCurrentColor(), leftFrontWheelDTO.getCurrentColor());
     }

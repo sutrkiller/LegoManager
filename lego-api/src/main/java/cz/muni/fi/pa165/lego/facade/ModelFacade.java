@@ -1,7 +1,8 @@
 package cz.muni.fi.pa165.lego.facade;
 
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
-import cz.muni.fi.pa165.lego.dto.PieceDTO;
+import cz.muni.fi.pa165.lego.dto.PieceDTOGet;
+import cz.muni.fi.pa165.lego.dto.PieceDTOPut;
 
 import java.util.List;
 
@@ -72,7 +73,7 @@ public interface ModelFacade {
      * @param modelId id of the model. It has to exist.
      * @param piece piece to be created and added to model.
      */
-    void addPiece(Long modelId, PieceDTO piece);
+    void addPiece(Long modelId, PieceDTOPut piece);
 
     /**
      * Remove the piece defined by its id from the model defined by its id. It also delete piece at all.

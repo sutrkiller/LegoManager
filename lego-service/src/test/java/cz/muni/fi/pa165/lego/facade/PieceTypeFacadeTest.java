@@ -31,63 +31,62 @@ import org.testng.annotations.Test;
 
 /**
  * Test class for PieceTypeFacade class.
- * 
+ *
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 25.11.2015
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
-    
+
     @Mock
     private PieceTypeService pieceTypeService;
-    
+
     @Mock
     private BeanMappingService mappingService;
-    
+
     @Inject
     @InjectMocks
     private PieceTypeFacadeImpl pieceTypeFacade;
-    
+
     @Mock
     private PieceType pieceTypeCube;
-          
+
     @Mock
     private PieceTypeDTO pieceTypeDTO;
-    
+
     //@Mock
     private PieceTypeDTO returnedPieceTypeDTO;
-    
-    @BeforeMethod 
+
+    @BeforeMethod
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        
+
         when(mappingService.mapTo(any(), eq(PieceType.class))).thenReturn(pieceTypeCube);
         when(mappingService.mapTo(any(), eq(PieceTypeDTO.class))).thenReturn(pieceTypeDTO);
         List<PieceTypeDTO> pieceTypesDTO = new ArrayList<>();
         pieceTypesDTO.add(pieceTypeDTO);
         when(mappingService.mapTo(any(Collection.class), eq(PieceTypeDTO.class))).thenReturn(pieceTypesDTO);
-        
+
         when(pieceTypeService.findById(1L)).thenReturn(pieceTypeCube);
-        
+        when(pieceTypeService.findByName("cube")).thenReturn(pieceTypeCube);
+
         when(pieceTypeCube.getId()).thenReturn(1L);
         when(pieceTypeCube.getName()).thenReturn("cube");
-        when(pieceTypeCube.getColors()).thenReturn(new HashSet<>(Arrays.asList(cz.muni.fi.pa165.legomanager.enums.Color.BLACK,cz.muni.fi.pa165.legomanager.enums.Color.WHITE)));
-        
+        when(pieceTypeCube.getColors()).thenReturn(new HashSet<>(Arrays.asList(cz.muni.fi.pa165.legomanager.enums.Color.BLACK, cz.muni.fi.pa165.legomanager.enums.Color.WHITE)));
+
         when(pieceTypeDTO.getId()).thenReturn(1L);
-        //when(pieceTypeDTO.g)
+        when(pieceTypeDTO.getName()).thenReturn("cube");
     }
-    
+
     @Test
     public void testCreatePieceType() {
-        Long id = pieceTypeFacade.create(pieceTypeDTO);
-        
-        returnedPieceTypeDTO = pieceTypeFacade.findById(id);
-        
-        assertEquals(returnedPieceTypeDTO,pieceTypeDTO);
+        returnedPieceTypeDTO = pieceTypeFacade.create(pieceTypeDTO);
+
+        assertEquals(returnedPieceTypeDTO, pieceTypeDTO);
         verify(pieceTypeService).create(any(PieceType.class));
     }
-    
+
     @Test
     public void testUpdatePieceType() {
         pieceTypeFacade.update(pieceTypeDTO);
@@ -97,39 +96,39 @@ public class PieceTypeFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testDeletePieceType() {
         pieceTypeFacade.delete(pieceTypeDTO.getId());
-        
+
         verify(pieceTypeService).delete(any(PieceType.class));
     }
-    
+
     @Test
     public void testGetPieceTypeById() {
         returnedPieceTypeDTO = pieceTypeFacade.findById(pieceTypeDTO.getId());
-        
+
         assertEquals(returnedPieceTypeDTO, pieceTypeDTO);
         verify(pieceTypeService).findById(any(Long.class));
     }
-    
+
     @Test
     public void testGetAllPieceTypes() {
         List<PieceType> pieceTypes = new ArrayList<>();
         pieceTypes.add(pieceTypeCube);
-        
+
         List<PieceTypeDTO> pieceTypesDTO = new ArrayList<>();
         pieceTypesDTO.add(mappingService.mapTo(pieceTypeCube, PieceTypeDTO.class));
-        
+
         when(pieceTypeService.findAll()).thenReturn(pieceTypes);
-        
+
         List<PieceTypeDTO> returnedPieceTypesDTO = pieceTypeFacade.findAll();
-        
+
         assertNotNull(returnedPieceTypesDTO);
-        assertEquals(returnedPieceTypesDTO.get(0),pieceTypesDTO.get(0));
+        assertEquals(returnedPieceTypesDTO.get(0), pieceTypesDTO.get(0));
         verify(pieceTypeService).findAll();
     }
-    
+
     @Test
     public void testGetPieceTypeByName() {
         returnedPieceTypeDTO = pieceTypeFacade.findByName(pieceTypeDTO.getName());
-        
+
         assertEquals(returnedPieceTypeDTO, pieceTypeDTO);
         verify(pieceTypeService).findByName(any(String.class));
     }

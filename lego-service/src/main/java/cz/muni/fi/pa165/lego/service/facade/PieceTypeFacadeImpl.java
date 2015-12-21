@@ -5,11 +5,11 @@ import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.PieceTypeService;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  * PieceTypeFacadeImpl implements {@link PieceTypeFacade}.
@@ -21,23 +21,25 @@ import java.util.List;
 @Transactional
 public class PieceTypeFacadeImpl implements PieceTypeFacade {
 
-    @Autowired
+    @Inject
     private PieceTypeService pieceTypeService;
 
-    @Autowired
+    @Inject
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long create(PieceTypeDTO pieceTypeDTO) {
+    public PieceTypeDTO create(PieceTypeDTO pieceTypeDTO) {
         PieceType mappedPieceType = beanMappingService.mapTo(pieceTypeDTO, PieceType.class);
         pieceTypeService.create(mappedPieceType);
-        return mappedPieceType.getId();
+        return beanMappingService.mapTo(pieceTypeService.findById(mappedPieceType.getId()), PieceTypeDTO.class);
     }
 
     @Override
     public void update(PieceTypeDTO pieceTypeDTO) {
-        PieceType mappedPieceType = beanMappingService.mapTo(pieceTypeDTO, PieceType.class);
-        pieceTypeService.update(mappedPieceType);
+        PieceType destination = pieceTypeService.findById(pieceTypeDTO.getId());
+        beanMappingService.mapTo(pieceTypeDTO, destination);
+        destination.setColors(pieceTypeDTO.getColors());
+        pieceTypeService.update(destination);
     }
 
     @Override
