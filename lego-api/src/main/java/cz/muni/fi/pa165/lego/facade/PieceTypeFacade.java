@@ -17,9 +17,9 @@ public interface PieceTypeFacade {
      * Create the given piece.
      *
      * @param pieceTypeDTO pieceType to be created
-     * @return id of created pieceType
+     * @return created pieceType
      */
-    Long create(PieceTypeDTO pieceTypeDTO);
+    PieceTypeDTO create(PieceTypeDTO pieceTypeDTO);
 
     /**
      * Update the given pieceType.

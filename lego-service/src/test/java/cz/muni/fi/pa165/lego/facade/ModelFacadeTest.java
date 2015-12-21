@@ -33,6 +33,24 @@ import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 /**
  * Test class for ModelFacade class.
@@ -63,43 +81,96 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
     private Model modelBMW;
     @Mock
     private Model modelKIA;
-    @Mock
-    private ModelDTO modelDTO;
-    @Mock
+    private ModelDTO modelDTOBMW;
     private ModelDTO returnedModelDTO;
 
     @Mock
     private Category category;
-    @Mock
     private Category newCategory;
-    @Mock
     private CategoryDTO categoryDTO;
-    @Mock
     private CategoryDTO newCategoryDTO;
 
-    @Mock
     private Piece piece;
     @Mock
     private PieceType pieceType;
-    @Mock
     private PieceTypeDTO pieceTypeDTO;
-    @Mock
-    private PieceDTO oldPieceDTO;
-    @Mock
-    private PieceDTO newPieceDTO;
+    private PieceDTOGet oldPieceDTO;
+    private PieceDTOPut newPieceDTORed;
+    private PieceDTOPut newPieceDTOGreen;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
+        categoryDTO = new CategoryDTO();
+        categoryDTO.setId(1L);
+        categoryDTO.setName("Category containing cars only.");
+
+        newCategoryDTO = new CategoryDTO();
+        newCategoryDTO.setId(2L);
+        newCategoryDTO.setName("Category containing BMW cars only.");
+        
+        // mocking Category entity
+        when(category.getId()).thenReturn(1L);
+
+        pieceTypeDTO = new PieceTypeDTO();
+        pieceTypeDTO.setId(1L);
+        Set<Color> clrs = new HashSet<>();
+        clrs.add(Color.BLUE);
+        clrs.add(Color.RED);
+        pieceTypeDTO.setColors(clrs);
+
+        // mocking PieceType entity
+        when(pieceType.getId()).thenReturn(1L);
+        when(pieceType.getColors()).thenReturn(clrs);
+        when(pieceType.getName()).thenReturn("wheels");
+
+        piece = new Piece();
+        piece.setCurrentColor(Color.RED);
+
+        List pieces = new ArrayList();
+        pieces.add(oldPieceDTO);
+
+        oldPieceDTO = new PieceDTOGet();
+        oldPieceDTO.setId(1L);
+        oldPieceDTO.setType(pieceTypeDTO);
+
+        newPieceDTORed = new PieceDTOPut();
+        newPieceDTORed.setPieceTypeId(pieceType.getId());
+        newPieceDTORed.setCurrentColor(Color.RED);
+
+        newPieceDTOGreen = new PieceDTOPut();
+        newPieceDTOGreen.setPieceTypeId(pieceType.getId());
+        newPieceDTOGreen.setCurrentColor(Color.GREEN);
+
+        // mocking Model entities
+        when(modelBMW.getId()).thenReturn(1L);
+        when(modelBMW.getName()).thenReturn("BMW");
+        when(modelBMW.getPieces()).thenReturn(pieces);
+
+        when(modelKIA.getId()).thenReturn(2L);
+        when(modelKIA.getName()).thenReturn("KIA");
+
+        modelDTOBMW = new ModelDTO();
+        modelDTOBMW.setId(1L);
+        modelDTOBMW.setName("BMW");
+        modelDTOBMW.setAgeLimit(Byte.valueOf("5"));
+        modelDTOBMW.setCategory(categoryDTO);
+        modelDTOBMW.setPieces(pieces);
+
+        returnedModelDTO = new ModelDTO();
+        returnedModelDTO.setId(1L);
+        returnedModelDTO.setName("BMW");
+        returnedModelDTO.setAgeLimit(Byte.valueOf("5"));
+
         // mocking Dozer mapper
         when(mappingService.mapTo(any(), eq(Model.class))).thenReturn(modelBMW);
-        when(mappingService.mapTo(any(), eq(ModelDTO.class))).thenReturn(modelDTO);
-        when(mappingService.mapTo(any(), eq(PieceDTO.class))).thenReturn(newPieceDTO);
-        when(mappingService.mapTo(any(), eq(PieceDTO.class))).thenReturn(oldPieceDTO);
+        when(mappingService.mapTo(any(), eq(ModelDTO.class))).thenReturn(modelDTOBMW);
+        when(mappingService.mapTo(any(), eq(PieceDTOPut.class))).thenReturn(newPieceDTORed);
+        when(mappingService.mapTo(any(), eq(PieceDTOGet.class))).thenReturn(oldPieceDTO);
         when(mappingService.mapTo(any(), eq(Piece.class))).thenReturn(piece);
         List<ModelDTO> models = new ArrayList<>();
-        models.add(modelDTO);
+        models.add(modelDTOBMW);
         when(mappingService.mapTo(any(Collection.class), eq(ModelDTO.class))).thenReturn(models);
 
         // mocking service layer
@@ -109,74 +180,38 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
         when(categoryService.findById(2L)).thenReturn(newCategory);
         when(pieceTypeService.findById(1L)).thenReturn(pieceType);
         when(pieceService.findById(1L)).thenReturn(piece);
-
-        // mocking DTO objects
-        when(modelDTO.getName()).thenReturn("BMW");
-        when(modelDTO.getAgeLimit()).thenReturn(Byte.valueOf("5"));
-        when(returnedModelDTO.getId()).thenReturn(1L);
-        when(returnedModelDTO.getName()).thenReturn("BMW");
-        when(returnedModelDTO.getAgeLimit()).thenReturn(Byte.valueOf("5"));
-        when(modelDTO.getId()).thenReturn(1L);
-        when(modelDTO.getName()).thenReturn("BMW");
-        when(modelDTO.getAgeLimit()).thenReturn(Byte.valueOf("5"));
-        when(modelDTO.getCategory()).thenReturn(categoryDTO);
-        when(oldPieceDTO.getId()).thenReturn(1L);
-        when(oldPieceDTO.getType()).thenReturn(pieceTypeDTO);
-        when(categoryDTO.getId()).thenReturn(1L);
-        when(categoryDTO.getName()).thenReturn("Category containing cars only.");
-        when(newCategoryDTO.getId()).thenReturn(2L);
-        when(newCategoryDTO.getName()).thenReturn("Category containing BMW cars only.");
-        when(pieceTypeDTO.getId()).thenReturn(1L);
-        Set<Color> clrs = new HashSet<>();
-        clrs.add(Color.BLUE);
-        clrs.add(Color.RED);
-        when(pieceTypeDTO.getColors()).thenReturn(clrs);
-        when(newPieceDTO.getType()).thenReturn(pieceTypeDTO);
-        when(newPieceDTO.getCurrentColor()).thenReturn(Color.RED);
-
-        // mocking Model entity
-        when(modelBMW.getId()).thenReturn(1L);
-        when(modelKIA.getId()).thenReturn(2L);
-        when(modelBMW.getName()).thenReturn("BMW");
-        when(modelKIA.getName()).thenReturn("KIA");
-        List pieces = new ArrayList();
-        pieces.add(oldPieceDTO);
-        when(modelBMW.getPieces()).thenReturn(pieces);
-
-        // mocking Category entities
-        when(category.getId()).thenReturn(1L);
     }
 
     @Test
     public void testCreateModel() {
-        Long id = modelFacade.create(modelDTO);
+        Long id = modelFacade.create(modelDTOBMW);
 
         returnedModelDTO = modelFacade.findById(id);
 
-        assertEquals(modelDTO, returnedModelDTO);
+        assertEquals(modelDTOBMW, returnedModelDTO);
         verify(modelService).create(any(Model.class));
     }
 
     @Test
     public void testUpdate() {
-        modelFacade.update(modelDTO);
+        modelFacade.update(modelDTOBMW);
         verify(mappingService).mapTo(any(ModelDTO.class), eq(Model.class));
         verify(modelService).update(any(Model.class));
     }
 
     @Test
     public void testFindModelById() {
-        returnedModelDTO = modelFacade.findById(modelDTO.getId());
+        returnedModelDTO = modelFacade.findById(modelDTOBMW.getId());
 
-        assertEquals(modelDTO, returnedModelDTO);
+        assertEquals(modelDTOBMW, returnedModelDTO);
         verify(modelService).findById(any(Long.class));
     }
 
     @Test
     public void testFindModelByName() {
-        returnedModelDTO = modelFacade.findByName(modelDTO.getName());
+        returnedModelDTO = modelFacade.findByName(modelDTOBMW.getName());
 
-        assertEquals(modelDTO, returnedModelDTO);
+        assertEquals(modelDTOBMW, returnedModelDTO);
         verify(modelService).findByName(any(String.class));
     }
 
@@ -199,6 +234,8 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindModelsByCategory() {
+        categoryService.create(category);
+
         List<Model> cars = new ArrayList<>();
         cars.add(modelBMW);
 
@@ -216,30 +253,30 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testAddPiece() {
-        modelFacade.addPiece(modelDTO.getId(), newPieceDTO);
+        pieceTypeService.create(pieceType);
+
+        modelFacade.addPiece(modelDTOBMW.getId(), newPieceDTORed);
 
         verify(modelService).addPiece(any(Model.class), any(Piece.class));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddPieceBadColor() {
-        when(newPieceDTO.getCurrentColor()).thenReturn(Color.GREEN);
-
-        modelFacade.addPiece(modelDTO.getId(), newPieceDTO);
+        modelFacade.addPiece(modelDTOBMW.getId(), newPieceDTOGreen);
 
         verify(modelService).addPiece(any(Model.class), any(Piece.class));
     }
 
     @Test
     public void testRemovePiece() {
-        modelFacade.removePiece(modelDTO.getId(), oldPieceDTO.getId());
+        modelFacade.removePiece(modelDTOBMW.getId(), oldPieceDTO.getId());
 
         verify(modelService).removePiece(any(Model.class), any(Piece.class));
     }
 
     @Test
     public void testDeleteModel() {
-        modelFacade.delete(modelDTO.getId());
+        modelFacade.delete(modelDTOBMW.getId());
 
         verify(modelService).delete(any(Model.class));
     }
