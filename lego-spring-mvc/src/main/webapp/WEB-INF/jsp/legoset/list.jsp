@@ -32,37 +32,10 @@
                         <td><p><c:out value="${legoset.category.name}"/></p></td>
                         <td><p>
                                 <c:forEach items="${legoset.models}" var="model" varStatus="loop">
-
-                              <%--      <my:a href="/legoset/edit/${legoset.id}/removeModel?modelId=${model.id}" class="btn btn-defualt">
-                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                        <c:out value="${model.name}"></c:out>
-                                    </my:a>
-
-
-                                --%>
-                                <c:out value="${model.name}"></c:out>
+                                    <c:out value="${model.name}"></c:out>
                                     <c:if test="${!loop.last}">, </c:if>
                                 </c:forEach>
 
-                         <%--               <select >
-                                    <c:forEach items="${models}" var="model">
-                                        <c:set var="contains" value="false"/>
-                                        <c:forEach items="${legoset.models}" var="lmodel">
-                                            <c:if test="${model.id == lmodel.id}">
-                                                <c:set var="contains" value="true"/>
-                                            </c:if>
-                                        </c:forEach>
-                                        <c:if test="${!contains}">
-                                            <option>
-                                            <my:a href="/legoset/edit/${legoset.id}/addModel?modelId=${model.id}" class="btn btn-default">
-                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                                <c:out value="${model.name}"/>
-                                            </my:a>
-                                        </option>
-                                        </c:if>
-                                    </c:forEach>
-                                                </select>
-                         --%>       
                             </p>
                         </td>
                         <td>
