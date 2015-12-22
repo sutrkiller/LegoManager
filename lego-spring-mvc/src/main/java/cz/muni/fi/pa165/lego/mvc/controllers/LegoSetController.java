@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.lego.facade.LegoSetFacade;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
+import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
@@ -106,7 +107,7 @@ public class LegoSetController {
     }
     
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String updateLegoSet(@Valid @ModelAttribute("legosetChange") LegoSetDTOPut legosetChange, BindingResult bindingResult, @PathVariable("id") long id, 
+    public String updateLegoSet(@PathVariable long id, @Valid @ModelAttribute("legosetChange") LegoSetDTOPut legosetChange, BindingResult bindingResult,  
                                 RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
                                 Model model) {
         
@@ -120,13 +121,13 @@ public class LegoSetController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-            model.addAttribute("alert_danger", "Update of LegoSet " + id + " failed.");
-            model.addAttribute("legosetChange", legosetChange);
-            model.addAttribute("legosetChangeId", id);
+            //model.addAttribute("alert_danger", "Update of LegoSet " + id + " failed.");
+            //model.addAttribute("legosetChange", legosetChange);
+            //model.addAttribute("legosetChangeId", id);
             return "legoset/edit";
         }
        
-        try {
+        /*try {
             LegoSetDTOPut legoSetPut = new LegoSetDTOPut();
             legoSetPut.setName(legosetChange.getName());
             legoSetPut.setPrice(legosetChange.getPrice());
@@ -149,8 +150,23 @@ public class LegoSetController {
             model.addAttribute("legosetChangeId", id);
             return "legoset/edit";
         }
+        */
+        try {
+            legoSetFacade.update(legosetChange, id);
+        } catch (EntityNotExistsException e) {
+            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed. LegoSet does not exists.");
+            
+            return "legoset/edit";
+        } catch (LegoPersistenceException e) {
+            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed. LegoSet with this name already exists.");
+            
+            return "legoset/edit";
+        } catch (PersistenceException e) {
+            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed.");
+           
+            return "legoset/edit";
+        }
         
-
         redirectAttributes.addFlashAttribute("alert_success", "LegoSet " + id + " was updated");
         
         return "redirect:" + uriBuilder.path("/legoset/list").toUriString();
@@ -161,16 +177,24 @@ public class LegoSetController {
 
         log.debug("change()", id);
         
-        try {
-            model.addAttribute("legosetChange", legoSetFacade.findById(id));
-            model.addAttribute("legosetChangeId", id);
+        LegoSetDTOGet legoSetDTO = legoSetFacade.findById(id);
+        
+        //try {
+            LegoSetDTOPut legoSetChange = new LegoSetDTOPut();
+            legoSetChange.setName(legoSetDTO.getName());
+            legoSetChange.setPrice(legoSetDTO.getPrice());
+            legoSetChange.setCategoryId(legoSetDTO.getCategory().getId());
+            
+            model.addAttribute("legosetChange", legoSetChange);
+            model.addAttribute("legosetChangeModels",legoSetDTO.getModels());
+           // model.addAttribute("legosetChangeId", id);
             return "legoset/edit";
-        } catch (LegoPersistenceException e) {
+        /*} catch (LegoPersistenceException e) {
             model.addAttribute("alert_danger", "Editation of LegoSet can not be performed. LegoSet does not exists.");
             model.addAttribute("legosetChange", new LegoSetDTOPut());
             model.addAttribute("legosetChangeId",id);
             return "legoset/edit";
-        }
+        }*/
         
         
     }
@@ -234,6 +258,7 @@ public class LegoSetController {
         
         redirectAttributes.addFlashAttribute("alert_success", "Model " + modelId + " was removed from legoset");
         return "redirect:" + uriBuilder.path("/legoset/edit/"+id).toUriString();
+        //return "redirect:" + uriBuilder.path("/legoset/list").toUriString();
     }
     
     

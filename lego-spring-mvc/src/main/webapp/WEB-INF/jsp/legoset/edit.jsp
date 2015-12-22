@@ -11,17 +11,17 @@
             
             <form:form method="POST" 
                        modelAttribute="legosetChange"
-                       action="${pageContext.request.contextPath}/legoset/edit/${legosetChangeId}" 
+                       action="${pageContext.request.contextPath}/legoset/edit/${id}" 
                        cssClass="form-horizontal">
               
-                <div class="form-group ${name_error?'has-error':''}">
+        <%--        <div class="form-group ${name_error?'has-error':''}">
                     <form:label path="id" cssClass="col-sm-2 control-label">Id</form:label>
                         <div class="col-sm-10">
                         <form:input path="id" cssClass="form-control" value="${legosetChangeId}" readonly="true"/>
                         <form:errors path="id" cssClass="help-block"/>
                     </div>
                 </div>
-
+--%>
                 <div class="form-group ${name_error?'has-error':''}">
                     <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
                         <div class="col-sm-10">
@@ -39,29 +39,21 @@
                 </div>
 
                 <div class="form-group">
-                    <form:label path="category.id" cssClass="col-sm-2 control-label">Category</form:label>
-                        <div class="col-sm-10">
-                        <form:select path="category.id" cssClass="form-control">
-                            <c:forEach items="${categories}" var="c" >
-                                <c:choose>
-                                    <c:when test="${c.id == legosetChange.category.id}">
-                                        <form:option selected="selected" value="${c.id}"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <form:option value="${c.id}" />
-                                    </c:otherwise>
-                                </c:choose>
+                    <form:label path="categoryId" cssClass="col-sm-2 control-label">Category</form:label>
+                    <div class="col-sm-10">
+                        <form:select path="categoryId" cssClass="form-control">
+                            <c:forEach items="${categories}" var="c">
+                                <form:option value="${c.id}">${c.name}</form:option>
                             </c:forEach>
-
                         </form:select>
-                        <p class="help-block"><form:errors path="category.id" cssClass="error"/></p>
+                        <p class="help-block"><form:errors path="categoryId" cssClass="error"/></p>
                     </div>
                 </div>
 
-                        
-                <div class="form-group">
-                    <form:label path="models" cssClass="col-sm-2 control-label">Models</form:label>
-                        <div class="col-sm-10">
+                      
+             <div class="form-group">
+                    <span class="col-sm-2 control-label">Models</span>
+                          <div class="col-sm-10">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -76,20 +68,20 @@
                                         <td><c:out value="${model.name}"/></td>
                                         <td>
                                             <c:set var="isSelected" value="false"/>
-                                            <c:forEach items="${legosetChange.models}" var="l">
+                                            <c:forEach items="${legosetChangeModels}" var="l">
                                                 <c:if test="${l.id == model.id}">
                                                     <c:set var="isSelected" value="true"/>
                                                 </c:if>
                                             </c:forEach>
                                             <c:choose>
                                          <c:when test="${!isSelected}">
-                                             <my:a href="/legoset/edit/${legosetChangeId}/addModel?modelId=${model.id}" class="btn btn-default">
+                                             <my:a href="/legoset/edit/${id}/addModel?modelId=${model.id}" class="btn btn-default">
                                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                 Add
                                             </my:a>
                                          </c:when>
                                          <c:otherwise>
-                                             <my:a href="/legoset/edit/${legosetChangeId}/removeModel?modelId=${model.id}" class="btn btn-defualt">
+                                             <my:a href="/legoset/edit/${id}/removeModel?modelId=${model.id}" class="btn btn-defualt">
                                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                                 Remove
                                             </my:a>
@@ -97,15 +89,16 @@
                                      </c:choose>
                                             
                                         </td>
+                                 
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
-                        <p class="help-block"><form:errors path="models" cssClass="error"/></p>
+                        
                     </div>
                 </div>
 
-               
+              
                 <div class="form-group">        
                     <div class="col-sm-offset-2 col-sm-10">
                         <button class="btn btn-success" type="submit">Change legoset details</button>

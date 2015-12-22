@@ -137,8 +137,8 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
 
         categoryFacade.update(carsDTO);
 
-        verify(beanMappingService).mapTo(eq(carsDTO), eq(Category.class));
-        verify(categoryService).update(cars);
+        
+        verify(categoryService).update(any(Category.class));
     }
 
     @Test
