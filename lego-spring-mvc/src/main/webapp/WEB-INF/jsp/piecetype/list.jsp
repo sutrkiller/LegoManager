@@ -26,7 +26,7 @@
                         <c:out value="${pieceType.name}"/>
                     </td>
                     <td class="button-cell">
-                        <my:colors allColors="${allColors}" activeColors="${pieceType.colors}" active="false"/>
+                        <my:colors allColors="${allColors}" activeColors="${pieceType.colors}" type="inactive"/>
                     </td>
                     <td class="button-cell tight-cell">
                         <my:a class="btn btn-default" href="/piecetype/edit/${pieceType.id}">
@@ -71,7 +71,8 @@
                         <s:bind path="colors">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
 
-                                <my:colors allColors="${allColors}" active="true"
+                                <my:colors allColors="${allColors}"
+                                           type="checkbox"
                                            activeColors="${pieceTypeCreate.colors}"
                                            path="colors"/>
                                 <form:errors path="colors" cssClass="help-block"/>

@@ -24,7 +24,9 @@
             </s:bind>
             <s:bind path="colors">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <my:colors allColors="${allColors}" active="true" activeColors="${pieceTypeEdit.colors}"
+                    <my:colors allColors="${allColors}"
+                               type="checkbox"
+                               activeColors="${pieceTypeEdit.colors}"
                                path="colors"/>
                     <form:errors path="colors" cssClass="help-block"/>
                 </div>
