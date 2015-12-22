@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -33,44 +34,56 @@ public class StoreController {
     private CategoryFacade categoryFacade;
 
     @Inject
-    private PieceTypeFacade pieceTypeFacade;
-
-    @Inject
     private ModelFacade modelFacade;
 
     @Inject
     private LegoSetFacade legoSetFacade;
 
-    public void setCategoryFacade(CategoryFacade categoryFacade) {
-        this.categoryFacade = categoryFacade;
-    }
+    @RequestMapping("/models")
+    public String models(Model model) {
+        log.debug("models()");
 
-    public void setPieceTypeFacade(PieceTypeFacade pieceTypeFacade) {
-        this.pieceTypeFacade = pieceTypeFacade;
-    }
-
-    public void setModelFacade(ModelFacade modelFacade) {
-        this.modelFacade = modelFacade;
-    }
-
-    public void setLegoSetFacade(LegoSetFacade legoSetFacade) {
-        this.legoSetFacade = legoSetFacade;
-    }
-
-    @RequestMapping("/show")
-    public String list(Model model) {
-        log.debug("show()");
-
-        List<CategoryDTO> allCategories = categoryFacade.findAll();
-        List<PieceTypeDTOGet> allPieceTypes = pieceTypeFacade.findAll();
         List<ModelDTO> allModels = modelFacade.findAll();
-        List<LegoSetDTOGet> allLegoSets = legoSetFacade.findAll();
+        List<CategoryDTO> categories = categoryFacade.findAll();
 
-        model.addAttribute("categories", allCategories);
-        model.addAttribute("piecetypes", allPieceTypes);
         model.addAttribute("models", allModels);
-        model.addAttribute("legosets", allLegoSets);
+        model.addAttribute("categories", categories);
 
-        return "store/show";
+        return "store/models";
+    }
+
+    @RequestMapping("/models/{id}")
+    public String modelDetail(Model model, @PathVariable("id") long id) {
+        log.debug("modelDetail()");
+
+        ModelDTO m = modelFacade.findById(id);
+
+        model.addAttribute("model", m);
+
+        return "store/modelDetail";
+    }
+
+    @RequestMapping("/legosets")
+    public String legosets(Model model) {
+        log.debug("legosets()");
+
+        List<LegoSetDTOGet> allLegoSets = legoSetFacade.findAll();
+        List<CategoryDTO> categories = categoryFacade.findAll();
+
+        model.addAttribute("legosets", allLegoSets);
+        model.addAttribute("categories", categories);
+
+        return "store/legosets";
+    }
+
+    @RequestMapping("/legosets/{id}")
+    public String legosetDetail(Model model, @PathVariable("id") long id) {
+        log.debug("legosetDetail()");
+
+        LegoSetDTOGet legoSet = legoSetFacade.findById(id);
+
+        model.addAttribute("legoset", legoSet);
+
+        return "store/legosetDetail";
     }
 }

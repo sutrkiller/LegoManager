@@ -15,9 +15,11 @@
             <p class="lead"><small>This Java application is created as a semestral project within a course PA165 Enterprise Java applications at MU.</small></p>
 
             <div class="span7 text-center">
-
-                <my:a href="/store/show" class="btn btn-lg btn-info text-left">
-                    Go to the store
+                <my:a href="/store/legosets" class="btn btn-lg btn-info text-left">
+                    Go to the legosets
+                </my:a>
+                <my:a href="/store/models" class="btn btn-lg btn-info text-left">
+                    Go to the models
                 </my:a>
             </div>
         </div>

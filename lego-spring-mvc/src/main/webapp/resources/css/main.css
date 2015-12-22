@@ -36,6 +36,10 @@
     width: 1%;
 }
 
+.table.table-hover > tbody > tr:hover {
+    cursor: pointer;
+}
+
 .btn-group.colors > .btn.color {
     border-color: rgba(0, 0, 0, 0.2);
     opacity: 0.6;
