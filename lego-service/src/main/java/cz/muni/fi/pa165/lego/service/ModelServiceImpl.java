@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.lego.service;
 import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import cz.muni.fi.pa165.legomanager.dao.ModelDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
+import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class ModelServiceImpl implements ModelService {
     @Inject
     private PieceService pieceService;
 
+    @Inject
+    private LegoSetService legoSetService;
+
     @Override
     public void create(Model model) {
         if(model == null) {
@@ -47,6 +51,12 @@ public class ModelServiceImpl implements ModelService {
     public void delete(Model model) {
         if(model == null) {
             throw new IllegalArgumentException("Model can not be null");
+        }
+
+        for (LegoSet ls : legoSetService.findAll()) {
+            if (ls.getModels().contains(model)) {
+                legoSetService.removeModel(ls, model);
+            }
         }
 
         modelDao.delete(model);

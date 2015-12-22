@@ -1,13 +1,13 @@
 package cz.muni.fi.pa165.legomanager.entities;
 
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * Entity class Model contains name, age limit for children, price, category to
@@ -40,7 +40,7 @@ public class Model {
     @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @NotNull
     private List<Piece> pieces = new ArrayList<>();
 
