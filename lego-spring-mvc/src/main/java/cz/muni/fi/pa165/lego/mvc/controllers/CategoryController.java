@@ -138,9 +138,11 @@ public class CategoryController {
             categoryFacade.delete(id);
         } catch (DataAccessException e) {
             model.addAttribute("alert_danger", "Deletion of Category " + id + " failed. First you have to remove all related Models and Lego sets to this Category.");
+            model.addAttribute("categories", categoryFacade.findAll());
             return "category/list";
         } catch (RuntimeException e) {
             model.addAttribute("alert_danger", "Deletion of Category " + id + " failed.");
+            model.addAttribute("categories", categoryFacade.findAll());
             return "category/list";
         }
 

@@ -44,16 +44,19 @@
                         <li><my:a href="/store/legosets"><f:message key="navigation.store.legosets"/></my:a></li>
                         <li><my:a href="/store/models"><f:message key="navigation.store.models"/></my:a></li>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b
-                                    class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>
-                                <li><my:a href="/piecetype/list"><f:message key="navigation.admin.piecetypes"/></my:a></li>
-                                <li><my:a href="/model/list"><f:message key="navigation.admin.models"/></my:a></li>
-                                <li><my:a href="/legoset/list"><f:message key="navigation.admin.legosets"/></my:a></li>
-                            </ul>
-                        </li>
+
+                        <sec:authorize access="hasRole('ADMIN')">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b
+                                        class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>
+                                    <li><my:a href="/piecetype/list"><f:message key="navigation.admin.piecetypes"/></my:a></li>
+                                    <li><my:a href="/model/list"><f:message key="navigation.admin.models"/></my:a></li>
+                                    <li><my:a href="/legoset/list"><f:message key="navigation.admin.legosets"/></my:a></li>
+                                </ul>
+                            </li>
+                        </sec:authorize>
                         <%--<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b
                                     class="caret"></b></a>
