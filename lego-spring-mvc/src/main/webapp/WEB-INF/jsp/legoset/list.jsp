@@ -38,12 +38,12 @@
 
                             </p>
                         </td>
-                        <td>
+                        <td class="button-cell">
                             <my:a href="/legoset/edit/${legoset.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </my:a>
-                            <my:a href="/legoset/delete/${legoset.id}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                            <my:a href="/legoset/delete/${legoset.id}" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </my:a>
                         </td>
                     </tr>

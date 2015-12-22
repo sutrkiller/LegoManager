@@ -66,7 +66,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Piece typem</th>
+                        <th>Piece type</th>
                         <th>Color</th>
                     </tr>
                     </thead>
@@ -74,8 +74,8 @@
                     <c:forEach items="${pieces}" var="p">
                         <tr>
                             <td><c:out value="${p.type.name}"/></td>
-                            <td>
-                                <my:colors allColors="${p.type.colors}" type="single" activeColor="${p.currentColor}"/>
+                            <td class="button-cell">
+                                <my:colors allColors="${p.type.colors}" type="inactive" activeColor="${p.currentColor}"/>
                             </td>
                             <td class="button-cell tight-cell">
                                 <my:a href="/model/${id}/deletePiece/${p.id}" class="btn btn-danger" method="post">
@@ -84,6 +84,27 @@
                             </td>
                         </tr>
                     </c:forEach>
+
+
+                    <tr>
+                        <td colspan="3"></td>
+                    </tr>
+
+                    <tr>
+
+                        <td class="button-cell" colspan="3">
+                            Add piece <i class="glyphicon glyphicon-plus"></i>
+                            <div class="btn-group">
+                            <c:forEach items="${pieceTypes}" var="pieceType">
+
+                                <my:a href="/model/change/${id}/addPiece?pieceTypeId=${pieceType.id}" class="btn btn-default">${pieceType.name}</my:a>
+
+                            </c:forEach>
+                            </div>
+
+                        </td>
+
+                    </tr>
 
                     </tbody>
                 </table>

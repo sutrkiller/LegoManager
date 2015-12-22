@@ -2,7 +2,7 @@
 <%@ attribute name="allColors" required="true" type="java.util.Collection" %>
 <%@ attribute name="type" required="true" %> <%-- checkbox, radiobutton, inactive --%>
 <%@ attribute name="activeColors" type="java.util.Collection" %>
-<%@ attribute name="activeColor" %>
+<%@ attribute name="activeColor" type="cz.muni.fi.pa165.legomanager.enums.Color" %>
 <%@ attribute name="path" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -55,7 +55,7 @@
         </div>
 
     </c:when>
-
+<%--
     <c:when test="${type == 'single'}">
 
         <div class="btn-group colors" data-toggle="buttons">
@@ -67,6 +67,7 @@
 
                     <label class="btn btn-primary color ${activeColorString}"
                            style="background-color: rgb(${color.r}, ${color.g}, ${color.b})">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" style="visibility: hidden;"></span>
                     </label>
 
                 </c:if>
@@ -74,7 +75,7 @@
             </c:forEach>
         </div>
 
-    </c:when>
+    </c:when>--%>
 
     <c:otherwise>
 

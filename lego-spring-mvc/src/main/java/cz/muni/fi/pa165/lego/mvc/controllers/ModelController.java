@@ -12,10 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -106,6 +103,9 @@ public class ModelController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
+
+
+            model.addAttribute("pieces", modelFacade.findById(id).getPieces());
             return "model/change";
         }
 
@@ -131,9 +131,53 @@ public class ModelController {
 
         model.addAttribute("modelChange", createModelDTO);
         model.addAttribute("pieces", modelDTO.getPieces());
-        model.addAttribute("piecePut", new PieceDTOPut());
 
         return "model/change";
+    }
+
+
+    @RequestMapping(value = "/change/{id}/addPiece", method = RequestMethod.GET)
+    public String changeModel(Model model, @PathVariable long id, @RequestParam long pieceTypeId) {
+
+        log.debug("addPiece()");
+
+        PieceDTOPut pieceDTOPut = new PieceDTOPut();
+        pieceDTOPut.setPieceTypeId(pieceTypeId);
+
+        model.addAttribute("piece",pieceDTOPut);
+        model.addAttribute("pieceType", pieceTypeFacade.findById(pieceTypeId));
+        model.addAttribute("model", modelFacade.findById(id));
+
+        return "model/addPiece";
+    }
+
+
+    @RequestMapping(value = "/edit/{id}/addPiece", method = RequestMethod.POST)
+    public String changeModel(Model model, @PathVariable long id, @Valid @ModelAttribute("piece") PieceDTOPut pieceDTOPut,
+                              BindingResult bindingResult, UriComponentsBuilder uriBuilder
+            , RedirectAttributes redirectAttributes) {
+
+        log.debug("addPiece()");
+
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.trace("FieldError: {}", fe);
+            }
+
+            model.addAttribute("piece",pieceDTOPut);
+            model.addAttribute("pieceType", pieceTypeFacade.findById(pieceDTOPut.getPieceTypeId()));
+            model.addAttribute("model", modelFacade.findById(id));
+            return "model/addPiece";
+        }
+
+        modelFacade.addPiece(id, pieceDTOPut);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Piece was added");
+        return "redirect:" + uriBuilder.path("/model/change/"+id).toUriString();
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -179,26 +223,6 @@ public class ModelController {
         return "model/piece";
     }
 
-    @RequestMapping(value = "/{id}/addPiece", method = RequestMethod.POST)
-    public String addPiece(@PathVariable long id, @Valid @ModelAttribute("piecePut") PieceDTOPut pieceDTO, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            for (ObjectError ge : bindingResult.getGlobalErrors()) {
-                log.trace("ObjectError: {}", ge);
-            }
-            for (FieldError fe : bindingResult.getFieldErrors()) {
-                model.addAttribute(fe.getField() + "_error", true);
-                log.trace("FieldError: {}", fe);
-            }
-            return "model/list";
-        }
-
-        modelFacade.addPiece(id, pieceDTO);
-
-        redirectAttributes.addFlashAttribute("alert_success", "Piece was removed");
-
-        return "redirect:" + uriBuilder.path("/model/change/" + id).toUriString();
-    }
 
     @RequestMapping(value = "/{id}/deletePiece/{pieceId}", method = RequestMethod.GET)
     public String deletePiece(@PathVariable long id, @PathVariable long pieceId, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
