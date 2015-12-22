@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.lego.dto.*;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
-import cz.muni.fi.pa165.legomanager.entities.Piece;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,8 +93,8 @@ public class ModelController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String editModel(@PathVariable long id, @Valid @ModelAttribute("modelChange") ModelCreateDTO modelDTO, BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
-                              Model model) {
+                            RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
+                            Model model) {
 
         log.debug("edit()");
 
@@ -131,6 +130,8 @@ public class ModelController {
         createModelDTO.setCategoryId(modelDTO.getCategory().getId());
 
         model.addAttribute("modelChange", createModelDTO);
+        model.addAttribute("pieces", modelDTO.getPieces());
+        model.addAttribute("piecePut", new PieceDTOPut());
 
         return "model/change";
     }
@@ -158,16 +159,6 @@ public class ModelController {
 
         return "model/view";
     }
-//
-//    @RequestMapping(value = "/view/{name}", method = RequestMethod.GET)
-//    public String viewModel(@PathVariable String name, Model model) {
-//
-//        log.debug("view()", name);
-//
-//        model.addAttribute("model", modelFacade.findByName(name));
-//
-//        return "model/view";
-//    }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listModels(Model model) {
@@ -189,8 +180,33 @@ public class ModelController {
     }
 
     @RequestMapping(value = "/{id}/addPiece", method = RequestMethod.POST)
-    public String addPiece(@PathVariable long id, @Valid @ModelAttribute("model") ModelDTO modelDTO) {
-        return "model/piece";
+    public String addPiece(@PathVariable long id, @Valid @ModelAttribute("piecePut") PieceDTOPut pieceDTO, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.trace("FieldError: {}", fe);
+            }
+            return "model/list";
+        }
+
+        modelFacade.addPiece(id, pieceDTO);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Piece was removed");
+
+        return "redirect:" + uriBuilder.path("/model/change/" + id).toUriString();
+    }
+
+    @RequestMapping(value = "/{id}/deletePiece/{pieceId}", method = RequestMethod.GET)
+    public String deletePiece(@PathVariable long id, @PathVariable long pieceId, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        modelFacade.removePiece(id, pieceId);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Piece was removed");
+
+        return "redirect:" + uriBuilder.path("/model/change/" + id).toUriString();
     }
 
     @RequestMapping(value = "/discount/{id}", method = RequestMethod.POST)

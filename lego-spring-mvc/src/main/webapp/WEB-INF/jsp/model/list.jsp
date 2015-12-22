@@ -31,11 +31,6 @@
                         <td><c:out value="${model.price}€"/></td>
                         <td><c:out value="${model.ageLimit}"/></td>
                         <td class="button-cell tight-cell">
-                            <my:a href="/model/${model.id}/piece" class="btn btn-default">
-                                <span class="glyphicon glyphicons-plus-sign" aria-hidden="true"></span>
-                            </my:a>
-                        </td>
-                        <td class="button-cell tight-cell">
                             <my:a href="/model/change/${model.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </my:a>

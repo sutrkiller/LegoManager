@@ -1,14 +1,10 @@
 package cz.muni.fi.pa165.lego.service;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import cz.muni.fi.pa165.legomanager.dao.ModelDao;
-import cz.muni.fi.pa165.legomanager.dao.PieceDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.entities.Piece;
-import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
-import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -124,8 +120,7 @@ public class ModelServiceImpl implements ModelService {
         if (!pieces.contains(piece)) {
             throw new LegoServiceException("Model: " + model.toString() + " does not contain piece:" + piece.toString());
         }
-        pieces.remove(piece);
-        model.setPieces(pieces);
+        model.removePiece(piece);
         pieceService.delete(piece);
         modelDao.update(model);
     }

@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.lego.service;
 
 import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
-import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import cz.muni.fi.pa165.legomanager.dao.ModelDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
@@ -10,26 +9,26 @@ import cz.muni.fi.pa165.legomanager.entities.PieceType;
 import cz.muni.fi.pa165.legomanager.enums.Color;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeSet;
-import javax.inject.Inject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import javax.inject.Inject;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeSet;
+
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
 /**
@@ -50,7 +49,7 @@ public class ModelServiceTest extends AbstractTestNGSpringContextTests {
 
     @Inject
     @InjectMocks
-    private ModelServiceImpl modelService;
+    private ModelService modelService;
 
     @Mock
     private Category modelCategory;
@@ -209,8 +208,6 @@ public class ModelServiceTest extends AbstractTestNGSpringContextTests {
         modelService.addPiece(modelBMW, newPieceForBMW);
         verify(pieceService).create(newPieceForBMW);
         verify(modelDao).update(modelBMW);
-        // TODO: fix test
-//        assertTrue(modelBMW.getPieces().contains(newPieceForBMW));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -228,8 +225,6 @@ public class ModelServiceTest extends AbstractTestNGSpringContextTests {
         modelService.removePiece(modelBMW, oldPieceForBMW);
         verify(pieceService).delete(oldPieceForBMW);
         verify(modelDao).update(modelBMW);
-
-        assertTrue(!(modelBMW.getPieces().contains(oldPieceForBMW)));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

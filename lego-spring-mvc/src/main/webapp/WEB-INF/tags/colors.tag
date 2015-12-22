@@ -55,6 +55,27 @@
         </div>
 
     </c:when>
+
+    <c:when test="${type == 'single'}">
+
+        <div class="btn-group colors" data-toggle="buttons">
+            <c:forEach items="${allColors}" var="color">
+
+                <c:set var="activeColorString" value=" "/>
+                <c:if test="${activeColor == color}">
+                    <c:set var="activeColorString" value="active"/>
+
+                    <label class="btn btn-primary color ${activeColorString}"
+                           style="background-color: rgb(${color.r}, ${color.g}, ${color.b})">
+                    </label>
+
+                </c:if>
+
+            </c:forEach>
+        </div>
+
+    </c:when>
+
     <c:otherwise>
 
         <div class="btn-group colors inactive">

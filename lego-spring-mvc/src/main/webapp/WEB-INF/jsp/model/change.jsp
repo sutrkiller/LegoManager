@@ -60,9 +60,35 @@
                 </div>
             </form:form>
 
+            <form:form method="post" action="${pageContext.request.contextPath}/model/edit/${id}"
+                       modelAttribute="pieces" cssClass="form-horizontal">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Piece typem</th>
+                        <th>Color</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${pieces}" var="p">
+                        <tr>
+                            <td><c:out value="${p.type.name}"/></td>
+                            <td>
+                                <my:colors allColors="${p.type.colors}" type="single" activeColor="${p.currentColor}"/>
+                            </td>
+                            <td class="button-cell tight-cell">
+                                <my:a href="/model/${id}/deletePiece/${p.id}" class="btn btn-danger" method="post">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </my:a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+
+                    </tbody>
+                </table>
+            </form:form>
         </div>
 
-
-
-    </jsp:attribute>
+</jsp:attribute>
 </my:pagetemplate>
