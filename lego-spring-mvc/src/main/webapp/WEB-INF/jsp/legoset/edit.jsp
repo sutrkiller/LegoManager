@@ -8,20 +8,12 @@
 <my:pagetemplate title="Change legoset">
     <jsp:attribute name="body">
         <div class="container">
-            
+
             <form:form method="POST" 
                        modelAttribute="legosetChange"
                        action="${pageContext.request.contextPath}/legoset/edit/${id}" 
                        cssClass="form-horizontal">
-              
-        <%--        <div class="form-group ${name_error?'has-error':''}">
-                    <form:label path="id" cssClass="col-sm-2 control-label">Id</form:label>
-                        <div class="col-sm-10">
-                        <form:input path="id" cssClass="form-control" value="${legosetChangeId}" readonly="true"/>
-                        <form:errors path="id" cssClass="help-block"/>
-                    </div>
-                </div>
---%>
+
                 <div class="form-group ${name_error?'has-error':''}">
                     <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
                         <div class="col-sm-10">
@@ -40,7 +32,7 @@
 
                 <div class="form-group">
                     <form:label path="categoryId" cssClass="col-sm-2 control-label">Category</form:label>
-                    <div class="col-sm-10">
+                        <div class="col-sm-10">
                         <form:select path="categoryId" cssClass="form-control">
                             <c:forEach items="${categories}" var="c">
                                 <form:option value="${c.id}">${c.name}</form:option>
@@ -50,18 +42,18 @@
                     </div>
                 </div>
 
-                      
-             <div class="form-group">
+
+                <div class="form-group">
                     <span class="col-sm-2 control-label">Models</span>
-                          <div class="col-sm-10">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>id</th>
-                                        <th>name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                    <div class="col-sm-10">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <c:forEach items="${models}" var="model">
                                     <tr>
                                         <td>${model.id}</td>
@@ -74,31 +66,31 @@
                                                 </c:if>
                                             </c:forEach>
                                             <c:choose>
-                                         <c:when test="${!isSelected}">
-                                             <my:a href="/legoset/edit/${id}/addModel?modelId=${model.id}" class="btn btn-default">
-                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                                Add
-                                            </my:a>
-                                         </c:when>
-                                         <c:otherwise>
-                                             <my:a href="/legoset/edit/${id}/removeModel?modelId=${model.id}" class="btn btn-defualt">
-                                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                                Remove
-                                            </my:a>
-                                         </c:otherwise>
-                                     </c:choose>
-                                            
+                                                <c:when test="${!isSelected}">
+                                                    <my:a href="/legoset/edit/${id}/addModel?modelId=${model.id}" class="btn btn-default">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                        Add
+                                                    </my:a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <my:a href="/legoset/edit/${id}/removeModel?modelId=${model.id}" class="btn btn-defualt">
+                                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                                        Remove
+                                                    </my:a>
+                                                </c:otherwise>
+                                            </c:choose>
+
                                         </td>
-                                 
+
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
-                        
+
                     </div>
                 </div>
 
-              
+
                 <div class="form-group">        
                     <div class="col-sm-offset-2 col-sm-10">
                         <button class="btn btn-success" type="submit">Change legoset details</button>
