@@ -118,22 +118,27 @@ public class LegoSetController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
+
+            model.addAttribute("legosetChangeModels", legoSetFacade.findById(id).getModels());
             return "legoset/edit";
         }
 
         try {
             legoSetFacade.update(legosetChange, id);
         } catch (EntityNotExistsException e) {
-            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed. LegoSet does not exists.");
 
+            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed. LegoSet does not exists.");
+            model.addAttribute("legosetChangeModels", legoSetFacade.findById(id).getModels());
             return "legoset/edit";
         } catch (LegoPersistenceException e) {
-            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed. LegoSet with this name already exists.");
 
+            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed. LegoSet with this name already exists.");
+            model.addAttribute("legosetChangeModels", legoSetFacade.findById(id).getModels());
             return "legoset/edit";
         } catch (PersistenceException e) {
-            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed.");
 
+            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed.");
+            model.addAttribute("legosetChangeModels", legoSetFacade.findById(id).getModels());
             return "legoset/edit";
         }
 
