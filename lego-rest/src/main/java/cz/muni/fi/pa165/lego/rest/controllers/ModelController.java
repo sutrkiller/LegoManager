@@ -28,6 +28,18 @@ public class ModelController {
     @Inject
     private ModelFacade modelFacade;
 
+    /**
+     * Create model with given parameters.
+     *
+     * example:
+     * curl -X POST -H "Accept:application/json" -H "Content-Type:application/json"
+     * http://localhost:8080/pa165/rest/models/create
+     * -d '{"name":"House","price":100, "ageLimit": 12, "categoryId":2}'
+     * | python -m json.tool
+     *
+     * @param modelDTO to be created
+     * @return created modelDTO
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final ModelDTO createModel(@RequestBody ModelCreateDTO modelDTO) throws Exception {
@@ -39,6 +51,17 @@ public class ModelController {
         return modelFacade.findById(id);
     }
 
+    /**
+     * Update model with given id.
+     *
+     * example:
+     * curl -X PUT -H "Content-Type:application/json"
+     * http://localhost:8080/pa165/rest/models/1
+     * -d '{"name":"House","price":120, "ageLimit":90, "categoryId":2}'
+     *
+     * @param id id of updated model
+     * @param modelDTO new data
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @ModelAttribute ModelCreateDTO modelDTO) throws Exception {
@@ -50,6 +73,14 @@ public class ModelController {
         return modelFacade.findById(id);
     }
 
+    /**
+     * Delete model defined by its id.
+     *
+     * example:
+     * curl -X DELETE http://localhost:8080/pa165/rest/models/1
+     *
+     * @param id of model
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteModel(@PathVariable("id") long id) throws Exception {
 
@@ -58,6 +89,16 @@ public class ModelController {
         modelFacade.delete(id);
     }
 
+
+    /**
+     * Get model by id.
+     *
+     * example:
+     * curl -H "Accept:application/json" http://localhost:8080/pa165/rest/models/1
+     *
+     * @param id of the model
+     * @return model with given id
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final ModelDTO getModel(@PathVariable("id") long id) throws Exception {
 
@@ -72,38 +113,15 @@ public class ModelController {
 
         return modelDTO;
     }
-/*
 
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO getModel(@PathVariable("name") String name) throws Exception {
-
-        log.debug("rest getModel({})", name);
-
-        ModelDTO modelDTO = modelFacade.findByName(name);
-
-        if (modelDTO == null) {
-            // TO-DO throw new exception
-            throw new Exception("reason..");
-        }
-
-        return modelDTO;
-    }
-*/
-//    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public final ModelDTO getModel(@PathVariable("name") String name) throws Exception {
-//
-//        log.debug("rest getModel({})", name);
-//
-//        ModelDTO modelDTO = modelFacade.findByName(name);
-//
-//        if (modelDTO == null) {
-//            // TO-DO throw new exception
-//            throw new Exception("reason..");
-//        }
-//
-//        return modelDTO;
-//    }
-
+    /**
+     * Get all models.
+     *
+     * example:
+     * curl -H "Accept:application/json" http://localhost:8080/pa165/rest/models
+     *
+     * @return List of all models
+     */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<ModelDTO> getModels() {
 
