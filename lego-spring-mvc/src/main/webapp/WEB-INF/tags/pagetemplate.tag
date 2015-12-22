@@ -41,14 +41,9 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.store"/><b
-                                    class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><my:a href="/model/list"><f:message key="navigation.store.models"/></my:a></li>
-                                <li><my:a href="/legoset/list"><f:message key="navigation.store.legosets"/></my:a></li>
-                            </ul>
-                        </li>
+                        <li><my:a href="/store/legosets"><f:message key="navigation.store.legosets"/></my:a></li>
+                        <li><my:a href="/store/models"><f:message key="navigation.store.models"/></my:a></li>
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b
                                     class="caret"></b></a>
@@ -59,7 +54,7 @@
                                 <li><my:a href="/legoset/list"><f:message key="navigation.admin.legosets"/></my:a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
+                        <%--<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -84,7 +79,7 @@
                                 <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
                                 <li><a href="https://maven.apache.org/">Maven</a></li>
                             </ul>
-                        </li>
+                        </li>--%>
                     </ul>
                     <!-- authenticated user info -->
                     <sec:authorize access="isAuthenticated()">
