@@ -1,8 +1,10 @@
 package cz.muni.fi.pa165.lego.facade;
 
+import cz.muni.fi.pa165.lego.dto.ModelCreateDTO;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.dto.PieceDTOGet;
 import cz.muni.fi.pa165.lego.dto.PieceDTOPut;
+import cz.muni.fi.pa165.legomanager.entities.Model;
 
 import java.util.List;
 
@@ -20,14 +22,14 @@ public interface ModelFacade {
      * @param model model to be created. It shouldn't have setted id.
      * @return id of the created model
      */
-    Long create(ModelDTO model);
+    Long create(ModelCreateDTO model);
 
     /**
      * Update the given model.
      *
      * @param model to be updated. It should have setted id.
      */
-    void update(ModelDTO model);
+    void update(ModelCreateDTO model, Long id);
 
     /**
      * Delete the model.
@@ -83,4 +85,10 @@ public interface ModelFacade {
      */
     void removePiece(Long modelId, Long pieceId);
 
+    /**
+     * Set price of model to half.
+     *
+     * @param modelId modelId which is set to have discount
+     */
+    void setFiftyPercentDiscount(Long modelId);
 }

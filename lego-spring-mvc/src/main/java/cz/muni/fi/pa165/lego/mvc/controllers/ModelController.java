@@ -1,9 +1,10 @@
 package cz.muni.fi.pa165.lego.mvc.controllers;
 
-import cz.muni.fi.pa165.lego.dto.CategoryDTO;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
+import cz.muni.fi.pa165.lego.dto.*;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
+import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
+import cz.muni.fi.pa165.legomanager.entities.Piece;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -42,14 +42,23 @@ public class ModelController {
     @Autowired
     private CategoryFacade categoryFacade;
 
+    @Autowired
+    private PieceTypeFacade pieceTypeFacade;
+
     @ModelAttribute("categories")
     public List<CategoryDTO> categories() {
         log.debug("categories()");
         return categoryFacade.findAll();
     }
 
+    @ModelAttribute("pieceTypes")
+    public List<PieceTypeDTOGet> pieceTypes() {
+        log.debug("pieceTypes()");
+        return pieceTypeFacade.findAll();
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createModel(@Valid @ModelAttribute("modelCreate") ModelDTO modelDTO, BindingResult bindingResult,
+    public String createModel(@Valid @ModelAttribute("modelCreate") ModelCreateDTO modelDTO, BindingResult bindingResult,
                               Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
         log.debug("create", modelDTO);
@@ -67,10 +76,10 @@ public class ModelController {
 
         Long id = modelFacade.create(modelDTO);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + id + " was created");
+        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " was created");
         redirectAttributes.addAttribute("id", id);
 
-        return "redirect" + uriBuilder.path("/model/list").toUriString();
+        return "redirect:" + uriBuilder.path("/model/list").toUriString();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -78,17 +87,17 @@ public class ModelController {
 
         log.debug("new()");
 
-        model.addAttribute("modelCreate", new ModelDTO());
+        model.addAttribute("modelCreate", new ModelCreateDTO());
 
         return "model/new";
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    public String updateModel(@Valid @ModelAttribute ModelDTO modelDTO, BindingResult bindingResult,
-                                 RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
-                                 Model model) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String editModel(@PathVariable long id, @Valid @ModelAttribute("modelChange") ModelCreateDTO modelDTO, BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
+                              Model model) {
 
-        log.debug("update()");
+        log.debug("edit()");
 
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -101,32 +110,41 @@ public class ModelController {
             return "model/change";
         }
 
-        modelFacade.update(modelDTO);
+        modelFacade.update(modelDTO, id);
 
-        Long id = modelDTO.getId();
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + id + " was updated");
+        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " was updated");
 
         return "redirect:" + uriBuilder.path("/model/list").toUriString();
     }
 
-    @RequestMapping(value = "/change", method = RequestMethod.GET)
-    public String changeModel(Model model) {
+    @RequestMapping(value = "/change/{id}", method = RequestMethod.GET)
+    public String changeModel(Model model, @PathVariable long id) {
 
         log.debug("change()");
 
-        model.addAttribute("modelChange", new ModelDTO());
+        ModelDTO modelDTO = modelFacade.findById(id);
+
+        ModelCreateDTO createModelDTO = new ModelCreateDTO();
+        createModelDTO.setName(modelDTO.getName());
+        createModelDTO.setPrice(modelDTO.getPrice());
+        createModelDTO.setAgeLimit(modelDTO.getAgeLimit());
+        createModelDTO.setCategoryId(modelDTO.getCategory().getId());
+
+        model.addAttribute("modelChange", createModelDTO);
 
         return "model/change";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String deleteModel(@PathVariable long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteModel(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
         log.debug("delete()");
 
+        ModelDTO modelDTO = modelFacade.findById(id);
+
         modelFacade.delete(id);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + id + " was deleted");
+        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " was deleted");
 
         return "redirect:" + uriBuilder.path("/model/list").toUriString();
     }
@@ -140,16 +158,16 @@ public class ModelController {
 
         return "model/view";
     }
-
-    @RequestMapping(value = "/view/{name}", method = RequestMethod.GET)
-    public String viewModel(@PathVariable String name, Model model) {
-
-        log.debug("view()", name);
-
-        model.addAttribute("model", modelFacade.findByName(name));
-
-        return "model/view";
-    }
+//
+//    @RequestMapping(value = "/view/{name}", method = RequestMethod.GET)
+//    public String viewModel(@PathVariable String name, Model model) {
+//
+//        log.debug("view()", name);
+//
+//        model.addAttribute("model", modelFacade.findByName(name));
+//
+//        return "model/view";
+//    }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listModels(Model model) {
@@ -160,5 +178,32 @@ public class ModelController {
 
         return "model/list";
     }
+
+    @RequestMapping(value = "/{id}/piece", method = RequestMethod.GET)
+    public String listPieces(@PathVariable long id, Model model) {
+        log.debug("list()");
+
+        model.addAttribute("model", modelFacade.findById(id));
+
+        return "model/piece";
+    }
+
+    @RequestMapping(value = "/{id}/addPiece", method = RequestMethod.POST)
+    public String addPiece(@PathVariable long id, @Valid @ModelAttribute("model") ModelDTO modelDTO) {
+        return "model/piece";
+    }
+
+    @RequestMapping(value = "/discount/{id}", method = RequestMethod.POST)
+    public String setDiscount(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+
+        ModelDTO modelDTO = modelFacade.findById(id);
+
+        modelFacade.setFiftyPercentDiscount(id);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " is 50% cheaper.");
+
+        return "redirect:" + uriBuilder.path("/model/list").toUriString();
+    }
+
 
 }

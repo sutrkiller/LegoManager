@@ -52,6 +52,7 @@ public class ModelServiceImpl implements ModelService {
         if(model == null) {
             throw new IllegalArgumentException("Model can not be null");
         }
+
         modelDao.delete(model);
     }
 

@@ -81,8 +81,9 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
     private Model modelBMW;
     @Mock
     private Model modelKIA;
-    private ModelDTO modelDTOBMW;
-    private ModelDTO returnedModelDTO;
+
+    private ModelCreateDTO modelCreateDTO;
+    private ModelDTO modelDTO;
 
     @Mock
     private Category category;
@@ -109,7 +110,7 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
         newCategoryDTO = new CategoryDTO();
         newCategoryDTO.setId(2L);
         newCategoryDTO.setName("Category containing BMW cars only.");
-        
+
         // mocking Category entity
         when(category.getId()).thenReturn(1L);
 
@@ -151,26 +152,26 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
         when(modelKIA.getId()).thenReturn(2L);
         when(modelKIA.getName()).thenReturn("KIA");
 
-        modelDTOBMW = new ModelDTO();
-        modelDTOBMW.setId(1L);
-        modelDTOBMW.setName("BMW");
-        modelDTOBMW.setAgeLimit(Byte.valueOf("5"));
-        modelDTOBMW.setCategory(categoryDTO);
-        modelDTOBMW.setPieces(pieces);
+        modelDTO = new ModelDTO();
+        modelDTO.setId(1L);
+        modelDTO.setName("BMW");
+        modelDTO.setAgeLimit(Byte.valueOf("5"));
+        modelDTO.setCategory(categoryDTO);
+        modelDTO.setPieces(pieces);
 
-        returnedModelDTO = new ModelDTO();
-        returnedModelDTO.setId(1L);
-        returnedModelDTO.setName("BMW");
-        returnedModelDTO.setAgeLimit(Byte.valueOf("5"));
+        modelCreateDTO = new ModelCreateDTO();
+        modelCreateDTO.setName("BMW");
+        modelCreateDTO.setAgeLimit(Byte.valueOf("5"));
 
         // mocking Dozer mapper
         when(mappingService.mapTo(any(), eq(Model.class))).thenReturn(modelBMW);
-        when(mappingService.mapTo(any(), eq(ModelDTO.class))).thenReturn(modelDTOBMW);
+        when(mappingService.mapTo(any(), eq(ModelDTO.class))).thenReturn(modelDTO);
+        when(mappingService.mapTo(any(), eq(ModelCreateDTO.class))).thenReturn(modelCreateDTO);
         when(mappingService.mapTo(any(), eq(PieceDTOPut.class))).thenReturn(newPieceDTORed);
         when(mappingService.mapTo(any(), eq(PieceDTOGet.class))).thenReturn(oldPieceDTO);
         when(mappingService.mapTo(any(), eq(Piece.class))).thenReturn(piece);
         List<ModelDTO> models = new ArrayList<>();
-        models.add(modelDTOBMW);
+        models.add(modelDTO);
         when(mappingService.mapTo(any(Collection.class), eq(ModelDTO.class))).thenReturn(models);
 
         // mocking service layer
@@ -184,34 +185,33 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testCreateModel() {
-        Long id = modelFacade.create(modelDTOBMW);
+        Long id = modelFacade.create(modelCreateDTO);
 
-        returnedModelDTO = modelFacade.findById(id);
+        modelDTO = modelFacade.findById(id);
 
-        assertEquals(modelDTOBMW, returnedModelDTO);
+        assertEquals(modelDTO.getId(), id);
         verify(modelService).create(any(Model.class));
     }
 
     @Test
     public void testUpdate() {
-        modelFacade.update(modelDTOBMW);
-        verify(mappingService).mapTo(any(ModelDTO.class), eq(Model.class));
+        modelFacade.update(modelCreateDTO, 1L);
         verify(modelService).update(any(Model.class));
     }
 
     @Test
     public void testFindModelById() {
-        returnedModelDTO = modelFacade.findById(modelDTOBMW.getId());
+        ModelDTO returned = modelFacade.findById(modelDTO.getId());
 
-        assertEquals(modelDTOBMW, returnedModelDTO);
+        assertEquals(returned, modelDTO);
         verify(modelService).findById(any(Long.class));
     }
 
     @Test
     public void testFindModelByName() {
-        returnedModelDTO = modelFacade.findByName(modelDTOBMW.getName());
+        ModelDTO returned = modelFacade.findByName(modelDTO.getName());
 
-        assertEquals(modelDTOBMW, returnedModelDTO);
+        assertEquals(returned, modelDTO);
         verify(modelService).findByName(any(String.class));
     }
 
@@ -255,28 +255,28 @@ public class ModelFacadeTest extends AbstractTestNGSpringContextTests {
     public void testAddPiece() {
         pieceTypeService.create(pieceType);
 
-        modelFacade.addPiece(modelDTOBMW.getId(), newPieceDTORed);
+        modelFacade.addPiece(modelDTO.getId(), newPieceDTORed);
 
         verify(modelService).addPiece(any(Model.class), any(Piece.class));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddPieceBadColor() {
-        modelFacade.addPiece(modelDTOBMW.getId(), newPieceDTOGreen);
+        modelFacade.addPiece(modelDTO.getId(), newPieceDTOGreen);
 
         verify(modelService).addPiece(any(Model.class), any(Piece.class));
     }
 
     @Test
     public void testRemovePiece() {
-        modelFacade.removePiece(modelDTOBMW.getId(), oldPieceDTO.getId());
+        modelFacade.removePiece(modelDTO.getId(), oldPieceDTO.getId());
 
         verify(modelService).removePiece(any(Model.class), any(Piece.class));
     }
 
     @Test
     public void testDeleteModel() {
-        modelFacade.delete(modelDTOBMW.getId());
+        modelFacade.delete(modelDTO.getId());
 
         verify(modelService).delete(any(Model.class));
     }

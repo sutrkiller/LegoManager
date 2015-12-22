@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.lego.service.facade;
 
+import cz.muni.fi.pa165.lego.dto.ModelCreateDTO;
 import cz.muni.fi.pa165.lego.dto.ModelDTO;
 import cz.muni.fi.pa165.lego.dto.PieceDTOPut;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -37,9 +40,9 @@ public class ModelFacadeImpl implements ModelFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long create(ModelDTO modelDTO) {
+    public Long create(ModelCreateDTO modelDTO) {
         Model model = beanMappingService.mapTo(modelDTO, Model.class);
-        model.setCategory(categoryService.findById(modelDTO.getCategory().getId()));
+        model.setCategory(categoryService.findById(modelDTO.getCategoryId()));
         modelService.create(model);
         return model.getId();
     }
@@ -66,9 +69,10 @@ public class ModelFacadeImpl implements ModelFacade {
     }
 
     @Override
-    public void update(ModelDTO modelDTO) {
-        Model model = beanMappingService.mapTo(modelDTO, Model.class);
-        model.setCategory(categoryService.findById(modelDTO.getCategory().getId()));
+    public void update(ModelCreateDTO modelDTO, Long id) {
+        Model model = modelService.findById(id);
+        beanMappingService.mapTo(modelDTO, model);
+        model.setCategory(categoryService.findById(modelDTO.getCategoryId()));
         modelService.update(model);
     }
 
@@ -89,6 +93,12 @@ public class ModelFacadeImpl implements ModelFacade {
         Model model = modelService.findById(modelId);
         Piece piece = pieceService.findById(pieceId);
         modelService.removePiece(model, piece);
+    }
+
+    @Override
+    public void setFiftyPercentDiscount(Long modelId) {
+        Model model = modelService.findById(modelId);
+        modelService.setFiftyPercentDiscount(model);
     }
 
     @Override
