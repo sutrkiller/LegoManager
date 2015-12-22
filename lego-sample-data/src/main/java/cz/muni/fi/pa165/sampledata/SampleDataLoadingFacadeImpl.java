@@ -81,6 +81,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
         Model ferrari = model("Ferrari", vehicles, 80, 4, pieces(redCar, blackWheel));
         Model lamborghini = model("Lamborghini", vehicles, 80, 4, pieces(yellowCar));
+
+        Model house = model("Simple House", houses, 20, 2, pieces());
         log.info("Loaded lego manager models.");
 
         LegoSet jediSet = legoSet("Jedi", starWars, 100, models(yoda, darthVader, deathStar));
