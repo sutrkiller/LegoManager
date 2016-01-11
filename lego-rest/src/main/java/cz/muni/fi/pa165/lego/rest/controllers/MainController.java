@@ -38,7 +38,7 @@ public class MainController {
         resourcesMap.put("categories_uri", "/categories");
         resourcesMap.put("piecetypes_uri", "/piecetypes");
         resourcesMap.put("models_uri", "/models");
-        resourcesMap.put("legosets_uri", "/legosets");
+        resourcesMap.put("legosets_uri", "/lego-sets");
         
         return Collections.unmodifiableMap(resourcesMap);
         

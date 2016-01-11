@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import cz.muni.fi.pa165.lego.service.config.ServiceConfiguration;
-// import cz.muni.fi.pa165.sampledata.EshopWithSampleDataConfiguration;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;

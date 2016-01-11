@@ -141,12 +141,6 @@ public class LegoSetController {
 
         }
 
-
-        if (legoSetDTO == null) {
-            // TODO throw new exception
-            throw new Exception("reason..");
-        }
-
         return legoSetDTO;
     }
 
