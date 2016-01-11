@@ -14,7 +14,7 @@
     </my:a>
 
     <c:forEach items="${categories}" var="category">
-        <h1>"${category.name}"</h1>
+        <h1>${category.name}</h1>
         <table class="table">
             <thead>
             <tr>

@@ -16,9 +16,8 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    <th>price</th>
+                    <th>Name</th>
+                    <th>Price</th>
                     <th>Category</th>
                     <th>Models</th>
                 </tr>
@@ -26,7 +25,6 @@
             <tbody>
                 <c:forEach items="${legosets}" var="legoset">
                     <tr>
-                        <td>${legoset.id}</td>
                         <td><c:out value="${legoset.name}"/></td>
                         <td><c:out value="${legoset.price}"/></td>
                         <td><p><c:out value="${legoset.category.name}"/></p></td>

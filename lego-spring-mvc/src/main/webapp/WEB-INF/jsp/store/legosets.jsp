@@ -6,41 +6,43 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <my:pagetemplate title="Lego sets">
-<jsp:attribute name="body">
+    <jsp:attribute name="body">
 
-    <c:forEach items="${categories}" var="category">
-        <h3>${category.name}</h3>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Models</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${legosets}" var="legoset">
+        <c:forEach items="${legosets}" var="legoset">
+            <c:forEach items="${categories}" var="category">
+
                 <c:if test="${legoset.category == category}">
-                    <c:url value="/store/legosets/${legoset.id}" var="legosetUrl" />
-                    <tr onclick="window.document.location='${legosetUrl}';">
-                        <td><c:out value="${legoset.name}"/></td>
-                        <td><c:out value="${legoset.price}€"/></td>
-                        <td class="<%--button-cell tight-cell--%>">
-                            <c:forEach items="${legoset.models}" var="model">
-                            <my:a href="/store/models/${model.id}" class="<%--btn btn-link--%>">
-                                <c:out value="${model.name}"/>
-                            </my:a>
-                            ,
-                            </c:forEach>
-                        </td>
-                    </tr>
-                </c:if>
+                    <c:if test="${not empty legoset.id}">
+
+                        <h3>${category.name}</h3>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Models</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:url value="/store/legosets/${legoset.id}" var="legosetUrl" />
+                                <tr onclick="window.document.location = '${legosetUrl}';">
+                                    <td class="col-md-3"><c:out value="${legoset.name}"/></td>
+                                    <td class="col-md-3"><c:out value="${legoset.price}€"/></td>
+                                    <td class="<%--button-cell tight-cell--%>">
+                                        <c:forEach items="${legoset.models}" var="model" varStatus="loop">
+                                            <my:a href="/store/models/${model.id}" class="<%--btn btn-link--%>">
+                                                <c:out value="${model.name}"/>
+                                            </my:a>
+                                            <c:if test="${!loop.last}">, </c:if>
+
+                                        </c:forEach>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>   
+                    </c:if>
+                </c:if>      
             </c:forEach>
-            </tbody>
-
-        </table>
-
-    </c:forEach>
-
-</jsp:attribute>
+        </c:forEach>
+    </jsp:attribute>
 </my:pagetemplate>
