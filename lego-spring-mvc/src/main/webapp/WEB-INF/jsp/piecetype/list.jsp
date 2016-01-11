@@ -8,85 +8,45 @@
 <my:pagetemplate title="Piece types">
     <jsp:attribute name="body">
 
+        <my:a href="/piecetype/new" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            New piece type
+        </my:a>
+
         <table class="table">
             <thead>
-            <tr>
-                <th>name</th>
-                <th>colors</th>
-                <th>edit</th>
-                <th>delete</th>
-            </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Colors</th>
+                </tr>
             </thead>
             <tbody>
+                <c:forEach items="${pieceTypes}" var="pieceType" varStatus="status">
+                    <tr>
+                        <td>
+                            <c:out value="${pieceType.name}"/>
+                        </td>
+                        <td class="button-cell">
+                            <my:colors allColors="${allColors}" activeColors="${pieceType.colors}" type="inactive"/>
+                        </td>
+                        <td class="button-cell tight-cell">
+                            <my:a class="btn btn-default" href="/piecetype/edit/${pieceType.id}">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </my:a>
+                        </td>
+                        <td class="button-cell tight-cell">
 
-            <c:forEach items="${pieceTypes}" var="pieceType" varStatus="status">
-                <tr>
+                            <form:form class="form-inline"
+                                       action="${pageContext.request.contextPath}/piecetype/delete/${pieceType.id}"
+                                       method="POST">
+                                <button type="submit" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </form:form>
 
-                    <td>
-                        <c:out value="${pieceType.name}"/>
-                    </td>
-                    <td class="button-cell">
-                        <my:colors allColors="${allColors}" activeColors="${pieceType.colors}" type="inactive"/>
-                    </td>
-                    <td class="button-cell tight-cell">
-                        <my:a class="btn btn-default" href="/piecetype/edit/${pieceType.id}">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                        </my:a>
-                    </td>
-                    <td class="button-cell tight-cell">
-
-                        <form:form class="form-inline"
-                                   action="${pageContext.request.contextPath}/piecetype/delete/${pieceType.id}"
-                                   method="POST">
-                            <button type="submit" class="btn btn-danger">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            </button>
-                        </form:form>
-
-                    </td>
-                </tr>
-            </c:forEach>
-
-
-            <tr>
-                <td colspan="4"></td>
-            </tr>
-
-            <tr>
-
-                <form:form class="form-inline" action="${pageContext.request.contextPath}/piecetype/create"
-                           method="POST"
-                           commandName="pieceTypeCreate">
-
-                    <td class="button-cell">
-                        <s:bind path="name">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input path="name" type="text" cssClass="form-control" id="name" placeholder="Name"
-                                            autofocus="true"/>
-                                <form:errors path="name" cssClass="help-block"/>
-                            </div>
-                        </s:bind>
-                    </td>
-                    <td class="button-cell">
-                        <s:bind path="colors">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
-
-                                <my:colors allColors="${allColors}"
-                                           type="checkbox"
-                                           activeColors="${pieceTypeCreate.colors}"
-                                           path="colors"/>
-                                <form:errors path="colors" cssClass="help-block"/>
-                            </div>
-                        </s:bind>
-                    </td>
-                    <td class="button-cell tight-cell" colspan="2">
-
-                        <button type="submit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create
-                        </button>
-                    </td>
-                </form:form>
-            </tr>
+                        </td>
+                    </tr>
+                </c:forEach>
 
             </tbody>
         </table>

@@ -36,13 +36,12 @@
 
                 <div class="form-group">        
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button class="btn btn-success" type="submit">Change category details</button>
+                        <button class="btn btn-success" type="submit">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Save changes
+                        </button>
                     </div>
                 </div>
             </form:form>
         </div>
-
-
-
     </jsp:attribute>
 </my:pagetemplate>

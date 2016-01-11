@@ -13,14 +13,11 @@
             New category
         </my:a>
 
-
         <table class="table">
             <thead>
                 <tr>
-                    <th>name</th>
-                    <th>description</th>
-                    <th>edit</th>
-                    <th>delete</th>
+                    <th>Name</th>
+                    <th>Description</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,7 +26,7 @@
                         <td><c:out value="${category.name}"/></td>
                         <td><c:out value="${category.description}"/></td>
                         <td class="button-cell tight-cell">
-                            <my:a href="/category/change/${category.id}" class="btn btn-default">
+                            <my:a href="/category/edit/${category.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </my:a>
                         </td>

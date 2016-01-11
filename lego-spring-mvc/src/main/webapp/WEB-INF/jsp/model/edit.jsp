@@ -93,11 +93,12 @@
                     <tr>
 
                         <td class="button-cell" colspan="3">
-                            Add piece <i class="glyphicon glyphicon-plus"></i>
+                            <p>Add piece </p> 
+                            <i class="glyphicon glyphicon-plus"></i>
                             <div class="btn-group">
                             <c:forEach items="${pieceTypes}" var="pieceType">
 
-                                <my:a href="/model/change/${id}/addPiece?pieceTypeId=${pieceType.id}" class="btn btn-default">${pieceType.name}</my:a>
+                                <my:a href="/model/edit/${id}/addPiece?pieceTypeId=${pieceType.id}" class="btn btn-default">${pieceType.name}</my:a>
 
                             </c:forEach>
                             </div>

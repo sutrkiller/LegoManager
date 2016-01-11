@@ -4,10 +4,8 @@ import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
 import cz.muni.fi.pa165.lego.dto.PieceTypeDTOPut;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
 import cz.muni.fi.pa165.legomanager.enums.Color;
-import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,15 +44,12 @@ public class PieceTypeController {
 
         return loadListModel(model, new PieceTypeDTOPut());
     }
-
+    
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("pieceTypeCreate") PieceTypeDTOPut pieceTypeCreate,
-            BindingResult bindingResult,
-            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String createPieceType(@Valid @ModelAttribute("pieceTypeCreate") PieceTypeDTOPut pieceTypeCreate,
+            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
         log.debug("create()", pieceTypeCreate);
-
-        log.error(pieceTypeCreate.toString());
 
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -64,21 +59,32 @@ public class PieceTypeController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-
             model.addAttribute("alert_danger", "Creation of PieceType " + pieceTypeCreate.getName() + " failed.");
             return loadListModel(model, pieceTypeCreate);
         }
 
+        PieceTypeDTOGet created;
         try {
-            PieceTypeDTOGet created = pieceTypeFacade.create(pieceTypeCreate);
+            created = pieceTypeFacade.create(pieceTypeCreate);
         } catch (LegoPersistenceException e) {
-
             model.addAttribute("alert_danger", "Creation of PieceType " + pieceTypeCreate.getName() + " failed. It already exists. Try to change It's name.");
             return loadListModel(model, pieceTypeCreate);
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "PieceType " + pieceTypeCreate.getName() + " was created");
+        redirectAttributes.addFlashAttribute("alert_success", "PieceType " + created.getName() + " was created");
+        redirectAttributes.addAttribute("id", created.getId());
+
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
+    }
+
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newPieceType(Model model) {
+        log.debug("new()");
+
+        model.addAttribute("pieceTypeCreate", new PieceTypeDTOPut());
+        model.addAttribute("allColors", Arrays.asList(Color.values()));
+
+        return "piecetype/new";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)

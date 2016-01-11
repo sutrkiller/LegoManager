@@ -8,9 +8,9 @@
 <my:pagetemplate title="Models">
 <jsp:attribute name="body">
 
-    <my:a href="/model/new" class="btn btn-primary">
+    <my:a href="/model/new" class="btn btn-success">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New Model
+        New model
     </my:a>
 
     <c:forEach items="${categories}" var="category">
@@ -27,11 +27,11 @@
             <c:forEach items="${models}" var="model">
                 <c:if test="${model.category == category}">
                     <tr>
-                        <td><c:out value="${model.name}"/></td>
-                        <td><c:out value="${model.price}€"/></td>
-                        <td><c:out value="${model.ageLimit}"/></td>
+                        <td class="col-md-3"><c:out value="${model.name}"/></td>
+                        <td class="col-md-3"><c:out value="${model.price}€"/></td>
+                        <td class="col-md-3"><c:out value="${model.ageLimit}"/></td>
                         <td class="button-cell tight-cell">
-                            <my:a href="/model/change/${model.id}" class="btn btn-default">
+                            <my:a href="/model/edit/${model.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </my:a>
                         </td>

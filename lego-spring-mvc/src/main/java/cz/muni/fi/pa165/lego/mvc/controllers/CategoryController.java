@@ -93,7 +93,7 @@ public class CategoryController {
             }
             model.addAttribute("alert_danger", "Editing of Category " + categoryDTO.getId() + " failed.");
 
-            return "category/change";
+            return "category/edit";
         }
 
         Long id = categoryDTO.getId();
@@ -102,31 +102,31 @@ public class CategoryController {
         } catch (EntityNotExistsException e) {
 
             model.addAttribute("alert_danger", "Editation of Category " + categoryDTO.getName() + " failed. Category does not exists.");
-            return "category/change";
+            return "category/edit";
         } catch (PersistenceException e) {
 
             model.addAttribute("alert_danger", "Editation of Category " + categoryDTO.getName() + " failed. Category with this name already exists.");
-            return "category/change";
+            return "category/edit";
         } catch (LegoPersistenceException e) {
 
             model.addAttribute("alert_danger", "Editation of Category " + categoryDTO.getName() + " failed.");
-            return "category/change";
+            return "category/edit";
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "Category " + id + " was updated");
+        redirectAttributes.addFlashAttribute("alert_success", "Category " + id + " was edited");
         redirectAttributes.addAttribute("id", id);
 
         return "redirect:" + uriBuilder.path("/category/list").toUriString();
     }
 
-    @RequestMapping(value = "/change/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String changeCategory(@PathVariable long id, Model model) {
 
-        log.debug("change()");
+        log.debug("edit()");
 
         model.addAttribute("categoryChange", categoryFacade.findById(id));
 
-        return "category/change";
+        return "category/edit";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
