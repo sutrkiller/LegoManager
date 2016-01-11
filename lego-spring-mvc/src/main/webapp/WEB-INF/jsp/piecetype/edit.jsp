@@ -5,7 +5,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Piece types">
+<my:pagetemplate title="Change piece type">
     <jsp:attribute name="body">
 
         <form:form cssClass="form-horizontal"
