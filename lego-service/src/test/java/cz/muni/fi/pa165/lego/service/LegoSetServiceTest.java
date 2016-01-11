@@ -131,10 +131,12 @@ public class LegoSetServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindByCategory() throws LegoPersistenceException {
-        List<LegoSet> found = legoSetService.findByCategory(category);
-
         List<LegoSet> expected = new ArrayList<>();
         expected.add(testLegoSet);
+
+        when(legoSetDao.findByCategory(category)).thenReturn(expected);
+        List<LegoSet> found = legoSetService.findByCategory(category);
+
         Assert.assertEquals(expected, found);
     }
 

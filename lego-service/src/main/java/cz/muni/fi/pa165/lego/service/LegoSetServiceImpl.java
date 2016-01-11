@@ -5,14 +5,9 @@ import cz.muni.fi.pa165.legomanager.dao.LegoSetDao;
 import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.entities.Model;
-import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
-import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
-import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,13 +70,8 @@ public class LegoSetServiceImpl implements LegoSetService {
         if (category == null) {
             throw new IllegalArgumentException("Argument category is null");
         }
-        List<LegoSet> legoSets = new ArrayList<>();
-        for (LegoSet legoSet : legoSetDao.findAll()) {
-            if (legoSet.getCategory().equals(category)) {
-                legoSets.add(legoSet);
-            }
-        }
-        return legoSets;
+        List<LegoSet> found = legoSetDao.findByCategory(category);
+        return found;
     }
 
     @Override

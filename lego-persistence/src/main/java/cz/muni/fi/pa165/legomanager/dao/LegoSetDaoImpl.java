@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
+import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
@@ -19,7 +20,6 @@ import java.util.List;
  * @author Marek Abaffy <abaffy.m@gmail.com>
  * @date 24.10.2015
  */
-
 @Repository
 public class LegoSetDaoImpl implements LegoSetDao {
 
@@ -75,6 +75,16 @@ public class LegoSetDaoImpl implements LegoSetDao {
         } catch (PersistenceException | ValidationException e) {
             throw new LegoPersistenceException("Error finding LegoSet.", e);
         }
+    }
+
+    @Override
+    public List<LegoSet> findByCategory(Category category) {
+        if (category == null) {
+            throw new IllegalArgumentException("Category can't be null.");
+        }
+        return em.createQuery(
+                "SELECT ls FROM LegoSet ls WHERE ls.category = :category ",
+                LegoSet.class).setParameter("category", category).getResultList();
     }
 
     @Override

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,15 +82,10 @@ public class ModelServiceImpl implements ModelService {
         if(category == null) {
             throw new IllegalArgumentException("Category can not be null");
         }
-        List<Model> found = new ArrayList<>();
-        for (Model m : findAll()) {
-            if (m.getCategory().equals(category)) {
-                found.add(m);
-            }
-        }
+        List<Model> found = modelDao.findByCategory(category);
+
         return found;
     }
-
 
     @Override
     public List<Model> findAll() {
