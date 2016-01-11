@@ -17,11 +17,11 @@
 
     <dt>Models</dt>
     <dd>
-        <c:forEach items="${legoset.models}" var="model">
+        <c:forEach items="${legoset.models}" var="model" varStatus="loop">
             <my:a href="/store/models/${model.id}" class="<%--btn btn-link--%>">
                 <c:out value="${model.name}"/>
             </my:a>
-            ,
+            <c:if test="${!loop.last}">, </c:if>
         </c:forEach>
     </dd>
 </dl>

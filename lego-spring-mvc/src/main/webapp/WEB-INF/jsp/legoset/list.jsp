@@ -16,9 +16,8 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    <th>price</th>
+                    <th>Name</th>
+                    <th>Price</th>
                     <th>Category</th>
                     <th>Models</th>
                 </tr>
@@ -26,23 +25,22 @@
             <tbody>
                 <c:forEach items="${legosets}" var="legoset">
                     <tr>
-                        <td>${legoset.id}</td>
-                        <td><c:out value="${legoset.name}"/></td>
-                        <td><c:out value="${legoset.price}"/></td>
-                        <td><p><c:out value="${legoset.category.name}"/></p></td>
-                        <td><p>
-                                <c:forEach items="${legoset.models}" var="model" varStatus="loop">
-                                    <c:out value="${model.name}"></c:out>
-                                    <c:if test="${!loop.last}">, </c:if>
-                                </c:forEach>
-
-                            </p>
-                        </td>
-                        <td class="button-cell">
+                        <td class="col-md-2"><c:out value="${legoset.name}"/></td>
+                        <td class="col-md-2"><c:out value="${legoset.price}"/></td>
+                        <td class="col-md-2"><c:out value="${legoset.category.name}"/></td>
+                        <td class="col-md-2">
+                            <c:forEach items="${legoset.models}" var="model" varStatus="loop">
+                                <c:out value="${model.name}"></c:out>
+                                <c:if test="${!loop.last}">, </c:if>
+                            </c:forEach>
+                        Z</td>
+                        <td class="button-cell tight-cell">
                             <my:a href="/legoset/edit/${legoset.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </my:a>
-                            <my:a href="/legoset/delete/${legoset.id}" class="btn btn-danger">
+                        </td>
+                        <td class="button-cell tight-cell">
+                            <my:a href="/legoset/delete/${legoset.id}" class="btn btn-danger" method="POST">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </my:a>
                         </td>

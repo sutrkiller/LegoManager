@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
+import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
@@ -19,8 +20,11 @@ public interface LegoSetDao {
      *
      * @param ls LegoSet to be added to DB
      * @throws IllegalArgumentException when LegoSet is null
-     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException when LegoSet already exists in DB.
-     * @throws cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException when entity constraints are violated (e.g. name is null)
+     * @throws
+     * cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException when
+     * LegoSet already exists in DB.
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException
+     * when entity constraints are violated (e.g. name is null)
      */
     public void create(LegoSet ls) throws LegoPersistenceException;
 
@@ -48,19 +52,30 @@ public interface LegoSetDao {
      * @param id id of the LegoSet
      * @return LegoSet with corresponding id
      * @throws IllegalArgumentException when id is null or lower than 0.
-     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when no entity found.
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException
+     * when no entity found.
      */
     public LegoSet findById(Long id) throws LegoPersistenceException;
 
     /**
-     * Returns piece with corresponding name.
+     * Returns LegoSet with corresponding name.
      *
      * @param name name of the LegoSet
      * @return LegoSet with corresponding name
-     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException when entity not found.
+     * @throws cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException
+     * when entity not found.
      * @throws IllegalArgumentException when name is null
      */
     public LegoSet findByName(String name) throws LegoPersistenceException;
+
+    /**
+     * Returns list of all LegoSets with corresponding category.
+     *
+     * @param category category of LegoSets
+     * @return all stored LegoSets with given category
+     * @throws IllegalArgumentException when category is null
+     */
+    public List<LegoSet> findByCategory(Category category);
 
     /**
      * Returns list of all existing LegoSets in DB.

@@ -106,20 +106,20 @@ public class ModelController {
 
 
             model.addAttribute("pieces", modelFacade.findById(id).getPieces());
-            return "model/change";
+            return "model/edit";
         }
 
         modelFacade.update(modelDTO, id);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " was updated");
+        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " was edited");
 
         return "redirect:" + uriBuilder.path("/model/list").toUriString();
     }
 
-    @RequestMapping(value = "/change/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String changeModel(Model model, @PathVariable long id) {
 
-        log.debug("change()");
+        log.debug("edit()");
 
         ModelDTO modelDTO = modelFacade.findById(id);
 
@@ -132,11 +132,11 @@ public class ModelController {
         model.addAttribute("modelChange", createModelDTO);
         model.addAttribute("pieces", modelDTO.getPieces());
 
-        return "model/change";
+        return "model/edit";
     }
 
 
-    @RequestMapping(value = "/change/{id}/addPiece", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/{id}/addPiece", method = RequestMethod.GET)
     public String changeModel(Model model, @PathVariable long id, @RequestParam long pieceTypeId) {
 
         log.debug("addPiece()");
@@ -177,7 +177,7 @@ public class ModelController {
         modelFacade.addPiece(id, pieceDTOPut);
 
         redirectAttributes.addFlashAttribute("alert_success", "Piece was added");
-        return "redirect:" + uriBuilder.path("/model/change/"+id).toUriString();
+        return "redirect:" + uriBuilder.path("/model/edit/"+id).toUriString();
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -230,7 +230,7 @@ public class ModelController {
 
         redirectAttributes.addFlashAttribute("alert_success", "Piece was removed");
 
-        return "redirect:" + uriBuilder.path("/model/change/" + id).toUriString();
+        return "redirect:" + uriBuilder.path("/model/edit/" + id).toUriString();
     }
 
     @RequestMapping(value = "/discount/{id}", method = RequestMethod.POST)

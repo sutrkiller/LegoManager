@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.legomanager.dao;
 
+import cz.muni.fi.pa165.legomanager.entities.Category;
 import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
@@ -54,7 +55,7 @@ public class ModelDaoImpl implements ModelDao {
     @Override
     public Model findByName(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("Name can");
+            throw new IllegalArgumentException("Name can't be null.");
         }
         try {
             return em.createQuery("SELECT m FROM Model m WHERE m.name = :name ",
@@ -64,6 +65,16 @@ public class ModelDaoImpl implements ModelDao {
         }
     }
 
+    @Override
+    public List<Model> findByCategory(Category category) {
+        if (category == null) {
+            throw new IllegalArgumentException("Category can't be null.");
+        }
+        return em.createQuery(
+                "SELECT m FROM Model m WHERE m.category = :category ", 
+                Model.class).setParameter("category", category).getResultList();
+    }
+    
     @Override
     public List<Model> findAll() {
         return em.createQuery("SELECT m FROM Model m", Model.class).getResultList();

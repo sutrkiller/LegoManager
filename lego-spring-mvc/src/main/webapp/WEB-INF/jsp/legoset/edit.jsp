@@ -5,7 +5,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Change legoset">
+<my:pagetemplate title="Change lego set">
     <jsp:attribute name="body">
         <div class="container">
 
@@ -42,18 +42,17 @@
                     </div>
                 </div>
 
-
                 <div class="form-group">
-                    <span class="col-sm-2 control-label">Models</span>
-                    <div class="col-sm-10">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <form:label path="name" cssClass="col-sm-2 control-label">Models</form:label>
+                        <div class="col-sm-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                 <c:forEach items="${models}" var="model">
                                     <tr>
                                         <td>${model.id}</td>
@@ -67,39 +66,35 @@
                                             </c:forEach>
                                             <c:choose>
                                                 <c:when test="${!isSelected}">
-                                                    <my:a href="/legoset/edit/${id}/addModel?modelId=${model.id}" class="btn btn-default">
+                                                    <my:a href="/legoset/edit/${id}/addModel?modelId=${model.id}" class="btn">
                                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                         Add
                                                     </my:a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <my:a href="/legoset/edit/${id}/removeModel?modelId=${model.id}" class="btn btn-defualt">
+                                                    <my:a href="/legoset/edit/${id}/removeModel?modelId=${model.id}" class="btn">
                                                         <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                                         Remove
                                                     </my:a>
                                                 </c:otherwise>
                                             </c:choose>
-
                                         </td>
-
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
-
                     </div>
                 </div>
 
-
                 <div class="form-group">        
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button class="btn btn-success" type="submit">Change legoset details</button>
+                        <button class="btn btn-success" type="submit">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Save changes
+                        </button>
                     </div>
                 </div>
             </form:form>
         </div>
-
-
 
     </jsp:attribute>
 </my:pagetemplate>

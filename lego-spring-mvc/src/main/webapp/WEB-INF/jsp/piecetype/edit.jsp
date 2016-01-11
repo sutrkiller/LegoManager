@@ -5,36 +5,38 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Piece types">
+<my:pagetemplate title="Change piece type">
     <jsp:attribute name="body">
 
-
-        <form:form class="form-inline clearfix"
+        <form:form cssClass="form-horizontal"
                    action="${pageContext.request.contextPath}/piecetype/edit/${pieceTypeEditId}"
-                   method="POST"
-                   commandName="pieceTypeEdit">
+                   method="POST" commandName="pieceTypeEdit">
 
-            <s:bind path="name">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="name" type="text" cssClass="form-control name" id="name"
-                                placeholder="Name"
-                                autofocus="true"/>
+            <div class="form-group ${name_error?'has-error':''}">
+                <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
+                    <div class="col-sm-10">
+                    <form:input path="name" cssClass="form-control" value="${categoryChange.name}"/>
                     <form:errors path="name" cssClass="help-block"/>
                 </div>
-            </s:bind>
-            <s:bind path="colors">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
+            </div>
+
+            <div class="form-group ${name_error?'has-error':''}">
+                <form:label path="colors" cssClass="col-sm-2 control-label">Colors</form:label>
+                    <div class="col-sm-10">
                     <my:colors allColors="${allColors}"
                                type="checkbox"
                                activeColors="${pieceTypeEdit.colors}"
                                path="colors"/>
                     <form:errors path="colors" cssClass="help-block"/>
                 </div>
-            </s:bind>
-
-                <button type="submit" class="btn btn-primary pull-right">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Save changes
-                </button>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">       
+                    <button class="btn btn-success" type="submit">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Save changes
+                    </button>
+                </div>
+            </div>
         </form:form>
 
     </jsp:attribute>

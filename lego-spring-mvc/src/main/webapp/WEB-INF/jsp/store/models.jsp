@@ -23,9 +23,9 @@
                 <c:if test="${model.category == category}">
                     <c:url value="/store/models/${model.id}" var="modelUrl" />
                     <tr onclick="window.document.location='${modelUrl}';">
-                        <td><c:out value="${model.name}"/></td>
-                        <td><c:out value="${model.price}€"/></td>
-                        <td><c:out value="${model.ageLimit}"/></td>
+                        <td class="col-md-3"><c:out value="${model.name}"/></td>
+                        <td class="col-md-3"><c:out value="${model.price}€"/></td>
+                        <td class="col-md-3"><c:out value="${model.ageLimit}"/></td>
                     </tr>
                 </c:if>
             </c:forEach>

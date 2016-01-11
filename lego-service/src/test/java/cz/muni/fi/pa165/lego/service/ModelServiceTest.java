@@ -146,6 +146,28 @@ public class ModelServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void testFindByCategory() {
+        Category category = new Category();
+
+        List<Model> cars = new ArrayList<>();
+        cars.add(modelBMW);
+        cars.add(modelKIA);
+        cars.add(modelFord);
+
+        when(modelDao.findByCategory(category)).thenReturn(cars);
+        List<Model> returnedCars = modelService.findByCategory(category);
+        verify(modelDao).findByCategory(category);
+
+        assertNotNull(returnedCars);
+        assertEquals(cars, returnedCars);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindByCategoryNullCategory() {
+        modelService.findByCategory(null);
+    }
+
+    @Test
     public void testFindById() throws EntityNotExistsException {
         returnedModel = modelService.findById(1L);
         verify(modelDao).findById(1L);
