@@ -7,7 +7,7 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * @author
+ * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 
  */
 

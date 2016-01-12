@@ -7,12 +7,15 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -62,17 +65,16 @@ public class CategoryController {
      *
      * @param id id of updated Category
      * @param categoryDTO  new data
-     * @return 
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final CategoryDTO updateCategory(@PathVariable("id") long id, @Valid @RequestBody CategoryDTO categoryDTO) {
-        log.debug("rest updateCategory({})", id);
-        categoryFacade.update(categoryDTO);
-        return categoryFacade.findByName(categoryDTO.getName());
-    }
+    public final void updateCategory(
+            @PathVariable("id") long id, 
+            @Valid @RequestBody CategoryDTO categoryDTO) {
 
-    
+        log.debug("rest updateCategory({})", id);
+        categoryFacade.update(categoryDTO, id);
+    }    
 
     /**
      * Delete Category defined by its id
@@ -130,5 +132,13 @@ public class CategoryController {
         log.debug("rest getCategories()");
 
         return categoryFacade.findAll();
+    }
+    
+    /**
+     * Handles Exception throw during processing REST actions
+     */
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Requested category was not found")
+    @ExceptionHandler(Exception.class)
+    public void notFound() {
     }
 }

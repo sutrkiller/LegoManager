@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST Controller for Lego sets.
@@ -158,6 +159,14 @@ public class LegoSetController {
         log.debug("rest getLegoSets()");
 
         return legoSetFacade.findAll();
+    }
+    
+    /**
+     * Handles Exception throw during processing REST actions
+     */
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Requested lego set was not found")
+    @ExceptionHandler(Exception.class)
+    public void notFound() {
     }
 
 }

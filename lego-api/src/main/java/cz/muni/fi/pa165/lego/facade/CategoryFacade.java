@@ -26,7 +26,7 @@ public interface CategoryFacade {
      *
      * @param categoryDTO category to be updated
      */
-    void update(CategoryDTO categoryDTO);
+    void update(CategoryDTO categoryDTO, Long id);
 
     /**
      * Delete the given category.

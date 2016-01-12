@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST Controller for Models.
@@ -23,7 +24,6 @@ import java.util.List;
 public class ModelController {
 
     private final static Logger log = LoggerFactory.getLogger(ModelController.class);
-
 
     @Inject
     private ModelFacade modelFacade;
@@ -61,10 +61,11 @@ public class ModelController {
      *
      * @param id id of updated model
      * @param modelDTO new data
+     * @return 
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @ModelAttribute ModelCreateDTO modelDTO) {
+    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @RequestBody ModelCreateDTO modelDTO) {
 
         log.debug("rest updateModel({})", id);
 
@@ -125,4 +126,11 @@ public class ModelController {
         return modelFacade.findAll();
     }
 
+    /**
+     * Handles Exception throw during processing REST actions
+     */
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Requested model was not found")
+    @ExceptionHandler(Exception.class)
+    public void notFound() {
+    }
 }

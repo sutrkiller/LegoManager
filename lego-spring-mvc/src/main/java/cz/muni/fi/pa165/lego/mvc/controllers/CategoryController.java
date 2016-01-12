@@ -98,7 +98,7 @@ public class CategoryController {
 
         Long id = categoryDTO.getId();
         try {
-            categoryFacade.update(categoryDTO);
+            categoryFacade.update(categoryDTO, id);
         } catch (EntityNotExistsException e) {
 
             model.addAttribute("alert_danger", "Editation of Category " + categoryDTO.getName() + " failed. Category does not exists.");
