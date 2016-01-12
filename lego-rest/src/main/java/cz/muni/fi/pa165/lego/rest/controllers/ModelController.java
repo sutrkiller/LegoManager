@@ -61,7 +61,7 @@ public class ModelController {
      *
      * @param id id of updated model
      * @param modelDTO new data
-     * @return 
+     * @return ModelDTO
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -127,7 +127,7 @@ public class ModelController {
     }
 
     /**
-     * Handles Exception throw during processing REST actions
+     * Handles Exception thrown during processing REST actions
      */
     @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Requested model was not found")
     @ExceptionHandler(Exception.class)

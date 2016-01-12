@@ -80,7 +80,7 @@ public class LegoSetServiceImpl implements LegoSetService {
             throw new IllegalArgumentException("Argument legoSet or model is null");
         }
         if (legoSet.getModels().contains(model)) {
-            throw new LegoServiceException("Lego set " + legoSet.getId() +":"+ legoSet.getId() + " already contains model " + model);
+            throw new LegoServiceException("Lego set " + legoSet.getId() +" already contains model " + model);
         }
         legoSet.addModel(model);
         legoSetDao.update(legoSet);

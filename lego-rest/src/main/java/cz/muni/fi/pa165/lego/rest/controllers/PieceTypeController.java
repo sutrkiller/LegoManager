@@ -67,16 +67,18 @@ public class PieceTypeController {
      *
      * @param id id of updated pieceType
      * @param pieceTypeDTO DTO to be updated
+     * @return PieceTypeDTOGet
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, 
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final void updatePieceType(
+    public final PieceTypeDTOGet updatePieceType(
             @PathVariable("id") long id,
             @Valid @RequestBody PieceTypeDTOPut pieceTypeDTO) {
 
         log.debug("rest updatePieceType({})", id);
 
         pieceTypeFacade.update(pieceTypeDTO, id);
+        return pieceTypeFacade.findById(id);
     }
 
     /**
@@ -144,8 +146,8 @@ public class PieceTypeController {
     /**
      * Handles Exception throw during processing REST actions
      */
-    /*@ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Requested piece type was not found")
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Requested piece type was not found")
     @ExceptionHandler(Exception.class)
     public void notFound() {
-    }*/
+    }
 }

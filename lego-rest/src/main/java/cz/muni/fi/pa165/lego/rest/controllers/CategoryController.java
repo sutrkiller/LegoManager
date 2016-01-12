@@ -48,7 +48,7 @@ public class CategoryController {
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final CategoryDTO createLegoSet(@Valid @RequestBody CategoryDTO categoryDTO) {
+    public final CategoryDTO createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         log.debug("rest createCategory()");
         
         Long id = categoryFacade.create(categoryDTO);
@@ -64,16 +64,18 @@ public class CategoryController {
      * -d '{"name":"Cars","description":"Category for all cars."}'
      *
      * @param id id of updated Category
-     * @param categoryDTO  new data
+     * @param categoryDTO new updated category
+     * @return categoryDTO
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final void updateCategory(
+    public final CategoryDTO updateCategory(
             @PathVariable("id") long id, 
             @Valid @RequestBody CategoryDTO categoryDTO) {
 
         log.debug("rest updateCategory({})", id);
         categoryFacade.update(categoryDTO, id);
+        return categoryFacade.findByName(categoryDTO.getName());
     }    
 
     /**
@@ -103,7 +105,7 @@ public class CategoryController {
      */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final CategoryDTO getLegoSet(@PathVariable("identifier") String identifier) {
+    public final CategoryDTO getCategory(@PathVariable("identifier") String identifier) {
         log.debug("rest getCategory({})", identifier);
 
         CategoryDTO categoryDTO;
