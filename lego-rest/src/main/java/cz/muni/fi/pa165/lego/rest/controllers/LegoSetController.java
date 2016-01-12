@@ -177,7 +177,11 @@ public class LegoSetController {
     /**
      * Handles Exception thrown during processing REST actions
      */
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Requested model was not found")
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, 
+            reason = "Cannot perform requested operation on lego sets. "
+                    + "If you call create operation, lego set may already exist. "
+                    + "If you call delete operation, lego set may already been removed. "
+                    + "If you call get operation, be sure that lego set is already in the system.")
     @ExceptionHandler(Exception.class)
     public void notFound() {
     }
