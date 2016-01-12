@@ -42,7 +42,7 @@ public class ModelController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO createModel(@RequestBody ModelCreateDTO modelDTO) throws Exception {
+    public final ModelDTO createModel(@RequestBody ModelCreateDTO modelDTO) {
 
         log.debug("rest createModel()");
 
@@ -64,7 +64,7 @@ public class ModelController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @ModelAttribute ModelCreateDTO modelDTO) throws Exception {
+    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @ModelAttribute ModelCreateDTO modelDTO) {
 
         log.debug("rest updateModel({})", id);
 
@@ -82,7 +82,7 @@ public class ModelController {
      * @param id of model
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deleteModel(@PathVariable("id") long id) throws Exception {
+    public final void deleteModel(@PathVariable("id") long id) {
 
         log.debug("rest deleteModel({})", id);
 
@@ -100,16 +100,11 @@ public class ModelController {
      * @return model with given id
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO getModel(@PathVariable("id") long id) throws Exception {
+    public final ModelDTO getModel(@PathVariable("id") long id) {
 
         log.debug("rest getModel({})", id);
 
         ModelDTO modelDTO = modelFacade.findById(id);
-
-        if (modelDTO == null) {
-            // TO-DO throw new exception
-            throw new Exception("reason..");
-        }
 
         return modelDTO;
     }

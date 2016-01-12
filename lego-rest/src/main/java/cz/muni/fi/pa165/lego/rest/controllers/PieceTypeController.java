@@ -43,9 +43,11 @@ public class PieceTypeController {
      * @param pieceTypeDTO DTO to be created
      * @return created PieceType
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/create", method = RequestMethod.POST, 
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final PieceTypeDTOGet createPieceType(@RequestBody PieceTypeDTOPut pieceTypeDTO) throws Exception {
+    public final PieceTypeDTOGet createPieceType(
+            @RequestBody PieceTypeDTOPut pieceTypeDTO) {
 
         log.debug("rest createPieceType()");
 
@@ -63,9 +65,12 @@ public class PieceTypeController {
      * @param id id of updated pieceType
      * @param pieceTypeDTO DTO to be updated
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, 
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void updatePieceType(@PathVariable("id") long id, @Valid @ModelAttribute PieceTypeDTOPut pieceTypeDTO) throws Exception {
+    public final void updatePieceType(
+            @PathVariable("id") long id,
+            @Valid @ModelAttribute PieceTypeDTOPut pieceTypeDTO) {
 
         log.debug("rest updatePieceType({})", id);
 
@@ -79,8 +84,9 @@ public class PieceTypeController {
      *
      * @param id of pieceType
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deletePieceType(@PathVariable("id") long id) throws Exception {
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, 
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final void deletePieceType(@PathVariable("id") long id)  {
 
         log.debug("rest deletePieceType({})", id);
 
@@ -98,9 +104,10 @@ public class PieceTypeController {
      * find pieceType by id. If not it tries to find pieceType by name.
      * @return pieceType with given identifier
      */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final PieceTypeDTOGet getPieceType(@PathVariable("identifier") String identifier) throws Exception {
+    public final PieceTypeDTOGet getPieceType(@PathVariable("identifier") String identifier) {
 
         log.debug("rest getPieceType({})", identifier);
 

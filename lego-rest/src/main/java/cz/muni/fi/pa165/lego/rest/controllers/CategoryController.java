@@ -45,7 +45,7 @@ public class CategoryController {
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final CategoryDTO createLegoSet(@Valid @RequestBody CategoryDTO categoryDTO) throws Exception {
+    public final CategoryDTO createLegoSet(@Valid @RequestBody CategoryDTO categoryDTO) {
         log.debug("rest createCategory()");
         
         Long id = categoryFacade.create(categoryDTO);
@@ -62,13 +62,14 @@ public class CategoryController {
      *
      * @param id id of updated Category
      * @param categoryDTO  new data
+     * @return 
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final void updateCategory(@PathVariable("id") long id, @Valid @RequestBody CategoryDTO categoryDTO) throws Exception {
+    public final CategoryDTO updateCategory(@PathVariable("id") long id, @Valid @RequestBody CategoryDTO categoryDTO) {
         log.debug("rest updateCategory({})", id);
-
         categoryFacade.update(categoryDTO);
+        return categoryFacade.findByName(categoryDTO.getName());
     }
 
     
@@ -82,7 +83,7 @@ public class CategoryController {
      * @param id of category
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public final void deleteCategory(@PathVariable("id") long id) throws Exception {
+    public final void deleteCategory(@PathVariable("id") long id) {
         log.debug("rest deleteCategory({})", id);
 
         categoryFacade.delete(id);
@@ -100,26 +101,16 @@ public class CategoryController {
      */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final CategoryDTO getLegoSet(@PathVariable("identifier") String identifier) throws Exception {
+    public final CategoryDTO getLegoSet(@PathVariable("identifier") String identifier) {
         log.debug("rest getCategory({})", identifier);
 
         CategoryDTO categoryDTO;
 
         // is integer?
         if (identifier.matches("^-?\\d+$")) {
-
             categoryDTO = categoryFacade.findById(Long.parseLong(identifier));
-
         } else {
-
             categoryDTO = categoryFacade.findByName(identifier);
-
-        }
-
-
-        if (categoryDTO == null) {
-            // TODO throw new exception
-            throw new Exception("reason..");
         }
 
         return categoryDTO;
