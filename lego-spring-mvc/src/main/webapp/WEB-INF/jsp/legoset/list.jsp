@@ -33,7 +33,7 @@
                                 <c:out value="${model.name}"></c:out>
                                 <c:if test="${!loop.last}">, </c:if>
                             </c:forEach>
-                        Z</td>
+                        </td>
                         <td class="button-cell tight-cell">
                             <my:a href="/legoset/edit/${legoset.id}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>

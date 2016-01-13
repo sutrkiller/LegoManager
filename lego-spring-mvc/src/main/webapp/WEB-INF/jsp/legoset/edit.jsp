@@ -35,7 +35,7 @@
                         <div class="col-sm-10">
                         <form:select path="categoryId" cssClass="form-control">
                             <c:forEach items="${categories}" var="c">
-                                <form:option value="${c.id}">${c.name}</form:option>
+                                <form:option value="${c.id}"><c:out value="${c.name}"/></form:option>
                             </c:forEach>
                         </form:select>
                         <p class="help-block"><form:errors path="categoryId" cssClass="error"/></p>
