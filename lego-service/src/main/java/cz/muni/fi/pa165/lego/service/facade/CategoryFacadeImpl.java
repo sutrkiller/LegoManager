@@ -35,8 +35,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
     }
 
     @Override
-    public void update(CategoryDTO categoryDTO) {
-        Category dest = categoryService.findById(categoryDTO.getId());
+    public void update(CategoryDTO categoryDTO, Long id) {
+        Category dest = categoryService.findById(id);
         mappingService.mapTo(categoryDTO, dest);
         categoryService.update(dest);
     }

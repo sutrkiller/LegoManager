@@ -3,17 +3,22 @@ package cz.muni.fi.pa165.lego.rest.controllers;
 import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
 import cz.muni.fi.pa165.lego.dto.PieceTypeDTOPut;
 import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
+import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,12 +48,14 @@ public class PieceTypeController {
      * @param pieceTypeDTO DTO to be created
      * @return created PieceType
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/create", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final PieceTypeDTOGet createPieceType(@RequestBody PieceTypeDTOPut pieceTypeDTO) throws Exception {
+    public final PieceTypeDTOGet createPieceType(
+            @RequestBody PieceTypeDTOPut pieceTypeDTO) {
 
         log.debug("rest createPieceType()");
-
+        
         return pieceTypeFacade.create(pieceTypeDTO);
     }
 
@@ -62,14 +69,18 @@ public class PieceTypeController {
      *
      * @param id id of updated pieceType
      * @param pieceTypeDTO DTO to be updated
+     * @return PieceTypeDTOGet
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void updatePieceType(@PathVariable("id") long id, @Valid @ModelAttribute PieceTypeDTOPut pieceTypeDTO) throws Exception {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final PieceTypeDTOGet updatePieceType(
+            @PathVariable("id") long id,
+            @Valid @RequestBody PieceTypeDTOPut pieceTypeDTO) {
 
         log.debug("rest updatePieceType({})", id);
 
         pieceTypeFacade.update(pieceTypeDTO, id);
+        return pieceTypeFacade.findById(id);
     }
 
     /**
@@ -79,8 +90,9 @@ public class PieceTypeController {
      *
      * @param id of pieceType
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deletePieceType(@PathVariable("id") long id) throws Exception {
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final void deletePieceType(@PathVariable("id") long id) {
 
         log.debug("rest deletePieceType({})", id);
 
@@ -98,9 +110,10 @@ public class PieceTypeController {
      * find pieceType by id. If not it tries to find pieceType by name.
      * @return pieceType with given identifier
      */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final PieceTypeDTOGet getPieceType(@PathVariable("identifier") String identifier) throws Exception {
+    public final PieceTypeDTOGet getPieceType(@PathVariable("identifier") String identifier) {
 
         log.debug("rest getPieceType({})", identifier);
 
@@ -130,5 +143,17 @@ public class PieceTypeController {
         log.debug("rest getPieceTypes()");
 
         return pieceTypeFacade.findAll();
+    }
+
+    /**
+     * Handles LegoServiceException throw during processing REST actions
+     */
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, 
+            reason = "Cannot perform requested operation on piece types. "
+                    + "If you call create operation, piece type may already exist. "
+                    + "If you call delete operation, piece type may already been removed. "
+                    + "If you call get operation, be sure that piece type is already in the system.")
+    @ExceptionHandler(Exception.class)
+    public void cantCreateOrRemove() {
     }
 }

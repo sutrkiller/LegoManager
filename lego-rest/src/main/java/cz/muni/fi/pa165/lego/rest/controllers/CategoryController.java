@@ -7,12 +7,15 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -45,7 +48,7 @@ public class CategoryController {
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final CategoryDTO createLegoSet(@Valid @RequestBody CategoryDTO categoryDTO) throws Exception {
+    public final CategoryDTO createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         log.debug("rest createCategory()");
         
         Long id = categoryFacade.create(categoryDTO);
@@ -61,17 +64,19 @@ public class CategoryController {
      * -d '{"name":"Cars","description":"Category for all cars."}'
      *
      * @param id id of updated Category
-     * @param categoryDTO  new data
+     * @param categoryDTO new updated category
+     * @return categoryDTO
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final void updateCategory(@PathVariable("id") long id, @Valid @RequestBody CategoryDTO categoryDTO) throws Exception {
+    public final CategoryDTO updateCategory(
+            @PathVariable("id") long id, 
+            @Valid @RequestBody CategoryDTO categoryDTO) {
+
         log.debug("rest updateCategory({})", id);
-
-        categoryFacade.update(categoryDTO);
-    }
-
-    
+        categoryFacade.update(categoryDTO, id);
+        return categoryFacade.findByName(categoryDTO.getName());
+    }    
 
     /**
      * Delete Category defined by its id
@@ -82,7 +87,7 @@ public class CategoryController {
      * @param id of category
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public final void deleteCategory(@PathVariable("id") long id) throws Exception {
+    public final void deleteCategory(@PathVariable("id") long id) {
         log.debug("rest deleteCategory({})", id);
 
         categoryFacade.delete(id);
@@ -100,26 +105,16 @@ public class CategoryController {
      */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public final CategoryDTO getLegoSet(@PathVariable("identifier") String identifier) throws Exception {
+    public final CategoryDTO getCategory(@PathVariable("identifier") String identifier) {
         log.debug("rest getCategory({})", identifier);
 
         CategoryDTO categoryDTO;
 
         // is integer?
         if (identifier.matches("^-?\\d+$")) {
-
             categoryDTO = categoryFacade.findById(Long.parseLong(identifier));
-
         } else {
-
             categoryDTO = categoryFacade.findByName(identifier);
-
-        }
-
-
-        if (categoryDTO == null) {
-            // TODO throw new exception
-            throw new Exception("reason..");
         }
 
         return categoryDTO;
@@ -139,5 +134,17 @@ public class CategoryController {
         log.debug("rest getCategories()");
 
         return categoryFacade.findAll();
+    }
+    
+    /**
+     * Handles Exception throw during processing REST actions
+     */
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST, 
+            reason = "Cannot perform requested operation on categories. "
+                    + "If you call create operation, categories may already exist. "
+                    + "If you call delete operation, categories may already been removed. "
+                    + "If you call get operation, be sure that categories is already in the system.")
+    @ExceptionHandler(Exception.class)
+    public void notFound() {
     }
 }

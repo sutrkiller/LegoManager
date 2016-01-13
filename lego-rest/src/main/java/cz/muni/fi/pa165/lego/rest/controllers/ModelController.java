@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST Controller for Models.
@@ -23,7 +24,6 @@ import java.util.List;
 public class ModelController {
 
     private final static Logger log = LoggerFactory.getLogger(ModelController.class);
-
 
     @Inject
     private ModelFacade modelFacade;
@@ -42,7 +42,7 @@ public class ModelController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO createModel(@RequestBody ModelCreateDTO modelDTO) throws Exception {
+    public final ModelDTO createModel(@RequestBody ModelCreateDTO modelDTO) {
 
         log.debug("rest createModel()");
 
@@ -61,10 +61,11 @@ public class ModelController {
      *
      * @param id id of updated model
      * @param modelDTO new data
+     * @return ModelDTO
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @ModelAttribute ModelCreateDTO modelDTO) throws Exception {
+    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @RequestBody ModelCreateDTO modelDTO) {
 
         log.debug("rest updateModel({})", id);
 
@@ -82,7 +83,7 @@ public class ModelController {
      * @param id of model
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deleteModel(@PathVariable("id") long id) throws Exception {
+    public final void deleteModel(@PathVariable("id") long id) {
 
         log.debug("rest deleteModel({})", id);
 
@@ -100,16 +101,11 @@ public class ModelController {
      * @return model with given id
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO getModel(@PathVariable("id") long id) throws Exception {
+    public final ModelDTO getModel(@PathVariable("id") long id) {
 
         log.debug("rest getModel({})", id);
 
         ModelDTO modelDTO = modelFacade.findById(id);
-
-        if (modelDTO == null) {
-            // TO-DO throw new exception
-            throw new Exception("reason..");
-        }
 
         return modelDTO;
     }
@@ -130,4 +126,15 @@ public class ModelController {
         return modelFacade.findAll();
     }
 
+    /**
+     * Handles Exception thrown during processing REST actions
+     */
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST, 
+            reason = "Cannot perform requested operation on models. "
+                    + "If you call create operation, model may already exist. "
+                    + "If you call delete operation, model may already been removed. "
+                    + "If you call get operation, be sure that model is already in the system.")
+    @ExceptionHandler(Exception.class)
+    public void notFound() {
+    }
 }

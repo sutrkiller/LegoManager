@@ -135,7 +135,7 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
 
         carsDTO.setName("newName");
 
-        categoryFacade.update(carsDTO);
+        categoryFacade.update(carsDTO, carsDTO.getId());
 
         
         verify(categoryService).update(any(Category.class));

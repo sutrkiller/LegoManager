@@ -41,6 +41,5 @@ public class MainController {
         resourcesMap.put("legosets_uri", "/lego-sets");
         
         return Collections.unmodifiableMap(resourcesMap);
-        
     }
 }
