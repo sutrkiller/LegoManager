@@ -89,11 +89,11 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         LegoSet sportCarsSet = legoSet("Sport cars", vehicles, 140, models(ferrari, lamborghini));
         log.info("Loaded lego manager lego sets.");
 
-        // save users with passwords and roles. (admin:admin[USER, ADMIN], user:user[USER])
+        // save users with passwords and roles. (admin:admin[USER, ADMIN], user:user[USER]) (pass encoded with BCrypt10)
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.createNativeQuery("INSERT INTO users(username,password,enabled) VALUES ('admin','c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', true)").executeUpdate();
-        em.createNativeQuery("INSERT INTO users(username,password,enabled) VALUES ('user' ,'b14361404c078ffd549c03db443c3fede2f3e534d73f78f77301ed97d4a436a9fd9db05ee8b325c0ad36438b43fec8510c204fc1c1edb21d0941c00e9e2c1ce2', true)").executeUpdate();
+        em.createNativeQuery("INSERT INTO users(username,password,enabled) VALUES ('admin','$2a$10$OhN1mx0y/AA1JbT2l6cJXuQ/b3VIZOhIPwWE0VpPN2h00z/uVha1q', true)").executeUpdate();
+        em.createNativeQuery("INSERT INTO users(username,password,enabled) VALUES ('user' ,'$2a$10$8zuLWrC1OSjxBh00gQ.kh.HKYSGcdiad0WwkHrnTvdIr0PzFl1eBi', true)").executeUpdate();
         em.createNativeQuery("INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN')").executeUpdate();
         em.createNativeQuery("INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_USER' )").executeUpdate();
         em.createNativeQuery("INSERT INTO authorities (username, authority) VALUES ('user',  'ROLE_USER' )").executeUpdate();
