@@ -16,12 +16,12 @@
                     <form action="${loginUrl}" method="post" class="login-form">
                         <c:if test="${param.error != null}">
                             <div class="alert alert-danger">
-                                <p>Invalid pair username and password.</p>
+                                <p><s:message code="login.invalid"/></p>
                             </div>
                         </c:if>
                         <c:if test="${param.logout != null}">
                             <div class="alert alert-success">
-                                <p>You have been logged out successfully.</p>
+                                <p><s:message code="login.logout"/></p>
                             </div>
                         </c:if>
                         <div class="form-group">
@@ -29,8 +29,9 @@
                                 <span class="input-group-addon" for="username">
                                     <i class="glyphicon glyphicon-user"></i>
                                 </span>
+                                <s:message code="login.username" var="username"/>
                                 <input type="text" class="form-control" id="username" name="username"
-                                       placeholder="Enter Username" required="required" autofocus="autofocus" />
+                                       placeholder="${username}" required="required" autofocus="autofocus" />
                             </div>
 
                         </div>
@@ -39,8 +40,9 @@
                                 <span class="input-group-addon" for="password">
                                     <i class="glyphicon glyphicon-lock"></i>
                                 </span>
+                                <s:message code="login.password" var="pass"/>
                                 <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Enter Password" required="required" />
+                                       placeholder="${pass}" required="required" />
                             </div>
                         </div>
 
@@ -49,7 +51,8 @@
                                value="${_csrf.token}"/>
 
                         <div class="form-group">
-                            <input type="submit" class="btn btn-block btn-primary btn-default" value="Log in">
+                            <s:message code="login.btn" var="btn"/>
+                            <input type="submit" class="btn btn-block btn-primary btn-default" value="${btn}">
                         </div>
 
                     </form>

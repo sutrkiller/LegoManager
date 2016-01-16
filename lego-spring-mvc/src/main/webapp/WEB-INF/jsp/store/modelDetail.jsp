@@ -5,13 +5,14 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Model ${model.name}">
+<s:message code="general.model" var="title"/>
+<my:pagetemplate title="${title} ${model.name}">
 <jsp:attribute name="body">
 
 <dl class="dl-horizontal">
-    <dt>Category</dt><dd>${model.category.name} - ${model.category.description}</dd>
-    <dt>Price</dt><dd>${model.price}€</dd>
-    <dt>Age limit</dt><dd>${model.ageLimit}</dd>
+    <dt><s:message code="general.category" var="title"/></dt><dd>${model.category.name} - ${model.category.description}</dd>
+    <dt><s:message code="general.price" var="title"/></dt><dd>${model.price}€</dd>
+    <dt><s:message code="general.agelimit" var="title"/></dt><dd>${model.ageLimit}</dd>
 </dl>
 
 </jsp:attribute>

@@ -5,21 +5,22 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Lego Sets">
+<s:message code="general.legosets" var="title"/>
+<my:pagetemplate title="${title}">
     <jsp:attribute name="body">
 
         <my:a href="/legoset/new" class="btn btn-success">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            New legoset
+            <s:message code="legoset.btn.new"/>
         </my:a>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Models</th>
+                    <th><s:message code="general.name"/></th>
+                    <th><s:message code="general.price"/></th>
+                    <th><s:message code="general.category"/></th>
+                    <th><s:message code="general.models"/></th>
                 </tr>
             </thead>
             <tbody>

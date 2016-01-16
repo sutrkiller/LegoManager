@@ -10,16 +10,16 @@
     <jsp:attribute name="body">
 
         <div class="jumbotron">
-            <h1>Welcome to Lego Manager!</h1>
-            <p class="lead">Lego Manager is a Java application, that serves to easily manage a Lego storage of your shop. </p>
-            <p class="lead"><small>This Java application is created as a semestral project within a course PA165 Enterprise Java applications at MU.</small></p>
+            <h1><s:message code="main.title"/></h1>
+            <p class="lead"><s:message code="main.text"/></p>
+            <p class="lead"><small><s:message code="main.fimu"/></small></p>
 
             <div class="span7 text-center">
                 <my:a href="/store/legosets" class="btn btn-lg btn-info text-left">
-                    Go to the legosets
+                    <s:message code="main.gotolegosets"/>
                 </my:a>
                 <my:a href="/store/models" class="btn btn-lg btn-info text-left">
-                    Go to the models
+                    <s:message code="main.gotomodels"/>
                 </my:a>
             </div>
         </div>
