@@ -5,17 +5,19 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Lego set ${legoset.name}">
+
+<s:message code="general.legosets" var="title"/>
+<my:pagetemplate title="${title} ${legoset.name}">
 <jsp:attribute name="body">
 
 <dl class="dl-horizontal">
-    <dt>Category</dt>
+    <dt><s:message code="general.category"/></dt>
     <dd>${legoset.category.name} - ${legoset.category.description}</dd>
 
-    <dt>Price</dt>
+    <dt><s:message code="general.price"/></dt>
     <dd>${legoset.price}€</dd>
 
-    <dt>Models</dt>
+    <dt><s:message code="general.models"/></dt>
     <dd>
         <c:forEach items="${legoset.models}" var="model" varStatus="loop">
             <my:a href="/store/models/${model.id}" class="<%--btn btn-link--%>">

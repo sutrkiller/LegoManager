@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.persistence.PersistenceException;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * SpringMVC Controller for managing piecetypes.
@@ -36,6 +38,8 @@ public class PieceTypeController {
 
     @Autowired
     private PieceTypeFacade pieceTypeFacade;
+    @Autowired
+    private MessageSource msg;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
@@ -47,7 +51,8 @@ public class PieceTypeController {
     
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createPieceType(@Valid @ModelAttribute("pieceTypeCreate") PieceTypeDTOPut pieceTypeCreate,
-            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+                                  BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
+                                  UriComponentsBuilder uriBuilder, Locale locale) {
 
         log.debug("create()", pieceTypeCreate);
 
@@ -59,19 +64,22 @@ public class PieceTypeController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-            model.addAttribute("alert_danger", "Creation of PieceType " + pieceTypeCreate.getName() + " failed.");
-            return loadListModel(model, pieceTypeCreate);
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.create.fail", new Object[]{pieceTypeCreate.getName()}, locale));
+            return loadCreateModel(model, pieceTypeCreate);
         }
 
         PieceTypeDTOGet created;
         try {
             created = pieceTypeFacade.create(pieceTypeCreate);
         } catch (LegoPersistenceException e) {
-            model.addAttribute("alert_danger", "Creation of PieceType " + pieceTypeCreate.getName() + " failed. It already exists. Try to change It's name.");
-            return loadListModel(model, pieceTypeCreate);
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.create.fail.exists", new Object[]{pieceTypeCreate.getName()}, locale));
+            return loadCreateModel(model, pieceTypeCreate);
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "PieceType " + created.getName() + " was created");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("piece.create.success", new Object[]{pieceTypeCreate.getName()}, locale));
         redirectAttributes.addAttribute("id", created.getId());
 
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
@@ -89,26 +97,29 @@ public class PieceTypeController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id,
-            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Locale locale) {
 
         log.debug("delete()", id);
 
         try {
             pieceTypeFacade.delete(id);
         } catch (DataAccessException e) {
-            model.addAttribute("alert_danger", "Deletion of PieceType " + id + " failed. You have to remove all related Pieces with this PieceType before.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.delete.fail.constraints", new Object[]{id}, locale));
             return loadListModel(model, new PieceTypeDTOPut());
         } catch (RuntimeException e) {
-            model.addAttribute("alert_danger", "Deletion of PieceType " + id + " failed.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.delete.fail", new Object[]{id}, locale));
             return loadListModel(model, new PieceTypeDTOPut());
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "PieceType " + id + " was deleted");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("piece.delete.success", new Object[]{id}, locale));
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editForm(@PathVariable long id, Model model) {
+    public String editForm(@PathVariable long id, Model model, Locale locale) {
 
         log.debug("edit()", id);
 
@@ -117,7 +128,8 @@ public class PieceTypeController {
             return loadEditModel(model, pieceTypeDTOGet, id);
         } catch (LegoPersistenceException e) {
 
-            model.addAttribute("alert_danger", "Editation of PieceType can not be performed. PieceType does not exists.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.edit.fail.notexists", new Object[]{id}, locale));
             return loadEditModel(model, new PieceTypeDTOPut(), id);
         }
     }
@@ -125,7 +137,7 @@ public class PieceTypeController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@PathVariable long id,
             @Valid @ModelAttribute("pieceTypeEdit") PieceTypeDTOPut pieceTypeEdit,
-            BindingResult bindingResult,
+            BindingResult bindingResult, Locale locale,
             Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
 
         log.debug("edit()", id);
@@ -139,7 +151,8 @@ public class PieceTypeController {
                 log.trace("FieldError: {}", fe);
             }
 
-            model.addAttribute("alert_danger", "Editation of PieceType " + id + " failed.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.edit.fail", new Object[]{id}, locale));
             return loadEditModel(model, pieceTypeEdit, id);
         }
 
@@ -151,19 +164,23 @@ public class PieceTypeController {
             pieceTypeFacade.update(pieceTypePut, id);
         } catch (EntityNotExistsException e) {
 
-            model.addAttribute("alert_danger", "Editation of PieceType" + pieceTypeEdit.getName() + "failed. PieceType does not exists.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.edit.fail.notexists", new Object[]{pieceTypeEdit.getName()}, locale));
             return loadEditModel(model, pieceTypeEdit, id);
         } catch (PersistenceException e) {
 
-            model.addAttribute("alert_danger", "Editation of PieceType" + pieceTypeEdit.getName() + "failed. PieceType with this name already exists.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.edit.fail.exists", new Object[]{pieceTypeEdit.getName()}, locale));
             return loadEditModel(model, pieceTypeEdit, id);
         } catch (LegoPersistenceException e) {
 
-            model.addAttribute("alert_danger", "Editation of PieceType" + pieceTypeEdit.getName() + "failed.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("piece.edit.fail", new Object[]{pieceTypeEdit.getName()}, locale));
             return loadEditModel(model, pieceTypeEdit, id);
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "PieceType " + id + " was edited");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("piece.edit.success", new Object[]{pieceTypeEdit.getName()}, locale));
 
         return "redirect:" + uriBuilder.path("/piecetype/list").toUriString();
     }
@@ -176,6 +193,15 @@ public class PieceTypeController {
         model.addAttribute("pieceTypes", pieceTypeFacade.findAll());
 
         return "piecetype/list";
+    }
+
+    private String loadCreateModel(Model model, PieceTypeDTOPut create) {
+
+        model.addAttribute("pieceTypeCreate", create);
+        model.addAttribute("allColors", Arrays.asList(Color.values()));
+        model.addAttribute("pieceTypes", pieceTypeFacade.findAll());
+
+        return "piecetype/new";
     }
 
     private String loadEditModel(Model model, PieceTypeDTOPut edit, long pieceTypeEditId) {

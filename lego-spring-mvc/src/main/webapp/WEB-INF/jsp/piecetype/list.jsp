@@ -5,19 +5,20 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Piece types">
+<s:message code="general.pieces" var="title"/>
+<my:pagetemplate title="${title}">
     <jsp:attribute name="body">
 
         <my:a href="/piecetype/new" class="btn btn-success">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            New piece type
+            <s:message code="piece.btn.new"/>
         </my:a>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Colors</th>
+                    <th><s:message code="general.name"/></th>
+                    <th><s:message code="general.colors"/></th>
                 </tr>
             </thead>
             <tbody>

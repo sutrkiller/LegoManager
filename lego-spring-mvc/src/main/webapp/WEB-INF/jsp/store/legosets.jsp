@@ -5,7 +5,8 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Lego sets">
+<s:message code="general.legosets" var="title"/>
+<my:pagetemplate title="${title}">
     <jsp:attribute name="body">
 
         <c:forEach items="${legosets}" var="legoset">
@@ -18,9 +19,9 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Models</th>
+                                    <th><s:message code="general.name"/></th>
+                                    <th><s:message code="general.price"/></th>
+                                    <th><s:message code="general.models"/></th>
                                 </tr>
                             </thead>
                             <tbody>

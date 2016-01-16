@@ -10,11 +10,13 @@ import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
 import java.util.List;
+import java.util.Locale;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,6 +52,9 @@ public class LegoSetController {
     @Inject
     private ModelFacade modelFacade;
 
+    @Inject
+    private MessageSource msg;
+
     @ModelAttribute("categories")
     public List<CategoryDTO> categories() {
         log.debug("categories()");
@@ -64,7 +69,7 @@ public class LegoSetController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createLegoSet(@Valid @ModelAttribute("legosetCreate") LegoSetDTOPut legoSetCreate, BindingResult bindingResult,
-            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Locale locale) {
 
         log.debug("create()", legoSetCreate);
 
@@ -76,7 +81,8 @@ public class LegoSetController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-            model.addAttribute("alert_danger", "Creation of LegoSet " + legoSetCreate.getName() + " failed.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("legoset.create.fail", new String[]{legoSetCreate.getName()}, locale));
             return "legoset/new";
         }
 
@@ -84,11 +90,13 @@ public class LegoSetController {
         try {
             created = legoSetFacade.create(legoSetCreate);
         } catch (LegoPersistenceException e) {
-            model.addAttribute("alert_danger", "Creation of LegoSet " + legoSetCreate.getName() + " failed. It already exists. Try to change It's name.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("legoset.create.fail.exists", new String[]{legoSetCreate.getName()}, locale));
             return "legoset/new";
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "LegoSet " + created.getName() + " was created");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("legoset.create.success", new String[]{legoSetCreate.getName()}, locale));
         redirectAttributes.addAttribute("id", created.getId());
 
         return "redirect:" + uriBuilder.path("/legoset/list").toUriString();
@@ -105,8 +113,7 @@ public class LegoSetController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String updateLegoSet(@PathVariable long id, @Valid @ModelAttribute("legosetChange") LegoSetDTOPut legosetChange, BindingResult bindingResult,
-            RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
-            Model model) {
+            RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Model model, Locale locale) {
 
         log.debug("update()", id);
 
@@ -119,6 +126,8 @@ public class LegoSetController {
                 log.trace("FieldError: {}", fe);
             }
 
+            model.addAttribute("alert_danger",
+                    msg.getMessage("legoset.edit.fail", new String[]{legosetChange.getName()}, locale));
             model.addAttribute("legosetChangeModels", legoSetFacade.findById(id).getModels());
             return "legoset/edit";
         }
@@ -127,17 +136,20 @@ public class LegoSetController {
             legoSetFacade.update(legosetChange, id);
         } catch (EntityNotExistsException e) {
 
-            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed. LegoSet does not exists.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("legoset.edit.fail.notexists", new Long[]{id}, locale));
             model.addAttribute("legosetChangeModels", legoSetFacade.findById(id).getModels());
             return "legoset/edit";
         } catch (LegoPersistenceException e) {
 
-            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed. LegoSet with this name already exists.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("legoset.edit.fail.exists", new String[]{legosetChange.getName()}, locale));
             model.addAttribute("legosetChangeModels", legoSetFacade.findById(id).getModels());
             return "legoset/edit";
         } catch (PersistenceException e) {
 
-            model.addAttribute("alert_danger", "Editation of LegoSet " + legosetChange.getName() + " failed.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("legoset.edit.fail", new String[]{legosetChange.getName()}, locale));
             model.addAttribute("legosetChangeModels", legoSetFacade.findById(id).getModels());
             return "legoset/edit";
         }
@@ -165,21 +177,25 @@ public class LegoSetController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteLegoSet(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String deleteLegoSet(@PathVariable long id, Model model, RedirectAttributes redirectAttributes,
+                                UriComponentsBuilder uriBuilder, Locale locale) {
 
         log.debug("delete()", id);
 
         try {
             legoSetFacade.delete(id);
         } catch (DataAccessException e) {
-            model.addAttribute("alert_danger", "Deletion of LegoSet " + id + " failed.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("legoset.delete.fail", new Long[]{id}, locale));
             return "legoset/list";
         } catch (RuntimeException e) {
-            model.addAttribute("alert_danger", "Deletion of LegoSet " + id + " failed.");
+            model.addAttribute("alert_danger",
+                    msg.getMessage("legoset.delete.fail", new Long[]{id}, locale));
             return "legoset/list";
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "LegoSet " + id + " was deleted");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("legoset.delete.success", new Long[]{id}, locale));
         return "redirect:" + uriBuilder.path("/legoset/list").toUriString();
     }
 
@@ -204,23 +220,27 @@ public class LegoSetController {
     }
 
     @RequestMapping(value = "edit/{id}/addModel", method = RequestMethod.GET)
-    public final String addModel(@PathVariable("id") long id, @RequestParam long modelId, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) throws Exception {
+    public final String addModel(@PathVariable("id") long id, @RequestParam long modelId, RedirectAttributes redirectAttributes,
+                                 UriComponentsBuilder uriBuilder, Locale locale) throws Exception {
         log.debug("addModel({})", id);
 
         legoSetFacade.addModel(id, modelId);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelId + " was added to legoset");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("legoset.addmodel.success", new Long[]{id, modelId}, locale));
 
         return "redirect:" + uriBuilder.path("/legoset/edit/" + id).toUriString();
     }
 
     @RequestMapping(value = "edit/{id}/removeModel", method = RequestMethod.GET)
-    public final String removeModel(@PathVariable("id") long id, @RequestParam long modelId, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) throws Exception {
+    public final String removeModel(@PathVariable("id") long id, @RequestParam long modelId, RedirectAttributes redirectAttributes,
+                                    UriComponentsBuilder uriBuilder, Locale locale) throws Exception {
         log.debug("removeModel({})", id);
 
         legoSetFacade.removeModel(id, modelId);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelId + " was removed from legoset");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("legoset.removemodel.success", new Long[]{id, modelId}, locale));
         return "redirect:" + uriBuilder.path("/legoset/edit/" + id).toUriString();
     }
 

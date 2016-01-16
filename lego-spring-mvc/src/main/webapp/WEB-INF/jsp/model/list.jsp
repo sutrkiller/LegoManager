@@ -5,12 +5,13 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Models">
+<s:message code="general.models" var="title"/>
+<my:pagetemplate title="${title}">
 <jsp:attribute name="body">
 
     <my:a href="/model/new" class="btn btn-success">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New model
+        <s:message code="model.btn.new"/>
     </my:a>
 
     <c:forEach items="${categories}" var="category">
@@ -18,9 +19,9 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Age limit</th>
+                <th><s:message code="general.name"/></th>
+                <th><s:message code="general.price"/></th>
+                <th><s:message code="general.agelimit"/></th>
             </tr>
             </thead>
             <tbody>

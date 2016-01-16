@@ -5,14 +5,15 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="New lego set">
+<s:message code="legoset.title.new" var="title"/>
+<my:pagetemplate title="${title}">
     <jsp:attribute name="body">
         <div class="container">
             <form:form method="post" action="${pageContext.request.contextPath}/legoset/create"
                        modelAttribute="legosetCreate" cssClass="form-horizontal">
 
                 <div class="form-group ${name_error?'has-error':''}">
-                    <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
+                    <form:label path="name" cssClass="col-sm-2 control-label"><s:message code="general.name"/></form:label>
                         <div class="col-sm-10">
                         <form:input path="name" cssClass="form-control"/>
                         <form:errors path="name" cssClass="help-block"/>
@@ -20,7 +21,7 @@
                 </div>
 
                 <div class="form-group ${price_error?'has-error':''}">
-                    <form:label path="price" cssClass="col-sm-2 control-label">Price</form:label>
+                    <form:label path="price" cssClass="col-sm-2 control-label"><s:message code="general.price"/></form:label>
                         <div class="col-sm-10">
                         <form:input path="price" cssClass="form-control"/>
                         <form:errors path="price" cssClass="help-block"/>
@@ -28,7 +29,7 @@
                 </div>
 
                 <div class="form-group">
-                    <form:label path="categoryId" cssClass="col-sm-2 control-label">Category</form:label>
+                    <form:label path="categoryId" cssClass="col-sm-2 control-label"><s:message code="general.category"/></form:label>
                         <div class="col-sm-10">
                         <form:select path="categoryId" cssClass="form-control">
                             <c:forEach items="${categories}" var="c">
@@ -41,7 +42,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">       
-                        <button class="btn btn-success" type="submit">Create legoset</button>
+                        <button class="btn btn-success" type="submit"><s:message code="legoset.btn.create"/></button>
                     </div>
                 </div>
             </form:form>

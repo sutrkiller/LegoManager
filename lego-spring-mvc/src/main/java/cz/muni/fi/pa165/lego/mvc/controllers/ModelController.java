@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * SpringMVC Controller for administering models.
@@ -41,6 +43,9 @@ public class ModelController {
     @Autowired
     private PieceTypeFacade pieceTypeFacade;
 
+    @Autowired
+    private MessageSource msg;
+
     @ModelAttribute("categories")
     public List<CategoryDTO> categories() {
         log.debug("categories()");
@@ -55,7 +60,7 @@ public class ModelController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createModel(@Valid @ModelAttribute("modelCreate") ModelCreateDTO modelDTO, BindingResult bindingResult,
-                              Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+                              Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Locale locale) {
 
         log.debug("create", modelDTO);
 
@@ -67,12 +72,15 @@ public class ModelController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
+            model.addAttribute("alert_danger",
+                    msg.getMessage("model.create.fail", new String[]{modelDTO.getName()}, locale));
             return "model/new";
         }
 
         Long id = modelFacade.create(modelDTO);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " was created");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("model.create.success", new String[]{modelDTO.getName()}, locale));
         redirectAttributes.addAttribute("id", id);
 
         return "redirect:" + uriBuilder.path("/model/list").toUriString();
@@ -90,8 +98,7 @@ public class ModelController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String editModel(@PathVariable long id, @Valid @ModelAttribute("modelChange") ModelCreateDTO modelDTO, BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder,
-                            Model model) {
+                            RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Model model, Locale locale) {
 
         log.debug("edit()");
 
@@ -103,15 +110,16 @@ public class ModelController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-
-
+            redirectAttributes.addFlashAttribute("alert_danger",
+                    msg.getMessage("model.edit.fail", new String[]{modelDTO.getName()}, locale));
             model.addAttribute("pieces", modelFacade.findById(id).getPieces());
             return "model/edit";
         }
 
         modelFacade.update(modelDTO, id);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " was edited");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("model.edit.success", new String[]{modelDTO.getName()}, locale));
 
         return "redirect:" + uriBuilder.path("/model/list").toUriString();
     }
@@ -154,8 +162,8 @@ public class ModelController {
 
     @RequestMapping(value = "/edit/{id}/addPiece", method = RequestMethod.POST)
     public String changeModel(Model model, @PathVariable long id, @Valid @ModelAttribute("piece") PieceDTOPut pieceDTOPut,
-                              BindingResult bindingResult, UriComponentsBuilder uriBuilder
-            , RedirectAttributes redirectAttributes) {
+                              BindingResult bindingResult, UriComponentsBuilder uriBuilder,
+                              RedirectAttributes redirectAttributes, Locale locale) {
 
         log.debug("addPiece()");
 
@@ -167,7 +175,8 @@ public class ModelController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-
+            redirectAttributes.addFlashAttribute("alert_danger",
+                    msg.getMessage("model.addpiece.fail", new Object[]{id,pieceDTOPut.getPieceTypeId()}, locale));
             model.addAttribute("piece",pieceDTOPut);
             model.addAttribute("pieceType", pieceTypeFacade.findById(pieceDTOPut.getPieceTypeId()));
             model.addAttribute("model", modelFacade.findById(id));
@@ -176,12 +185,14 @@ public class ModelController {
 
         modelFacade.addPiece(id, pieceDTOPut);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Piece was added");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("model.addpiece.success", new Object[]{id,pieceDTOPut.getPieceTypeId()}, locale));
         return "redirect:" + uriBuilder.path("/model/edit/"+id).toUriString();
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteModel(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String deleteModel(@PathVariable long id, Model model, RedirectAttributes redirectAttributes,
+                              UriComponentsBuilder uriBuilder, Locale locale) {
 
         log.debug("delete()");
 
@@ -189,7 +200,8 @@ public class ModelController {
 
         modelFacade.delete(id);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " was deleted");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("model.delete.success", new Object[]{modelDTO.getName()}, locale));
 
         return "redirect:" + uriBuilder.path("/model/list").toUriString();
     }
@@ -225,22 +237,26 @@ public class ModelController {
 
 
     @RequestMapping(value = "/{id}/deletePiece/{pieceId}", method = RequestMethod.GET)
-    public String deletePiece(@PathVariable long id, @PathVariable long pieceId, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String deletePiece(@PathVariable long id, @PathVariable long pieceId, RedirectAttributes redirectAttributes,
+                              UriComponentsBuilder uriBuilder, Locale locale) {
         modelFacade.removePiece(id, pieceId);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Piece was removed");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("model.removepiece.success", new Object[]{id, pieceId}, locale));
 
         return "redirect:" + uriBuilder.path("/model/edit/" + id).toUriString();
     }
 
     @RequestMapping(value = "/discount/{id}", method = RequestMethod.POST)
-    public String setDiscount(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String setDiscount(@PathVariable long id, Model model, RedirectAttributes redirectAttributes,
+                              UriComponentsBuilder uriBuilder, Locale locale) {
 
         ModelDTO modelDTO = modelFacade.findById(id);
 
         modelFacade.setFiftyPercentDiscount(id);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Model " + modelDTO.getName() + " is 50% cheaper.");
+        redirectAttributes.addFlashAttribute("alert_success",
+                msg.getMessage("model.discount.success", new Object[]{modelDTO.getName()}, locale));
 
         return "redirect:" + uriBuilder.path("/model/list").toUriString();
     }

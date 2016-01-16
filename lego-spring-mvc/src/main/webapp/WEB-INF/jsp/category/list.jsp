@@ -5,19 +5,20 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Categories">
+<s:message code="general.categories" var="title"/>
+<my:pagetemplate title="${title}">
     <jsp:attribute name="body">
 
         <my:a href="/category/new" class="btn btn-success">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            New category
+            <s:message code="category.btn.new"/>
         </my:a>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th><s:message code="general.name" var="title"/></th>
+                    <th><s:message code="general.description" var="title"/></th>
                 </tr>
             </thead>
             <tbody>
