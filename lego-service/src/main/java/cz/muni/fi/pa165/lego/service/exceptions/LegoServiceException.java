@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.lego.service.exceptions;
 
 /**
- *LegoServiceException for service
+ * LegoServiceException for service
  *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */

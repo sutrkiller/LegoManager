@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.lego.service.facade;
 
-import cz.muni.fi.pa165.lego.dto.ModelCreateDTO;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
+import cz.muni.fi.pa165.lego.dto.ModelDTOGet;
+import cz.muni.fi.pa165.lego.dto.ModelDTOPut;
 import cz.muni.fi.pa165.lego.dto.PieceDTOPut;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.lego.service.*;
@@ -13,11 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 /**
+ *
+ * ModelFacadeImpl implements {@link ModelFacade}.
+ *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 @Service
@@ -40,7 +41,7 @@ public class ModelFacadeImpl implements ModelFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long create(ModelCreateDTO modelDTO) {
+    public Long create(ModelDTOPut modelDTO) {
         Model model = beanMappingService.mapTo(modelDTO, Model.class);
         model.setCategory(categoryService.findById(modelDTO.getCategoryId()));
         modelService.create(model);
@@ -48,28 +49,28 @@ public class ModelFacadeImpl implements ModelFacade {
     }
 
     @Override
-    public ModelDTO findById(Long id) {
-        return beanMappingService.mapTo(modelService.findById(id), ModelDTO.class);
+    public ModelDTOGet findById(Long id) {
+        return beanMappingService.mapTo(modelService.findById(id), ModelDTOGet.class);
     }
 
     @Override
-    public ModelDTO findByName(String name) {
-        return beanMappingService.mapTo(modelService.findByName(name), ModelDTO.class);
+    public ModelDTOGet findByName(String name) {
+        return beanMappingService.mapTo(modelService.findByName(name), ModelDTOGet.class);
     }
 
     @Override
-    public List<ModelDTO> findAll() {
-        return beanMappingService.mapTo(modelService.findAll(), ModelDTO.class);
+    public List<ModelDTOGet> findAll() {
+        return beanMappingService.mapTo(modelService.findAll(), ModelDTOGet.class);
     }
 
     @Override
-    public List<ModelDTO> findByCategory(Long categoryId) {
+    public List<ModelDTOGet> findByCategory(Long categoryId) {
         Category category = categoryService.findById(categoryId);
-        return beanMappingService.mapTo(modelService.findByCategory(category), ModelDTO.class);
+        return beanMappingService.mapTo(modelService.findByCategory(category), ModelDTOGet.class);
     }
 
     @Override
-    public void update(ModelCreateDTO modelDTO, Long id) {
+    public void update(ModelDTOPut modelDTO, Long id) {
         Model model = modelService.findById(id);
         beanMappingService.mapTo(modelDTO, model);
         model.setCategory(categoryService.findById(modelDTO.getCategoryId()));

@@ -59,7 +59,7 @@ public class ModelController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createModel(@Valid @ModelAttribute("modelCreate") ModelCreateDTO modelDTO, BindingResult bindingResult,
+    public String createModel(@Valid @ModelAttribute("modelCreate") ModelDTOPut modelDTO, BindingResult bindingResult,
                               Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Locale locale) {
 
         log.debug("create", modelDTO);
@@ -91,13 +91,13 @@ public class ModelController {
 
         log.debug("new()");
 
-        model.addAttribute("modelCreate", new ModelCreateDTO());
+        model.addAttribute("modelCreate", new ModelDTOPut());
 
         return "model/new";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String editModel(@PathVariable long id, @Valid @ModelAttribute("modelChange") ModelCreateDTO modelDTO, BindingResult bindingResult,
+    public String editModel(@PathVariable long id, @Valid @ModelAttribute("modelChange") ModelDTOPut modelDTO, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Model model, Locale locale) {
 
         log.debug("edit()");
@@ -129,9 +129,9 @@ public class ModelController {
 
         log.debug("edit()");
 
-        ModelDTO modelDTO = modelFacade.findById(id);
+        ModelDTOGet modelDTO = modelFacade.findById(id);
 
-        ModelCreateDTO createModelDTO = new ModelCreateDTO();
+        ModelDTOPut createModelDTO = new ModelDTOPut();
         createModelDTO.setName(modelDTO.getName());
         createModelDTO.setPrice(modelDTO.getPrice());
         createModelDTO.setAgeLimit(modelDTO.getAgeLimit());
@@ -196,7 +196,7 @@ public class ModelController {
 
         log.debug("delete()");
 
-        ModelDTO modelDTO = modelFacade.findById(id);
+        ModelDTOGet modelDTO = modelFacade.findById(id);
 
         modelFacade.delete(id);
 
@@ -251,7 +251,7 @@ public class ModelController {
     public String setDiscount(@PathVariable long id, Model model, RedirectAttributes redirectAttributes,
                               UriComponentsBuilder uriBuilder, Locale locale) {
 
-        ModelDTO modelDTO = modelFacade.findById(id);
+        ModelDTOGet modelDTO = modelFacade.findById(id);
 
         modelFacade.setFiftyPercentDiscount(id);
 

@@ -1,17 +1,17 @@
 package cz.muni.fi.pa165.lego.rest.controllers;
 
-import cz.muni.fi.pa165.lego.dto.ModelCreateDTO;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
+import cz.muni.fi.pa165.lego.dto.ModelDTOGet;
+import cz.muni.fi.pa165.lego.dto.ModelDTOPut;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
-import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 
 /**
  * REST Controller for Models.
@@ -42,7 +42,7 @@ public class ModelController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO createModel(@RequestBody ModelCreateDTO modelDTO) {
+    public final ModelDTOGet createModel(@RequestBody ModelDTOPut modelDTO) {
 
         log.debug("rest createModel()");
 
@@ -61,11 +61,11 @@ public class ModelController {
      *
      * @param id id of updated model
      * @param modelDTO new data
-     * @return ModelDTO
+     * @return ModelDTOGet
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO updateModel(@PathVariable("id") long id, @Valid @RequestBody ModelCreateDTO modelDTO) {
+    public final ModelDTOGet updateModel(@PathVariable("id") long id, @Valid @RequestBody ModelDTOPut modelDTO) {
 
         log.debug("rest updateModel({})", id);
 
@@ -101,11 +101,11 @@ public class ModelController {
      * @return model with given id
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ModelDTO getModel(@PathVariable("id") long id) {
+    public final ModelDTOGet getModel(@PathVariable("id") long id) {
 
         log.debug("rest getModel({})", id);
 
-        ModelDTO modelDTO = modelFacade.findById(id);
+        ModelDTOGet modelDTO = modelFacade.findById(id);
 
         return modelDTO;
     }
@@ -119,7 +119,7 @@ public class ModelController {
      * @return List of all models
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<ModelDTO> getModels() {
+    public final List<ModelDTOGet> getModels() {
 
         log.debug("rest getModels()");
 

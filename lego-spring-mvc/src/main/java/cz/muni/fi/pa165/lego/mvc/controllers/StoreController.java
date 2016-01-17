@@ -2,21 +2,19 @@ package cz.muni.fi.pa165.lego.mvc.controllers;
 
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
-import cz.muni.fi.pa165.lego.dto.PieceTypeDTOGet;
+import cz.muni.fi.pa165.lego.dto.ModelDTOGet;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.facade.LegoSetFacade;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
-import cz.muni.fi.pa165.lego.facade.PieceTypeFacade;
-
-import java.util.List;
-import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * SpringMVC Controller for managing store.
@@ -43,7 +41,7 @@ public class StoreController {
     public String models(Model model) {
         log.debug("models()");
 
-        List<ModelDTO> allModels = modelFacade.findAll();
+        List<ModelDTOGet> allModels = modelFacade.findAll();
         List<CategoryDTO> categories = categoryFacade.findAll();
 
         model.addAttribute("models", allModels);
@@ -56,7 +54,7 @@ public class StoreController {
     public String modelDetail(Model model, @PathVariable("id") long id) {
         log.debug("modelDetail()");
 
-        ModelDTO m = modelFacade.findById(id);
+        ModelDTOGet m = modelFacade.findById(id);
 
         model.addAttribute("model", m);
 

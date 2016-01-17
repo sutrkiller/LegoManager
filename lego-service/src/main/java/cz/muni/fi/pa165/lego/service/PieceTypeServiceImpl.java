@@ -1,17 +1,16 @@
 package cz.muni.fi.pa165.lego.service;
 
-import cz.muni.fi.pa165.lego.service.exceptions.LegoServiceException;
 import cz.muni.fi.pa165.legomanager.dao.PieceTypeDao;
 import cz.muni.fi.pa165.legomanager.entities.PieceType;
-import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
-
-import java.util.List;
-import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
+import java.util.List;
+
 /**
- * Implementation of the {@link PieceTypeService}.
+ * Implementation of the {@link PieceTypeService}. This class is part of the
+ * service module of the application that provides the implementation of the
+ * business logic (main logic of the application).
  *
  * @author Sona Mastrakova <sona.mastrakova@gmail.com>
  * @date 21.11.2015

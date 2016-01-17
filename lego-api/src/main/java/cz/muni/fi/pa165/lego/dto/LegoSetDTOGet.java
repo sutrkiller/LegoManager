@@ -2,9 +2,6 @@ package cz.muni.fi.pa165.lego.dto;
 
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +19,7 @@ public class LegoSetDTOGet {
 
     private String name;
 
-    private List<ModelDTO> models = new ArrayList<>();
+    private List<ModelDTOGet> models = new ArrayList<>();
 
     private BigDecimal price;
 
@@ -44,19 +41,19 @@ public class LegoSetDTOGet {
         this.name = name;
     }
 
-    public List<ModelDTO> getModels() {
+    public List<ModelDTOGet> getModels() {
         return models;
     }
 
-    public void setModels(List<ModelDTO> models) {
+    public void setModels(List<ModelDTOGet> models) {
         this.models = models;
     }
 
-    public void addModel(ModelDTO model) {
+    public void addModel(ModelDTOGet model) {
         models.add(model);
     }
 
-    public void removeModel(ModelDTO model) {
+    public void removeModel(ModelDTOGet model) {
         models.remove(model);
     }
 

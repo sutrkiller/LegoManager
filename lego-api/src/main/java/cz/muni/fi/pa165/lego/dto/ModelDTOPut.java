@@ -1,18 +1,20 @@
 package cz.muni.fi.pa165.lego.dto;
 
+import cz.muni.fi.pa165.legomanager.entities.LegoSet;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 /**
- * Created by Marek on 18/12/2015.
+ * Data transfer object for {@link LegoSet class}
+ *
+ * @author Marek Abaffy <abaffy.m@gmail.com>
+ * @date 21.11.2015
  */
-public class ModelCreateDTO {
+public class ModelDTOPut {
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -65,7 +67,7 @@ public class ModelCreateDTO {
 
     @Override
     public String toString() {
-        return "ModelCreateDTO{" +
+        return "ModelDTOPut{" +
                 ", name='" + name + '\'' +
                 ", ageLimit=" + ageLimit +
                 ", price=" + price +

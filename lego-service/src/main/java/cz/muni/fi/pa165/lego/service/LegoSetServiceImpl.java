@@ -11,6 +11,10 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
+ * Implementation of the {@link LegoSetService}/ This class is part of the
+ * service module of the application that provides the implementation of
+ * the business logic (main logic of the application).
+ *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 @Service

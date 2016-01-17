@@ -3,6 +3,8 @@ package cz.muni.fi.pa165.legomanager.entities;
 import javax.persistence.*;
 
 /**
+ * Entity class Authorities represents authorities in system.
+ *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 

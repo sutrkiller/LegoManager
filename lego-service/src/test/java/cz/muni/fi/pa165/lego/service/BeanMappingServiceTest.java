@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
@@ -31,7 +31,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
     private Category cars;
     private CategoryDTO carsDTO;
     private Model ferrari;
-    private ModelDTO ferrariDTO;
+    private ModelDTOGet ferrariDTO;
     private LegoSet sportCars;
     private LegoSetDTOGet sportCarsDTO;
     private PieceType wheel;
@@ -56,7 +56,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
         ferrari.setPrice(BigDecimal.valueOf(100));
         ferrari.setAgeLimit((byte)10);
 
-        ferrariDTO = new ModelDTO();
+        ferrariDTO = new ModelDTOGet();
         ferrariDTO.setId(1L);
         ferrariDTO.setName("Ferrari");
         ferrariDTO.setPrice(BigDecimal.valueOf(100));
@@ -125,7 +125,7 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testMapToModelDTO() throws Exception {
-        ModelDTO actual = mappingService.mapTo(ferrari, ModelDTO.class);
+        ModelDTOGet actual = mappingService.mapTo(ferrari, ModelDTOGet.class);
 
         assertEquals(actual.getName(), ferrari.getName());
         assertEquals(actual.getAgeLimit(), ferrari.getAgeLimit());

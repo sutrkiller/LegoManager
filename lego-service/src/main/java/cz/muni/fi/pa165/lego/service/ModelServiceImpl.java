@@ -17,6 +17,10 @@ import java.util.List;
  * Implementation of the {@link ModelService}. This class is part of the
  * service module of the application that provides the implementation of the
  * business logic (main logic of the application).
+ *
+ * @author Marek Abaffy <abaffy.m@gmail.com>
+ * @date 24.10.2015
+ *
  */
 @Service
 public class ModelServiceImpl implements ModelService {

@@ -7,14 +7,16 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Data transfer object for {@link Model class}
  *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
-public class ModelDTO {
+public class ModelDTOGet {
 
     private Long id;
 
@@ -90,10 +92,10 @@ public class ModelDTO {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ModelDTO)) {
+        if (!(obj instanceof ModelDTOGet)) {
             return false;
         }
-        final ModelDTO other = (ModelDTO) obj;
+        final ModelDTOGet other = (ModelDTOGet) obj;
         if (this.getId() == null) {
             return false;
         }
@@ -111,7 +113,7 @@ public class ModelDTO {
 
     @Override
     public String toString() {
-        return "ModelDTO{" +
+        return "ModelDTOGet{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", category=" + category +

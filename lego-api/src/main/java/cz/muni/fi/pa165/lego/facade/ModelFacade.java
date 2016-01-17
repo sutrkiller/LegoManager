@@ -1,10 +1,8 @@
 package cz.muni.fi.pa165.lego.facade;
 
-import cz.muni.fi.pa165.lego.dto.ModelCreateDTO;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
-import cz.muni.fi.pa165.lego.dto.PieceDTOGet;
+import cz.muni.fi.pa165.lego.dto.ModelDTOGet;
+import cz.muni.fi.pa165.lego.dto.ModelDTOPut;
 import cz.muni.fi.pa165.lego.dto.PieceDTOPut;
-import cz.muni.fi.pa165.legomanager.entities.Model;
 
 import java.util.List;
 
@@ -22,14 +20,14 @@ public interface ModelFacade {
      * @param model model to be created. It shouldn't have setted id.
      * @return id of the created model
      */
-    Long create(ModelCreateDTO model);
+    Long create(ModelDTOPut model);
 
     /**
      * Update the given model.
      *
      * @param model to be updated. It should have setted id.
      */
-    void update(ModelCreateDTO model, Long id);
+    void update(ModelDTOPut model, Long id);
 
     /**
      * Delete the model.
@@ -44,7 +42,7 @@ public interface ModelFacade {
      * @param id id of the model
      * @return existing model with given id
      */
-    ModelDTO findById(Long id);
+    ModelDTOGet findById(Long id);
 
     /**
      * Get model with the given name.
@@ -52,14 +50,14 @@ public interface ModelFacade {
      * @param name name of the model
      * @return existing model with given name
      */
-    ModelDTO findByName(String name);
+    ModelDTOGet findByName(String name);
 
     /**
      * Get all existing models.
      *
      * @return list of existing models
      */
-    List<ModelDTO> findAll();
+    List<ModelDTOGet> findAll();
 
     /**
      * Get all existing models in given category.
@@ -67,7 +65,7 @@ public interface ModelFacade {
      * @param categoryId id of existing category.
      * @return list of existing categories
      */
-    List<ModelDTO> findByCategory(Long categoryId);
+    List<ModelDTOGet> findByCategory(Long categoryId);
 
     /**
      * Add given piece to the model defined by id. It also create piece and than add it to the model.

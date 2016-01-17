@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.lego.facade;
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTOPut;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
+import cz.muni.fi.pa165.lego.dto.ModelDTOGet;
 import cz.muni.fi.pa165.lego.service.BeanMappingService;
 import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.LegoSetService;
@@ -61,8 +61,8 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private Category testCategory;
 
-    private ModelDTO testModelDTO;
-    private ModelDTO newModelDTO;
+    private ModelDTOGet testModelDTO;
+    private ModelDTOGet newModelDTO;
 
     private CategoryDTO categoryDTO;
 
@@ -95,8 +95,8 @@ public class LegoSetFacadeTest extends AbstractTestNGSpringContextTests {
         when(testLegoSet.getCategory()).thenReturn(testCategory);
         when(testLegoSet.getName()).thenReturn("TestName");
 
-        testModelDTO = new ModelDTO();
-        newModelDTO = new ModelDTO();
+        testModelDTO = new ModelDTOGet();
+        newModelDTO = new ModelDTOGet();
 
         categoryDTO = new CategoryDTO();
         categoryDTO.setId(1L);

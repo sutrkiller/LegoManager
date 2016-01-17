@@ -5,15 +5,19 @@ import cz.muni.fi.pa165.legomanager.entities.Model;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityAlreadyExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
-import java.util.List;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ValidationException;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 /**
+ *
+ * ModelDaoImpl implements {@link ModelDao}.
+ *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 @Repository

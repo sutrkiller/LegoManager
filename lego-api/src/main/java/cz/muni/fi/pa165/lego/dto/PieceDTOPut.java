@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.lego.dto;
 
+import cz.muni.fi.pa165.legomanager.entities.Piece;
 import cz.muni.fi.pa165.legomanager.enums.Color;
+
 import javax.validation.constraints.NotNull;
 
 /**

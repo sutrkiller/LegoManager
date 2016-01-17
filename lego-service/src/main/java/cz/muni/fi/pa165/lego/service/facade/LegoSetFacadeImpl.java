@@ -8,14 +8,14 @@ import cz.muni.fi.pa165.lego.service.CategoryService;
 import cz.muni.fi.pa165.lego.service.LegoSetService;
 import cz.muni.fi.pa165.lego.service.ModelService;
 import cz.muni.fi.pa165.legomanager.entities.LegoSet;
-import java.util.List;
-import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
+import java.util.List;
+
 /**
- * LegoSetFacadeImpl implements {@ling LegoSeFacade}.
+ * LegoSetFacadeImpl implements {@link LegoSetFacade}.
  *
  * @author Tobias Kamenicky <tobias.kamenicky@gmail.com>
  * @date 22.11.2015

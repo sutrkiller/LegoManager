@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Entity class User represents users in system.
+ *
  * @author Ondrej Velisek <ondrejvelisek@gmail.com>
  */
 @Entity

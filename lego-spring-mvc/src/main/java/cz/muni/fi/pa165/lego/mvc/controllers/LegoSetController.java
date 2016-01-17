@@ -3,17 +3,12 @@ package cz.muni.fi.pa165.lego.mvc.controllers;
 import cz.muni.fi.pa165.lego.dto.CategoryDTO;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTOGet;
 import cz.muni.fi.pa165.lego.dto.LegoSetDTOPut;
-import cz.muni.fi.pa165.lego.dto.ModelDTO;
+import cz.muni.fi.pa165.lego.dto.ModelDTOGet;
 import cz.muni.fi.pa165.lego.facade.CategoryFacade;
 import cz.muni.fi.pa165.lego.facade.LegoSetFacade;
 import cz.muni.fi.pa165.lego.facade.ModelFacade;
 import cz.muni.fi.pa165.legomanager.exceptions.EntityNotExistsException;
 import cz.muni.fi.pa165.legomanager.exceptions.LegoPersistenceException;
-import java.util.List;
-import java.util.Locale;
-import javax.inject.Inject;
-import javax.persistence.PersistenceException;
-import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -23,13 +18,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * SpringMVC controller for administering LegoSets
@@ -62,7 +59,7 @@ public class LegoSetController {
     }
 
     @ModelAttribute("models")
-    public List<ModelDTO> models() {
+    public List<ModelDTOGet> models() {
         log.debug("models()");
         return modelFacade.findAll();
     }
