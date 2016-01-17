@@ -7,6 +7,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html lang="${pageContext.request.locale}">
@@ -36,29 +37,32 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="${pageContext.request.contextPath}">
-                        <img alt="Brand" src="<c:url value="/resources/img/lego.png" />"><f:message key="navigation.project"/>
+                        <img alt="Brand" src="<c:url value="/resources/img/lego.png" />"><s:message code="navigation.project"/>
                     </a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><my:a href="/store/legosets"><f:message key="navigation.store.legosets"/></my:a></li>
-                        <li><my:a href="/store/models"><f:message key="navigation.store.models"/></my:a></li>
+                        <li><my:a href="/store/legosets"><s:message code="navigation.store.legosets"/></my:a></li>
+                        <li><my:a href="/store/models"><s:message code="navigation.store.models"/></my:a></li>
 
 
                         <sec:authorize access="hasRole('ADMIN')">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><s:message code="navigation.admin"/><b
                                         class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>
-                                    <li><my:a href="/piecetype/list"><f:message key="navigation.admin.piecetypes"/></my:a></li>
-                                    <li><my:a href="/model/list"><f:message key="navigation.admin.models"/></my:a></li>
-                                    <li><my:a href="/legoset/list"><f:message key="navigation.admin.legosets"/></my:a></li>
+                                    <li><my:a href="/category/list"><s:message code="navigation.admin.categories"/></my:a></li>
+                                    <li><my:a href="/piecetype/list"><s:message code="navigation.admin.piecetypes"/></my:a></li>
+                                    <li><my:a href="/model/list"><s:message code="navigation.admin.models"/></my:a></li>
+                                    <li><my:a href="/legoset/list"><s:message code="navigation.admin.legosets"/></my:a></li>
                                 </ul>
                             </li>
                         </sec:authorize>
+
+                        <li>${pageContext.response.locale}</li>
+
                         <%--<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><s:message code="navigation.docs"/><b
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-header">Javadocs</li>
@@ -72,7 +76,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.about"/><b
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><s:message code="navigation.about"/><b
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="https://is.muni.cz/predmet/fi/podzim2015/PA165">PA165</a></li>
@@ -91,7 +95,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <c:out value='Logged as ${user.username}'/>
+                                    <s:message code="navigation.loggedas" arguments="${user.username}" />
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -139,7 +143,7 @@
 
             <!-- footer -->
             <footer class="footer">
-                <p>&copy;&nbsp; <c:out value="${currentyear}"/> &nbsp;Masaryk University</p>
+                <p><s:message code="general.footer" arguments="${currentyear}"/></p>
             </footer>
         </div>
         <!-- javascripts placed at the end of the document so the pages load faster -->
