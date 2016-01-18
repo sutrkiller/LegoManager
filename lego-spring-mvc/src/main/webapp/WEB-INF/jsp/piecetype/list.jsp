@@ -5,7 +5,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<s:message code="general.pieces" var="title"/>
+<s:message code="general.piecetypes" var="title"/>
 <my:pagetemplate title="${title}">
     <jsp:attribute name="body">
 

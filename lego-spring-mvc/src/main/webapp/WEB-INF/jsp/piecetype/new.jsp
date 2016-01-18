@@ -26,7 +26,7 @@
                                    type="checkbox"
                                    activeColors="${pieceTypeCreate.colors}"
                                    path="colors"/>
-                        <form:errors path="name" cssClass="help-block"/>
+                            <form:errors path="colors" cssClass="help-block"/>
                     </div>
                 </div>
                 <div class="form-group">
