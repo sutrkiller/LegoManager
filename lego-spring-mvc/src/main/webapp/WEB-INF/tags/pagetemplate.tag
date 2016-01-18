@@ -59,7 +59,7 @@
                             </li>
                         </sec:authorize>
 
-                        <li>${pageContext.response.locale}</li>
+                        <%--<li>${pageContext.response.locale}</li>--%>
 
                         <%--<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><s:message code="navigation.docs"/><b
